@@ -12,7 +12,7 @@
     <MavenPackagePlatforms>Win32;SonyPSP;SonyPS3;NintendoDS;Nintendo3DS;NintendoWII;MicrosoftXbox360</MavenPackagePlatforms>
     <MavenPackageLanguage>cpp</MavenPackageLanguage>
     <MavenPackageMainProj>source\main\$(MavenPackageLanguage)\$(MavenPackageName).sln</MavenPackageMainProj>
-    <MavenPackageTestProj>source\test\$(MavenPackageLanguage)\$(MavenPackageName)_test.sln</MavenPackageTestProj>
+    <!-- MavenPackageTestProj = source\test\$(MavenPackageLanguage)\$(MavenPackageName)_test.sln -->
     <MavenPackageAsDependencyIncludeDir>source\main\$(MavenPackageLanguage)\include</MavenPackageAsDependencyIncludeDir>
     <MavenPackageAsDependencyLibDir>libs\$(MavenPackageName)</MavenPackageAsDependencyLibDir>
     <MavenPackageDefines></MavenPackageDefines>
