@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC962}") = "xunittest", "xunittest.vcxproj", "{019D826B-E724-4702-8F14-4BF7E37B9EC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Target_Dev_Debug|Nintendo3DS = Target_Dev_Debug|Nintendo3DS
+		Target_Dev_Debug|NintendoDS = Target_Dev_Debug|NintendoDS
+		Target_Dev_Debug|NintendoWII = Target_Dev_Debug|NintendoWII
+		Target_Dev_Debug|SonyPS3 = Target_Dev_Debug|SonyPS3
+		Target_Dev_Debug|SonyPSP = Target_Dev_Debug|SonyPSP
+		Target_Dev_Debug|Win32 = Target_Dev_Debug|Win32
+		Target_Dev_Final|Nintendo3DS = Target_Dev_Final|Nintendo3DS
+		Target_Dev_Final|NintendoDS = Target_Dev_Final|NintendoDS
+		Target_Dev_Final|NintendoWII = Target_Dev_Final|NintendoWII
+		Target_Dev_Final|SonyPS3 = Target_Dev_Final|SonyPS3
+		Target_Dev_Final|SonyPSP = Target_Dev_Final|SonyPSP
+		Target_Dev_Final|Win32 = Target_Dev_Final|Win32
+		Target_Dev_Profile|Nintendo3DS = Target_Dev_Profile|Nintendo3DS
+		Target_Dev_Profile|NintendoDS = Target_Dev_Profile|NintendoDS
+		Target_Dev_Profile|NintendoWII = Target_Dev_Profile|NintendoWII
+		Target_Dev_Profile|SonyPS3 = Target_Dev_Profile|SonyPS3
+		Target_Dev_Profile|SonyPSP = Target_Dev_Profile|SonyPSP
+		Target_Dev_Profile|Win32 = Target_Dev_Profile|Win32
+		Target_Dev_Release|Nintendo3DS = Target_Dev_Release|Nintendo3DS
+		Target_Dev_Release|NintendoDS = Target_Dev_Release|NintendoDS
+		Target_Dev_Release|NintendoWII = Target_Dev_Release|NintendoWII
+		Target_Dev_Release|SonyPS3 = Target_Dev_Release|SonyPS3
+		Target_Dev_Release|SonyPSP = Target_Dev_Release|SonyPSP
+		Target_Dev_Release|Win32 = Target_Dev_Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|Nintendo3DS.ActiveCfg = Target_Dev_Debug|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|Nintendo3DS.Build.0 = Target_Dev_Debug|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|NintendoDS.ActiveCfg = Target_Dev_Debug|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|NintendoDS.Build.0 = Target_Dev_Debug|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|NintendoWII.ActiveCfg = Target_Dev_Debug|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|NintendoWII.Build.0 = Target_Dev_Debug|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|SonyPS3.ActiveCfg = Target_Dev_Debug|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|SonyPS3.Build.0 = Target_Dev_Debug|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|SonyPSP.ActiveCfg = Target_Dev_Debug|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|SonyPSP.Build.0 = Target_Dev_Debug|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|Win32.ActiveCfg = Target_Dev_Debug|Win32
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Debug|Win32.Build.0 = Target_Dev_Debug|Win32
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|Nintendo3DS.ActiveCfg = Target_Dev_Final|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|Nintendo3DS.Build.0 = Target_Dev_Final|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|NintendoDS.ActiveCfg = Target_Dev_Final|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|NintendoDS.Build.0 = Target_Dev_Final|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|NintendoWII.ActiveCfg = Target_Dev_Final|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|NintendoWII.Build.0 = Target_Dev_Final|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|SonyPS3.ActiveCfg = Target_Dev_Final|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|SonyPS3.Build.0 = Target_Dev_Final|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|SonyPSP.ActiveCfg = Target_Dev_Final|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|SonyPSP.Build.0 = Target_Dev_Final|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|Win32.ActiveCfg = Target_Dev_Final|Win32
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Final|Win32.Build.0 = Target_Dev_Final|Win32
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|Nintendo3DS.ActiveCfg = Target_Dev_Profile|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|Nintendo3DS.Build.0 = Target_Dev_Profile|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|NintendoDS.ActiveCfg = Target_Dev_Profile|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|NintendoDS.Build.0 = Target_Dev_Profile|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|NintendoWII.ActiveCfg = Target_Dev_Profile|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|NintendoWII.Build.0 = Target_Dev_Profile|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|SonyPS3.ActiveCfg = Target_Dev_Profile|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|SonyPS3.Build.0 = Target_Dev_Profile|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|SonyPSP.ActiveCfg = Target_Dev_Profile|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|SonyPSP.Build.0 = Target_Dev_Profile|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|Win32.ActiveCfg = Target_Dev_Profile|Win32
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Profile|Win32.Build.0 = Target_Dev_Profile|Win32
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|Nintendo3DS.ActiveCfg = Target_Dev_Release|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|Nintendo3DS.Build.0 = Target_Dev_Release|Nintendo3DS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|NintendoDS.ActiveCfg = Target_Dev_Release|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|NintendoDS.Build.0 = Target_Dev_Release|NintendoDS
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|NintendoWII.ActiveCfg = Target_Dev_Release|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|NintendoWII.Build.0 = Target_Dev_Release|NintendoWII
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|SonyPS3.ActiveCfg = Target_Dev_Release|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|SonyPS3.Build.0 = Target_Dev_Release|SonyPS3
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|SonyPSP.ActiveCfg = Target_Dev_Release|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|SonyPSP.Build.0 = Target_Dev_Release|SonyPSP
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|Win32.ActiveCfg = Target_Dev_Release|Win32
+		{019D826B-E724-4702-8F14-4BF7E37B9EC0}.Target_Dev_Release|Win32.Build.0 = Target_Dev_Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

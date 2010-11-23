@@ -1,0 +1,21 @@
+<Project ToolsVersion="4.0" DefaultTargets="MavenPackageInfo" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\msmaven\super_pom.props"/>
+
+  <PropertyGroup>
+    <MavenPackageDir Condition = " '$(MavenPackageDir)' == '' ">$(MSBuildProjectDirectory)</MavenPackageDir>
+    <MavenPackagePlatform Condition = " '$(MavenPackagePlatform)' == '' ">Win32</MavenPackagePlatform>
+    
+    <MavenPackageName>xunittest</MavenPackageName>
+    <MavenPackageGroup>com.virtuos.tnt</MavenPackageGroup>
+    <MavenPackageVersionMajor>1</MavenPackageVersionMajor>
+    <MavenPackageVersionMinor>0</MavenPackageVersionMinor>
+    <MavenPackagePlatforms>Win32;SonyPSP;SonyPS3;NintendoDS;Nintendo3DS;NintendoWII;MicrosoftXbox360</MavenPackagePlatforms>
+    <MavenPackageLanguage>cpp</MavenPackageLanguage>
+    <MavenPackageMainProj>source\main\$(MavenPackageLanguage)\$(MavenPackageName).sln</MavenPackageMainProj>
+    <MavenPackageTestProj>source\test\$(MavenPackageLanguage)\$(MavenPackageName)_test.sln</MavenPackageTestProj>
+    <MavenPackageAsDependencyIncludeDir>source\main\$(MavenPackageLanguage)\include</MavenPackageAsDependencyIncludeDir>
+    <MavenPackageAsDependencyLibDir>libs\$(MavenPackageName)</MavenPackageAsDependencyLibDir>
+    <MavenPackageDefines></MavenPackageDefines>
+  </PropertyGroup>
+
+</Project>

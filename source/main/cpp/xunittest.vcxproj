@@ -1,0 +1,832 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Target_Dev_Debug|Nintendo3DS">
+      <Configuration>Target_Dev_Debug</Configuration>
+      <Platform>Nintendo3DS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Debug|NintendoDS">
+      <Configuration>Target_Dev_Debug</Configuration>
+      <Platform>NintendoDS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Debug|NintendoWII">
+      <Configuration>Target_Dev_Debug</Configuration>
+      <Platform>NintendoWII</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Debug|SonyPS3">
+      <Configuration>Target_Dev_Debug</Configuration>
+      <Platform>SonyPS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Debug|SonyPSP">
+      <Configuration>Target_Dev_Debug</Configuration>
+      <Platform>SonyPSP</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Debug|Win32">
+      <Configuration>Target_Dev_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Final|Nintendo3DS">
+      <Configuration>Target_Dev_Final</Configuration>
+      <Platform>Nintendo3DS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Final|NintendoDS">
+      <Configuration>Target_Dev_Final</Configuration>
+      <Platform>NintendoDS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Final|NintendoWII">
+      <Configuration>Target_Dev_Final</Configuration>
+      <Platform>NintendoWII</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Final|SonyPS3">
+      <Configuration>Target_Dev_Final</Configuration>
+      <Platform>SonyPS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Final|SonyPSP">
+      <Configuration>Target_Dev_Final</Configuration>
+      <Platform>SonyPSP</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Final|Win32">
+      <Configuration>Target_Dev_Final</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Profile|Nintendo3DS">
+      <Configuration>Target_Dev_Profile</Configuration>
+      <Platform>Nintendo3DS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Profile|NintendoDS">
+      <Configuration>Target_Dev_Profile</Configuration>
+      <Platform>NintendoDS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Profile|NintendoWII">
+      <Configuration>Target_Dev_Profile</Configuration>
+      <Platform>NintendoWII</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Profile|SonyPS3">
+      <Configuration>Target_Dev_Profile</Configuration>
+      <Platform>SonyPS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Profile|SonyPSP">
+      <Configuration>Target_Dev_Profile</Configuration>
+      <Platform>SonyPSP</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Profile|Win32">
+      <Configuration>Target_Dev_Profile</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Release|Nintendo3DS">
+      <Configuration>Target_Dev_Release</Configuration>
+      <Platform>Nintendo3DS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Release|NintendoDS">
+      <Configuration>Target_Dev_Release</Configuration>
+      <Platform>NintendoDS</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Release|NintendoWII">
+      <Configuration>Target_Dev_Release</Configuration>
+      <Platform>NintendoWII</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Release|SonyPS3">
+      <Configuration>Target_Dev_Release</Configuration>
+      <Platform>SonyPS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Release|SonyPSP">
+      <Configuration>Target_Dev_Release</Configuration>
+      <Platform>SonyPSP</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Target_Dev_Release|Win32">
+      <Configuration>Target_Dev_Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{019D826B-E724-4702-8F14-4BF7E37B9EC0}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoWII'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoDS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Nintendo3DS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPSP'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoWII'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoWII'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoWII'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoDS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoDS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoDS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Nintendo3DS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Nintendo3DS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Nintendo3DS'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPSP'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPSP'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPSP'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoWII'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoDS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Nintendo3DS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPS3'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPSP'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoWII'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoWII'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoWII'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoDS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoDS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoDS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Nintendo3DS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Nintendo3DS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Nintendo3DS'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPS3'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPS3'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPS3'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPSP'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPSP'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPSP'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+    <ExecutablePath>C:\Program Files\Microsoft DirectX SDK (August 2009)\Utilities\Bin\x86;$(VCInstallDir)bin;$(WindowsSdkDir)bin\NETFX 4.0 Tools;$(WindowsSdkDir)bin;$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(FrameworkSDKDir)\bin;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64</ExecutablePath>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformName)_$(PlatformToolset)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoWII'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoDS'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Nintendo3DS'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPS3'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPSP'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+    <ExecutablePath>C:\Program Files\Microsoft DirectX SDK (August 2009)\Utilities\Bin\x86;$(VCInstallDir)bin;$(WindowsSdkDir)bin\NETFX 4.0 Tools;$(WindowsSdkDir)bin;$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(FrameworkSDKDir)\bin;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64</ExecutablePath>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformName)_$(PlatformToolset)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+    <ExecutablePath>C:\Program Files\Microsoft DirectX SDK (August 2009)\Utilities\Bin\x86;$(VCInstallDir)bin;$(WindowsSdkDir)bin\NETFX 4.0 Tools;$(WindowsSdkDir)bin;$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(FrameworkSDKDir)\bin;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64</ExecutablePath>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformName)_$(PlatformToolset)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>..\..\..\target\outdir\$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+    <ExecutablePath>C:\Program Files\Microsoft DirectX SDK (August 2009)\Utilities\Bin\x86;$(VCInstallDir)bin;$(WindowsSdkDir)bin\NETFX 4.0 Tools;$(WindowsSdkDir)bin;$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(FrameworkSDKDir)\bin;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64</ExecutablePath>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformName)_$(PlatformToolset)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoWII'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoWII'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoWII'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoDS'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoDS'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoDS'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Nintendo3DS'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Nintendo3DS'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Nintendo3DS'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPS3'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPS3'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPS3'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPSP'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPSP'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPSP'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</OutDir>
+    <IntDir>$(ProjectName)_$(Configuration)_$(PlatformName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>TARGET_PC;TARGET_DEBUG;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoWII'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|NintendoDS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|Nintendo3DS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPS3'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Debug|SonyPSP'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>TARGET_PC;TARGET_FINAL;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>TARGET_PC;TARGET_PROFILE;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>TARGET_PC;TARGET_RELEASE;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoWII'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoWII'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoWII'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|NintendoDS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|NintendoDS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|NintendoDS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|Nintendo3DS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|Nintendo3DS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|Nintendo3DS'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPS3'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPS3'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPS3'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Final|SonyPSP'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Profile|SonyPSP'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Target_Dev_Release|SonyPSP'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ut_AssertException.cpp" />
+    <ClCompile Include="ut_Checks.cpp" />
+    <ClCompile Include="ut_ReportAssert.cpp" />
+    <ClCompile Include="ut_StringBuilder.cpp" />
+    <ClCompile Include="ut_Test.cpp" />
+    <ClCompile Include="ut_TestList.cpp" />
+    <ClCompile Include="ut_TestReporter.cpp" />
+    <ClCompile Include="ut_TestReporterStdout.cpp" />
+    <ClCompile Include="ut_TestReporterStdout_ps3.cpp" />
+    <ClCompile Include="ut_TestReporterStdout_psp.cpp" />
+    <ClCompile Include="ut_TestReporterStdout_Wii.cpp" />
+    <ClCompile Include="ut_TestReporterStdout_Win32.cpp" />
+    <ClCompile Include="ut_TestReporterStdout_X360.cpp" />
+    <ClCompile Include="ut_TestReporterTeamCity.cpp" />
+    <ClCompile Include="ut_TestReporterTeamCity_ps3.cpp" />
+    <ClCompile Include="ut_TestReporterTeamCity_psp.cpp" />
+    <ClCompile Include="ut_TestReporterTeamCity_Wii.cpp" />
+    <ClCompile Include="ut_TestReporterTeamCity_Win32.cpp" />
+    <ClCompile Include="ut_TestReporterTeamCity_X360.cpp" />
+    <ClCompile Include="ut_TestResults.cpp" />
+    <ClCompile Include="ut_TestRunner.cpp" />
+    <ClCompile Include="ut_Test_ps3.cpp" />
+    <ClCompile Include="ut_Test_psp.cpp" />
+    <ClCompile Include="ut_Test_Wii.cpp" />
+    <ClCompile Include="ut_Test_Win32.cpp" />
+    <ClCompile Include="ut_Test_X360.cpp" />
+    <ClCompile Include="ut_TimeConstraint.cpp" />
+    <ClCompile Include="ut_TimeHelpers_ps3.cpp" />
+    <ClCompile Include="ut_TimeHelpers_psp.cpp" />
+    <ClCompile Include="ut_TimeHelpers_Wii.cpp" />
+    <ClCompile Include="ut_TimeHelpers_Win32.cpp" />
+    <ClCompile Include="ut_TimeHelpers_X360.cpp" />
+    <ClCompile Include="ut_Utils.cpp" />
+    <ClCompile Include="ut_Utils_ps3.cpp" />
+    <ClCompile Include="ut_Utils_psp.cpp" />
+    <ClCompile Include="ut_Utils_Wii.cpp" />
+    <ClCompile Include="ut_Utils_Win32.cpp" />
+    <ClCompile Include="ut_Utils_X360.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\xunittest\private\ut_AssertException.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_CheckMacros.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Checks.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Config.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Exception.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Exception_ps3.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Exception_psp.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Exception_Wii.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Exception_Win32.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Exception_x360.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_ReportAssert.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_StringBuilder.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Test.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TestList.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TestMacros.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TestReporter.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TestReporterStdout.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TestReporterTeamCity.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TestResults.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TestRunner.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TimeConstraint.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_TimeHelpers.h" />
+    <ClInclude Include="..\include\xunittest\private\ut_Utils.h" />
+    <ClInclude Include="..\include\xunittest\xunittest.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

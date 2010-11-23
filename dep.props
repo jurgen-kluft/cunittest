@@ -1,0 +1,43 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+
+    <MavenPackageDependency Include="sdk_wii">
+      <Group>com.virtuos.sdk</Group>
+      <Platforms>all</Platforms>
+      <!-- Specify '==number', '<=number' or 'latest' -->
+      <Version>latest</Version>
+      <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
+      <Type>staticlibrary</Type>
+    </MavenPackageDependency>
+
+    <MavenPackageDependency Include="sdk_3ds">
+      <Group>com.virtuos.sdk</Group>
+      <Platforms>all</Platforms>
+      <!-- Specify '==number', '<=number' or 'latest' -->
+      <Version>latest</Version>
+      <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
+      <Type>staticlibrary</Type>
+    </MavenPackageDependency>
+
+    <MavenPackageDependency Include="sdk_ps3">
+      <Group>com.virtuos.sdk</Group>
+      <Platforms>all</Platforms>
+      <!-- Specify '==number', '<=number' or 'latest' -->
+      <Version>latest</Version>
+      <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
+      <Type>staticlibrary</Type>
+    </MavenPackageDependency>
+
+    <MavenPackageDependency Include="sdk_win32">
+      <Group>com.virtuos.sdk</Group>
+      <Platforms>all</Platforms>
+      <!-- Specify '==number', '<=number' or 'latest' -->
+      <Version>latest</Version>
+      <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
+      <Type>staticlibrary</Type>
+    </MavenPackageDependency>
+
+  </ItemGroup>
+  
+</Project>
