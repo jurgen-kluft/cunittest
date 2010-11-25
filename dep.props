@@ -1,43 +1,43 @@
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Toolsversion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <ItemGroup>
+  <Itemgroup>
 
-    <MavenPackageDependency Include="sdk_wii">
-      <Group>com.virtuos.sdk</Group>
-      <Platforms>all</Platforms>
+    <mvpackage_dependency Include="sdk_wii">
+      <group>com.virtuos.sdk</group>
+      <platforms>all</platforms>
       <!-- Specify '==number', '<=number' or 'latest' -->
-      <Version>latest</Version>
+      <version>latest</version>
       <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
-      <Type>staticlibrary</Type>
-    </MavenPackageDependency>
+      <type>staticlibrary</type>
+    </mvpackage_dependency>
 
-    <MavenPackageDependency Include="sdk_3ds">
-      <Group>com.virtuos.sdk</Group>
-      <Platforms>all</Platforms>
+    <mvpackage_dependency Include="sdk_3ds">
+      <group>com.virtuos.sdk</group>
+      <platforms>all</platforms>
       <!-- Specify '==number', '<=number' or 'latest' -->
-      <Version>latest</Version>
+      <version>latest</version>
       <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
-      <Type>staticlibrary</Type>
-    </MavenPackageDependency>
+      <type>staticlibrary</type>
+    </mvpackage_dependency>
 
-    <MavenPackageDependency Include="sdk_ps3">
-      <Group>com.virtuos.sdk</Group>
-      <Platforms>all</Platforms>
+    <mvpackage_dependency Include="sdk_ps3">
+      <group>com.virtuos.sdk</group>
+      <platforms>all</platforms>
       <!-- Specify '==number', '<=number' or 'latest' -->
-      <Version>latest</Version>
+      <version>latest</version>
       <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
-      <Type>staticlibrary</Type>
-    </MavenPackageDependency>
+      <type>staticlibrary</type>
+    </mvpackage_dependency>
 
-    <MavenPackageDependency Include="sdk_win32">
-      <Group>com.virtuos.sdk</Group>
-      <Platforms>all</Platforms>
+    <mvpackage_dependency Include="sdk_win32">
+      <group>com.virtuos.sdk</group>
+      <platforms>all</platforms>
       <!-- Specify '==number', '<=number' or 'latest' -->
-      <Version>latest</Version>
+      <version>latest</version>
       <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
-      <Type>staticlibrary</Type>
-    </MavenPackageDependency>
+      <type>staticlibrary</type>
+    </mvpackage_dependency>
 
-  </ItemGroup>
+  </Itemgroup>
   
 </Project>

@@ -1,21 +1,20 @@
-<Project ToolsVersion="4.0" DefaultTargets="MavenPackageInfo" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\msmaven\super_pom.props"/>
 
   <PropertyGroup>
-    <MavenPackageDir Condition = " '$(MavenPackageDir)' == '' ">$(MSBuildProjectDirectory)</MavenPackageDir>
-    <MavenPackagePlatform Condition = " '$(MavenPackagePlatform)' == '' ">Win32</MavenPackagePlatform>
-    
-    <MavenPackageName>xunittest</MavenPackageName>
-    <MavenPackageGroup>com.virtuos.tnt</MavenPackageGroup>
-    <MavenPackageVersionMajor>1</MavenPackageVersionMajor>
-    <MavenPackageVersionMinor>0</MavenPackageVersionMinor>
-    <MavenPackagePlatforms>Win32;SonyPSP;SonyPS3;NintendoDS;Nintendo3DS;NintendoWII;MicrosoftXbox360</MavenPackagePlatforms>
-    <MavenPackageLanguage>cpp</MavenPackageLanguage>
-    <MavenPackageMainProj>source\main\$(MavenPackageLanguage)\$(MavenPackageName).sln</MavenPackageMainProj>
-    <!-- MavenPackageTestProj = source\test\$(MavenPackageLanguage)\$(MavenPackageName)_test.sln -->
-    <MavenPackageAsDependencyIncludeDir>source\main\$(MavenPackageLanguage)\include</MavenPackageAsDependencyIncludeDir>
-    <MavenPackageAsDependencyLibDir>libs\$(MavenPackageName)</MavenPackageAsDependencyLibDir>
-    <MavenPackageDefines></MavenPackageDefines>
+    <mvpackage_dir Condition = " '$(mvpackage_dir)' == '' ">$(MSBuildProjectDirectory)</mvpackage_dir>
+    <mvpackage_platform Condition = " '$(mvpackage_platform)' == '' ">Win32</mvpackage_platform>
+
+    <mvpackage_name>xunittest</mvpackage_name>
+    <mvpackage_group>com.virtuos.tnt</mvpackage_group>
+    <mvpackage_version_major>1</mvpackage_version_major>
+    <mvpackage_version_minor>0</mvpackage_version_minor>
+    <mvpackage_platforms>Win32;SonyPSP;SonyPS3;NintendoDS;Nintendo3DS;NintendoWII;MicrosoftXbox360</mvpackage_platforms>
+    <mvpackage_language>cpp</mvpackage_language>
+    <mvpackage_proj>$(mvpackage_name).sln</mvpackage_proj>
+    <mvpackage_include_dir>source\main\$(mvpackage_language)\include</mvpackage_include_dir>
+    <mvpackage_library_dir>libs\$(mvpackage_name)</mvpackage_library_dir>
+    <mvpackage_defines></mvpackage_defines>
   </PropertyGroup>
 
 </Project>

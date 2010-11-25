@@ -1,51 +1,8 @@
-<Project ToolsVersion="4.0" DefaultTargets="MavenPackageInfo" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="mvinfo" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="pom.props"/>
   <Import Project="dep.props"/>
 
   <Import Project="..\msmaven\super_pom.targets"/>
 
-  <Target Name="MavenPackageInstall">
-    <!-- Install the package zip in the local package repository -->
-    <!-- Parameters to pass to the task: -->
-    <!-- - Path to package zip file -->
-    <!-- - Local URL of package repositories -->
-
-  </Target>
-
-  <Target Name="MavenPackageDeploy">
-    <!-- Install the package zip in the local package repository -->
-    <!-- Parameters to pass to the task: -->
-    <!-- - Path to package zip file -->
-    <!-- - Local URL of package repositories -->
-
-  </Target>
-
-  <Target Name="MavenPackageDependencySync">
-    <!-- Retrieve the dependencies, recursive -->
-    <!-- Parameters to pass to the task: -->
-    <!-- - Current path -->
-    <!-- - Local URL and remote URL of package repositories -->
-    <!-- - Current list of dependencies -->
-    
-  </Target>
-
-  <Target Name="MavenPackageInfo">
-    <Time>
-      <Output TaskParameter="Year" PropertyName="MavenPackageVersionYear" />
-      <Output TaskParameter="Month" PropertyName="MavenPackageVersionMonth" />
-    </Time>
-
-    <Message Text="Package Directory = $(MavenPackageDir)" />
-    <Message Text="Package Name      = $(MavenPackageName)" />
-    <Message Text="Package Group     = $(MavenPackageGroup)" />
-
-    <Message Text="Package Version   = $(MavenPackageVersionMajor).$(MavenPackageVersionMinor).$(MavenPackageVersionYear).$(MavenPackageVersionMonth).revision" />
-
-    <Message Text="Package Platform  = $(MavenPackagePlatform)" />
-    <Message Text="Package Platforms = $(MavenPackagePlatforms)" />
-
-    <Message Condition = " '$(MavenPackageLanguage)' == 'cpp' " Text="Package Language  = C++" />
-
-  </Target>
-  
+ 
 </Project>
