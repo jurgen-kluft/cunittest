@@ -2,7 +2,7 @@
   <Import Project="pom.props"/>
   <Import Project="dep.props"/>
 
-  <Import Project="..\msmaven\super_pom.targets"/>
+  <Import Project="$(SCM_LOCAL_REPO_ROOT)\com\virtuos\msmaven\super_pom.targets"/>
 
  
 </Project>

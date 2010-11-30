@@ -29,7 +29,7 @@
       <group>com.virtuos.sdk</group>
       <platforms>Win32</platforms>
       <!-- Specify '==number', '<=number' or 'latest' -->
-      <version>latest</version>
+      <version>1.0.2010.11.branchname.232d1e3a241e</version>
       <!-- Specify staticlibrary(default), dynamiclibrary, compile, test -->
       <type>staticlibrary</type>
     </mvpackage_dependency>
