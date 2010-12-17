@@ -1,0 +1,39 @@
+<Package Name="xunittest" Group="com.virtuos.tnt">
+  <Versions>
+    <Version>1.0.0</Version>
+  </Versions>
+
+  <IncludePath>$(SolutionDir)target\xbase\${Platform)\source\main\cpp\include</IncludePath>
+  <LibraryPath>$(SolutionDir)target\xbase\${Platform)\libs</LibraryPath>
+  <LibraryDep>xunittest_${Config}_${Platform}.lib</LibraryDep>
+
+  <Project Name="xunittest" Category="Main" Language="C++" Location="source\main\cpp">
+    <UUID>c81d02a1-2933-49e5-9dba-261317eab3be</UUID>
+
+    <!-- Win32 will inherit all properties from Template/Win32 -->
+    <Platform Name="Win32">
+      <Config Name="DevDebug"> </Config>
+      <Config Name="DevRelease"> </Config>
+      <Config Name="DevProfile"> </Config>
+      <Config Name="DevFinal"> </Config>
+    </Platform>
+  </Project>
+
+  <Project Name="xunittest_test" Category="UnitTest" Language="C++" Location="source\test\cpp">
+    <UUID>5ea192c2-b3e8-4ccf-8c3c-6896137b5c36</UUID>
+
+    <Dependency Package="xunittest"/>
+
+    <!-- Win32 will inherit all properties from Template/Win32 -->
+    <Platform Name="Win32">
+      <Configuration>
+        <ConfigurationType>Application</ConfigurationType>
+      </Configuration>
+      <Config Name="DevDebug"> </Config>
+      <Config Name="DevRelease"> </Config>
+    </Platform>
+  </Project>
+
+</Package>
+
+
