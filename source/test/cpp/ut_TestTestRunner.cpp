@@ -1,13 +1,14 @@
-#include "ut_UnitTest.h"
-#include "ut_RecordingReporter.h"
-#include "ut_ReportAssert.h"
-#include "ut_TestList.h"
-#include "ut_TimeHelpers.h"
-#include "ut_TimeConstraint.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\ut_RecordingReporter.h"
+#include "xunittest\private\ut_ReportAssert.h"
+#include "xunittest\private\ut_TestList.h"
+#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest\private\ut_TimeConstraint.h"
 
 using namespace UnitTest;
 
-UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
+/*
+UNITTEST_SUITE_BEGIN(TestTestRunner)
 {
 	struct MockTest : public Test
 	{
@@ -18,7 +19,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		{
 		}
 
-		virtual void RunImpl(TestResults& testResults_) const
+		virtual void runImpl(TestResults& testResults_) const
 		{
 			if (asserted)
 				reportAssert("desc", "file", 0);
@@ -34,13 +35,13 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 	{
 	public:
 		SlowTest() : Test("slow", "filename", 123) {}
-		virtual void RunImpl(TestResults&) const
+		virtual void runImpl(TestResults&) const
 		{
 			TimeHelpers::sleepMs(20);
 		}
 	};
 
-	UNITTEST_FIXTURE(TestTestRunner1)
+	UNITTEST_FIXTURE(fixture1)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -59,7 +60,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner2)
+	UNITTEST_FIXTURE(fixture2)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -77,7 +78,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner3)
+	UNITTEST_FIXTURE(fixture3)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -95,7 +96,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner4)
+	UNITTEST_FIXTURE(fixture4)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -111,7 +112,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner5)
+	UNITTEST_FIXTURE(fixture5)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -133,7 +134,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner6)
+	UNITTEST_FIXTURE(fixture6)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -151,7 +152,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner7)
+	UNITTEST_FIXTURE(fixture7)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -172,7 +173,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner8)
+	UNITTEST_FIXTURE(fixture8)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -189,7 +190,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner9)
+	UNITTEST_FIXTURE(fixture9)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -206,7 +207,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner10)
+	UNITTEST_FIXTURE(fixture10)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -227,7 +228,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 		}
 	}
 
-	UNITTEST_FIXTURE(TestTestRunner11)
+	UNITTEST_FIXTURE(fixture11)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -241,7 +242,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 			{
 			public:
 				SlowExemptedTest() : Test("slowexempted", "", 0) {}
-				virtual void RunImpl(TestResults&) const
+				virtual void runImpl(TestResults&) const
 				{
 					UNITTEST_TIME_CONSTRAINT_EXEMPT();
 					TimeHelpers::sleepMs(20);
@@ -256,3 +257,4 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 	}
 }
 UNITTEST_SUITE_END
+*/

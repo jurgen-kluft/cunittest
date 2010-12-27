@@ -1,12 +1,12 @@
-#include "ut_UnitTest.h"
-#include "ut_TestReporter.h"
-#include "ut_TimeHelpers.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\private\ut_TestReporter.h"
+#include "xunittest\private\ut_TimeHelpers.h"
 
 using namespace UnitTest;
 
-UNITTEST_SUITE_BEGIN(UnitTestTest)
+UNITTEST_SUITE_BEGIN(TestTest)
 {
-	UNITTEST_FIXTURE(TestTest)
+	UNITTEST_FIXTURE(fixture)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -76,9 +76,9 @@ UNITTEST_SUITE_BEGIN(UnitTestTest)
 				}
 			};
 
-			TestResults results;
-			CrashingTest().run(results, 0);
-			CHECK_EQUAL(1, results.getFailureCount());
+			//TestResults results;
+			//CrashingTest().run(results, 0);
+			//CHECK_EQUAL(1, results.getFailureCount());
 		}
 	}
 }

@@ -17,6 +17,16 @@
     <Item Folder="tools"/>
   </DirectoryStructure>
   
+  <Content>
+    <Item Src="source\main\cpp\**\*.cpp" Dst="source\main\cpp\" />
+    <Item Src="source\main\include\**\*.h" Dst="source\main\include\" />
+    <Item Src="source\main\resources\**\*.*" Dst="source\main\resources\" />
+    <Item Src="libs\**\*.*" Dst="libs\" />
+    <Item Src="docs\**\*.*" Dst="docs\" />
+    <Item Src="tools\**\*.*" Dst="Tools\" />
+    <Item Src="target\outdir\${Name}_*\${Name}_*_${Platform}.lib" Dst="libs\" />
+  </Content>
+  
   <Project Name="xunittest" Category="Main" Language="C++" Location="source\main\cpp">
     <ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -25,19 +35,22 @@
 			  </PropertyGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
 			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_PC;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>#target\xunittest\Win32\source\main\include;$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
 			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_PC;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>#target\xunittest\Win32\source\main\include;$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
 			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_PC;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>#target\xunittest\Win32\source\main\include;$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 				</ItemDefinitionGroup>												
@@ -59,20 +72,23 @@
 			  </PropertyGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
 			    <ClCompile>
-			      <PreprocessorDefinitions>@WIN32;@_DEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>@TARGET_PC;@WIN32;@_DEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@$(SolutionDir)source\test\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
 			    <ClCompile>
-			      <PreprocessorDefinitions>@WIN32;@NDEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>@TARGET_PC;@WIN32;@NDEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@$(SolutionDir)source\test\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
 			    <ClCompile>
-			      <PreprocessorDefinitions>@WIN32;@NDEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>@TARGET_PC;@WIN32;@NDEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@$(SolutionDir)source\test\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 				</ItemDefinitionGroup>
 			  <ItemGroup>

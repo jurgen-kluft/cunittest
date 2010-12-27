@@ -1,12 +1,12 @@
-#include "ut_UnitTest.h"
-#include "ut_TestList.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\private\ut_TestList.h"
 
 using namespace UnitTest;
 
-
-UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
+/*
+UNITTEST_SUITE_BEGIN(TestTestList)
 {
-	UNITTEST_FIXTURE(TestTestList)
+	UNITTEST_FIXTURE(fixture)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -54,3 +54,4 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 	}
 }
 UNITTEST_SUITE_END
+*/

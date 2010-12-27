@@ -1,11 +1,11 @@
-#include "ut_UnitTest.h"
-#include "ut_TestReporter.h"
-#include "ut_ReportAssert.h"
-#include "ut_Config.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\private\ut_TestReporter.h"
+#include "xunittest\private\ut_ReportAssert.h"
+#include "xunittest\private\ut_Config.h"
 
-UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
+UNITTEST_SUITE_BEGIN(TestCpp)
 {
-	UNITTEST_FIXTURE(TestCpp)
+	UNITTEST_FIXTURE(fixture)
 	{
 		static int instanceCount = 0;
 
@@ -83,7 +83,7 @@ UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
 				{
 				}
 
-				virtual void RunImpl(UnitTest::TestResults& testResults_) const
+				virtual void runImpl(UnitTest::TestResults& testResults_) const
 				{
 					CHECK_THROW(DontThrow(), int);
 				}

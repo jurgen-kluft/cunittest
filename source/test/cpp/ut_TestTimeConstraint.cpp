@@ -1,14 +1,14 @@
-#include "ut_UnitTest.h"
-#include "ut_TimeConstraint.h"
-#include "ut_TestResults.h"
-#include "ut_TimeHelpers.h"
-#include "ut_RecordingReporter.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\private\ut_TimeConstraint.h"
+#include "xunittest\private\ut_TestResults.h"
+#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest\ut_RecordingReporter.h"
 
 using namespace UnitTest;
 
-UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
+UNITTEST_SUITE_BEGIN(TestTimeConstraint)
 {
-	UNITTEST_FIXTURE(TestTimeConstraint)
+	UNITTEST_FIXTURE(main)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}

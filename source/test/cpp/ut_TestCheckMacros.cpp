@@ -1,11 +1,11 @@
-#include "ut_UnitTest.h"
-#include "ut_RecordingReporter.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\ut_RecordingReporter.h"
 
 using namespace UnitTest;
 
-UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
+UNITTEST_SUITE_BEGIN(TestCheckMacros)
 {
-	UNITTEST_FIXTURE(TestCheckMacros)
+	UNITTEST_FIXTURE(fixture)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}

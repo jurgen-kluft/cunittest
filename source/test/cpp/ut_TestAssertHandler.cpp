@@ -1,12 +1,12 @@
-#include "ut_UnitTest.h"
-#include "ut_AssertException.h"
-#include "ut_ReportAssert.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\private\ut_AssertException.h"
+#include "xunittest\private\ut_ReportAssert.h"
 
 using namespace UnitTest;
 
-UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
+UNITTEST_SUITE_BEGIN(TestAssertHandler)
 {
-	UNITTEST_FIXTURE(TestAssertHandler)
+	UNITTEST_FIXTURE(main)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}

@@ -1,11 +1,11 @@
-#include "ut_UnitTest.h"
-#include "ut_StringBuilder.h"
+#include "xunittest\xunittest.h"
+#include "xunittest\private\ut_StringBuilder.h"
 
 using namespace UnitTest;
 
-UNITTEST_SUITE_BEGIN_PARTIAL(UnitTestTest)
+UNITTEST_SUITE_BEGIN(TestStringBuilder)
 {
-	UNITTEST_FIXTURE(TestStringBuilder)
+	UNITTEST_FIXTURE(fixture)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
