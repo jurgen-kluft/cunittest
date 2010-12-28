@@ -70,12 +70,25 @@
 			  <PropertyGroup Label="Globals">
 			    <ProjectGuid>{5ea192c2-b3e8-4ccf-8c3c-6896137b5c36}</ProjectGuid>
 			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>@TARGET_PC;@WIN32;@_DEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@$(SolutionDir)source\test\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
 			    <ClCompile>
@@ -83,6 +96,10 @@
 			      <PreprocessorDefinitions>@TARGET_PC;@WIN32;@NDEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@$(SolutionDir)source\test\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
 			    <ClCompile>
@@ -90,6 +107,10 @@
 			      <PreprocessorDefinitions>@TARGET_PC;@WIN32;@NDEBUG;@%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>@$(SolutionDir)source\main\include;@$(SolutionDir)source\test\include;@%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
 				</ItemDefinitionGroup>
 			  <ItemGroup>
 			    <ClCompile Include="source\test\cpp\**\*.cpp" />

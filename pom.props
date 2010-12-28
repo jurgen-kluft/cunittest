@@ -3,5 +3,6 @@
     <PackageDir>$(MSBuildProjectDirectory)</PackageDir>
     <PackagePlatform>Win32</PackagePlatform>
     <PackageName>xunittest</PackageName>
+    <PackageSolution>xunittest.sln</PackageSolution>
   </PropertyGroup>
 </Project>
