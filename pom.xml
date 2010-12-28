@@ -18,7 +18,7 @@
   </DirectoryStructure>
   
   <Content>
-    <Item Src="pom.*" Dst="" />
+    <Item Src="pom.xml" Dst="" />
     <Item Src="source\main\cpp\**\*.cpp" Dst="source\main\cpp\" />
     <Item Src="source\main\include\**\*.h" Dst="source\main\include\" />
     <Item Src="source\main\resources\**\*.*" Dst="source\main\resources\" />
