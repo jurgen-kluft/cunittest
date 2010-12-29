@@ -18,7 +18,7 @@
   </DirectoryStructure>
   
   <Content>
-    <Item Src="pom.xml" Dst="" />
+    <Item Src="pom.*" Dst="" />
     <Item Src="source\main\cpp\**\*.cpp" Dst="source\main\cpp\" />
     <Item Src="source\main\include\**\*.h" Dst="source\main\include\" />
     <Item Src="source\main\resources\**\*.*" Dst="source\main\resources\" />
@@ -28,7 +28,7 @@
     <Item Src="target\outdir\${Name}_*\${Name}_*_${Platform}.lib" Dst="libs\" />
   </Content>
   
-  <Project Name="xunittest" Category="Main" Language="C++" Location="source\main\cpp">
+  <Project Name="xunittest" Category="Main" Language="C++" Location="source\main\cpp" Scope = "Public">
     <ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 			  <PropertyGroup Label="Globals">
@@ -65,7 +65,7 @@
     </ProjectFile>
 	</Project>
 
-  <Project Name="xunittest_test" Category="UnitTest" Language="C++" Location="source\test\cpp">
+  <Project Name="xunittest_test" Category="UnitTest" Language="C++" Location="source\test\cpp" Scope = "Private">
     <ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 			  <PropertyGroup Label="Globals">
