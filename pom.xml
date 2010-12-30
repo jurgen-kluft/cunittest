@@ -28,7 +28,7 @@
     <Item Src="target\outdir\${Name}_*\${Name}_*_${Platform}.lib" Dst="libs\" />
   </Content>
   
-  <Project Name="xunittest" Category="UnitTest" Language="C++" Location="source\main\cpp" Scope="Public">
+  <Project Name="xunittest" Group="UnitTest" Language="C++" Location="source\main\cpp" Scope="Public">
     <ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 			  <PropertyGroup Label="Globals">
@@ -77,7 +77,7 @@
     </ProjectFile>
 	</Project>
 
-  <Project Name="xunittest_test" Category="UnitTestTest" Language="C++" Location="source\test\cpp" Scope="Private">
+  <Project Name="xunittest_test" Group="UnitTestTest" Language="C++" Location="source\test\cpp" Scope="Private" DependsOn="xunittest">
     <ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 			  <PropertyGroup Label="Globals">
@@ -95,8 +95,8 @@
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
-			      <PreprocessorDefinitions>TARGET_PC;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>$(SolutionDir)source\main\include;$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -106,8 +106,8 @@
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
-			      <PreprocessorDefinitions>TARGET_PC;WIN32;@NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>$(SolutionDir)source\main\include;$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -117,8 +117,8 @@
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
-			      <PreprocessorDefinitions>TARGET_PC;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>$(SolutionDir)source\main\include;$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
