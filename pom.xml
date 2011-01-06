@@ -42,7 +42,7 @@
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\Win32\libs\</AdditionalLibraryDirectories>
 			    </Link>	
 			  </ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
@@ -53,7 +53,7 @@
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\Win32\libs\</AdditionalLibraryDirectories>
 			    </Link>	
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
@@ -64,7 +64,7 @@
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\Win32\libs\</AdditionalLibraryDirectories>
 			    </Link>	
 				</ItemDefinitionGroup>												
 			  <ItemGroup>
