@@ -1,6 +1,6 @@
 <Package Name="xunittest" Group="com.virtuos.tnt">
   <Versions>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </Versions>
 
   <DirectoryStructure>
@@ -34,39 +34,118 @@
 			  <PropertyGroup Label="Globals">
 			    <ProjectGuid>{c81d02a1-2933-49e5-9dba-261317eab3be}</ProjectGuid>
 			  </PropertyGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>TARGET_PC;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\Win32\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\Win32\libs\</AdditionalLibraryDirectories>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
 			    </Link>	
 			  </ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>TARGET_PC;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\Win32\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\Win32\libs\</AdditionalLibraryDirectories>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
 			    </Link>	
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
-			      <PreprocessorDefinitions>TARGET_PC;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\Win32\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <PreprocessorDefinitions>TARGET_PS3;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <AdditionalOptions>-Xc+=exceptions %(AdditionalOptions)</AdditionalOptions>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\Win32\libs\</AdditionalLibraryDirectories>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
 			    </Link>	
-				</ItemDefinitionGroup>												
+			  </ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_PS3;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <AdditionalOptions>-Xc+=exceptions %(AdditionalOptions)</AdditionalOptions>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			    </Link>	
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_360;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			    </Link>	
+			  </ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_360;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			    </Link>	
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_WII;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			    </Link>	
+			  </ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_WII;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			    </Link>	
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|N3DS'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_N3DS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			    </Link>	
+			  </ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|N3DS'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>TARGET_N3DS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>#$(SolutionDir)target\xunittest\$(Platform)\source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>#$(SolutionDir)target\xunittest\$(Platform)\libs\</AdditionalLibraryDirectories>
+			    </Link>	
+				</ItemDefinitionGroup>
 			  <ItemGroup>
 			    <ClCompile Include="source\main\cpp\**\*.cpp" />
 			  </ItemGroup>
@@ -83,16 +162,37 @@
 			  <PropertyGroup Label="Globals">
 			    <ProjectGuid>{5ea192c2-b3e8-4ccf-8c3c-6896137b5c36}</ProjectGuid>
 			  </PropertyGroup>
-			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'" Label="Configuration">
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'" Label="Configuration">
 			    <ConfigurationType>Application</ConfigurationType>
 			  </PropertyGroup>
-			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'" Label="Configuration">
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'" Label="Configuration">
 			    <ConfigurationType>Application</ConfigurationType>
 			  </PropertyGroup>
-			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'" Label="Configuration">
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'" Label="Configuration">
 			    <ConfigurationType>Application</ConfigurationType>
 			  </PropertyGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|N3DS'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|N3DS'" Label="Configuration">
+			    <ConfigurationType>Application</ConfigurationType>
+			  </PropertyGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
@@ -103,7 +203,7 @@
 			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
 			    </Link>					
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
@@ -114,7 +214,86 @@
 			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
 			    </Link>					
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+			      <AdditionalOptions>-Xc+=exceptions %(AdditionalOptions)</AdditionalOptions>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+			      <AdditionalOptions>-Xc+=exceptions %(AdditionalOptions)</AdditionalOptions>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|N3DS'">
+			    <ClCompile>
+			      <ExceptionHandling>Sync</ExceptionHandling>
+			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
+			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+			    <Link>
+			      <AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+			      <AdditionalLibraryDirectories>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+			    </Link>					
+				</ItemDefinitionGroup>
+			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|N3DS'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
