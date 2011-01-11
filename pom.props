@@ -4,6 +4,6 @@
     <PackagePlatform>Win32</PackagePlatform>
     <PackageName>xunittest</PackageName>
     <PackageSolution>xunittest.sln</PackageSolution>
-    <PackageCategory>UnitTest</PackageCategory>
+    <PackageProjectGroup>UnitTest</PackageCategory>
   </PropertyGroup>
 </Project>
