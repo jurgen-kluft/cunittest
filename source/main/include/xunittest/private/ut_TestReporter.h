@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_TESTREPORTER_H__
-#define __X_CORE_UNIT_TEST_TESTREPORTER_H__
+#ifndef __XUNITTEST_TESTREPORTER_H__
+#define __XUNITTEST_TESTREPORTER_H__
 
 namespace UnitTest
 {
@@ -19,4 +19,4 @@ namespace UnitTest
 	};
 }
 
-#endif	///<__X_CORE_UNIT_TEST_TESTREPORTER_H__
+#endif	///<__XUNITTEST_TESTREPORTER_H__

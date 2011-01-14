@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_TESTMACROS_H__
-#define __X_CORE_UNIT_TEST_TESTMACROS_H__
+#ifndef __XUNITTEST_TESTMACROS_H__
+#define __XUNITTEST_TESTMACROS_H__
 
 #ifdef UNITTEST
     #error UnitTest redefines UNITTEST
@@ -99,4 +99,4 @@ namespace UnitTest																				\
 #define UNITTEST_TEST(Name)						INTERNAL_UNITTEST_FUNC(Name)
 
 
-#endif	///< __X_CORE_UNIT_TEST_TESTMACROS_H__
+#endif	///< __XUNITTEST_TESTMACROS_H__

@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_SUITE_H__
-#define __X_CORE_UNIT_TEST_SUITE_H__
+#ifndef __XUNITTEST_SUITE_H__
+#define __XUNITTEST_SUITE_H__
 
 #include "xunittest\private\ut_Utils.h"
 #include "xunittest\private\ut_Test.h"
@@ -11,4 +11,4 @@
 #include "xunittest\private\ut_TestReporterStdout.h"
 #include "xunittest\private\ut_TestReporterTeamCity.h"
 
-#endif	///< __X_CORE_UNIT_TEST_SUITE_H__
+#endif	///< __XUNITTEST_SUITE_H__

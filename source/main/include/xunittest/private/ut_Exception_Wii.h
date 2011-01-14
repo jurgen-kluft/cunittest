@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_ASSERTEXCEPTION_WII_H__
-#define __X_CORE_UNIT_TEST_ASSERTEXCEPTION_WII_H__
+#ifndef __XUNITTEST_ASSERTEXCEPTION_WII_H__
+#define __XUNITTEST_ASSERTEXCEPTION_WII_H__
 
 #include "xunittest\private\ut_Exception.h"
 #include <exception>
@@ -14,4 +14,4 @@ namespace UnitTest
 	};
 }
 
-#endif	///< __X_CORE_UNIT_TEST_ASSERTEXCEPTION_WII_H__
+#endif	///< __XUNITTEST_ASSERTEXCEPTION_WII_H__

@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_CHECKS_H__
-#define __X_CORE_UNIT_TEST_CHECKS_H__
+#ifndef __XUNITTEST_CHECKS_H__
+#define __XUNITTEST_CHECKS_H__
 
 #include "xunittest\private\ut_Config.h"
 #include "xunittest\private\ut_TestResults.h"
@@ -113,4 +113,4 @@ namespace UnitTest
 	}
 }
 
-#endif	///< __X_CORE_UNIT_TEST_CHECKS_H__
+#endif	///< __XUNITTEST_CHECKS_H__

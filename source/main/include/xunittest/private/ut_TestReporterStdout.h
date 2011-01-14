@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_TESTREPORTERSTDOUT_H__
-#define __X_CORE_UNIT_TEST_TESTREPORTERSTDOUT_H__
+#ifndef __XUNITTEST_TESTREPORTERSTDOUT_H__
+#define __XUNITTEST_TESTREPORTERSTDOUT_H__
 
 #include "xunittest\private\ut_TestReporter.h"
 

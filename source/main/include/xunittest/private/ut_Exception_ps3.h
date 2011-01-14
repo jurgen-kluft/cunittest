@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_ASSERTEXCEPTION_PS3_H__
-#define __X_CORE_UNIT_TEST_ASSERTEXCEPTION_PS3_H__
+#ifndef __XUNITTEST_ASSERTEXCEPTION_PS3_H__
+#define __XUNITTEST_ASSERTEXCEPTION_PS3_H__
 
 #include <exception>
 
@@ -13,4 +13,4 @@ namespace UnitTest
 	};
 }
 
-#endif	///< __X_CORE_UNIT_TEST_ASSERTEXCEPTION_PS3_H__
+#endif	///< __XUNITTEST_ASSERTEXCEPTION_PS3_H__

@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNIT_TEST_UTILS_H__
-#define __X_CORE_UNIT_TEST_UTILS_H__
+#ifndef __XUNITTEST_UTILS_H__
+#define __XUNITTEST_UTILS_H__
 
 #include "xunittest\private\ut_Config.h"
 
@@ -144,4 +144,4 @@ namespace UnitTest
 
 }
 
-#endif	///< __X_CORE_UNIT_TEST_UTILS_H__
+#endif	///< __XUNITTEST_UTILS_H__
