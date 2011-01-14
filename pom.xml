@@ -46,9 +46,9 @@
 			  <PropertyGroup Label="Globals">
 			    <ProjectGuid>{c81d02a1-2933-49e5-9dba-261317eab3be}</ProjectGuid>
 			  </PropertyGroup>
-			  <PropertyGroup Label="TargetDirs">
+			  <ImportGroup Label="TargetDirs">
 			    <Import Project="$(SolutionDir)target\xunittest\xunittest.$(Platform).props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.$(Platform).props')" Label="xunittest_TargetDir" />
-			  </PropertyGroup>
+			  </ImportGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
