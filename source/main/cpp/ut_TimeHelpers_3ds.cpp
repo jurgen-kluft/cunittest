@@ -14,23 +14,23 @@ namespace UnitTest
 	{
         nn::os::Tick* startTime = reinterpret_cast<nn::os::Tick*>(&mData[0]);
         *startTime = nn::os::Tick::GetSystemCurrent();
-        ASSERT(*startTime);
+        NN_ASSERT(*startTime);
 	}
 
 	int Timer::getTimeInMs() const
 	{
-		nn::os::Tick curTime = reinterpret_cast<nn::os::Tick*>(&mData[0]);
-        ASSERT(curTime);
+		nn::os::Tick* curTime = (nn::os::Tick*)(&mData[0]);
+        NN_ASSERT(curTime!=NULL);
 
         const nn::os::Tick* startTime = reinterpret_cast< const nn::os::Tick* >(&mData[0]);
 
-		int elapsedTime = (curTime - *startTime).ToTimeSpan().GetMilliSeconds();
+		int elapsedTime = (*curTime - *startTime).ToTimeSpan().GetMilliSeconds();
         return elapsedTime;
 	}
 
 	void TimeHelpers::sleepMs(int const ms)
 	{
-		nn::os::Thread::Sleep(ms);
+		nn::os::Thread::Sleep(nn::fnd::TimeSpan::FromMilliSeconds(ms));
 	}
 
 }

@@ -28,6 +28,12 @@
     <Item Src="target\xunittest\outdir\${Name}_*\${Name}_*_${Platform}.lib" Dst="libs\" />
   </Content>
   
+  <Dependency Package="sdk_ps3" Platform="PS3">
+    <Group>com.virtuos.sdk</Group>
+    <Version>[300.0.01,)</Version>
+    <Type>Package</Type>
+  </Dependency>
+
   <Dependency Package="sdk_wii" Platform="WII">
     <Group>com.virtuos.sdk</Group>
     <Version>[1.0,)</Version>
@@ -40,7 +46,7 @@
     <Type>Package</Type>
   </Dependency>
   
-  <Project Name="xunittest" Group="UnitTest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:SDK;sdk_3ds:SDK">
+  <Project Name="xunittest" Group="UnitTest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:SDK;sdk_3ds:SDK;sdk_ps3:SDK_PPU">
     <ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 			  <PropertyGroup Label="Globals">

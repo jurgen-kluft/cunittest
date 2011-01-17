@@ -52,7 +52,7 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 			stream << p;
 			CHECK (gStringFind(stream.getText(), "1234"));
 		}
-
+		/*
 		UNITTEST_TEST(StreamingSizeTWritesCorrectCharacters)
 		{
 			StringBuilder stream;
@@ -60,7 +60,7 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 			stream << s;
 			CHECK_EQUAL ("53124", stream.getText());
 		}
-
+		*/
 		UNITTEST_TEST(StreamInitialCapacityIsCorrect)
 		{
 			StringBuilder stream(StringBuilder::GROW_CHUNK_SIZE);
@@ -110,13 +110,13 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 			stream << "aaaa" << 123456.0f;;
 			CHECK_EQUAL ("aaaa123456.000000", stream.getText());
 		}
-
+		/*
 		UNITTEST_TEST(WritingSizeTLongerThanCapacityFitsInNewBuffer)
 		{
 			StringBuilder stream(8);
 			stream << "aaaa" << size_t(32145);
 			CHECK_EQUAL ("aaaa32145", stream.getText());
-		}
+		}*/
 	}
 }
 UNITTEST_SUITE_END
