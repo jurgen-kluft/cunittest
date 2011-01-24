@@ -130,7 +130,7 @@
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
 			    <ClCompile>
 			      <ExceptionHandling>Sync</ExceptionHandling>
-			      <PreprocessorDefinitions>TARGET_WII;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			      <PreprocessorDefinitions>TARGET_WII;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>#$(xunittest_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 			    <Link>
