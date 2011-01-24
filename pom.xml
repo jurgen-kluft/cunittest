@@ -34,6 +34,12 @@
     <Type>Package</Type>
   </Dependency>
 
+  <Dependency Package="sdk_360" Platform="Xbox 360">
+    <Group>com.virtuos.sdk</Group>
+    <Version>[1.0,)</Version>
+    <Type>Package</Type>
+  </Dependency>
+
   <Dependency Package="sdk_wii" Platform="WII">
     <Group>com.virtuos.sdk</Group>
     <Version>[1.0,)</Version>
@@ -46,7 +52,7 @@
     <Type>Package</Type>
   </Dependency>
   
-  <Project Name="xunittest" Group="UnitTest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:SDK;sdk_3ds:SDK;sdk_ps3:SDK_PPU">
+  <Project Name="xunittest" Group="UnitTest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:SDK;sdk_3ds:SDK;sdk_ps3:SDK_PPU;sdk_360:SDK">
     <ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 			  <PropertyGroup Label="Globals">
@@ -103,7 +109,6 @@
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
 			    <ClCompile>
-			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>TARGET_360;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>#$(xunittest_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
@@ -114,7 +119,6 @@
 			  </ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
 			    <ClCompile>
-			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>TARGET_360;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>#$(xunittest_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
@@ -261,7 +265,6 @@
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
 			    <ClCompile>
-			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
@@ -272,7 +275,6 @@
 				</ItemDefinitionGroup>
 			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
 			    <ClCompile>
-			      <ExceptionHandling>Sync</ExceptionHandling>
 			      <PreprocessorDefinitions>%()</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
