@@ -22,7 +22,7 @@ void*	UnitTest::Allocate(int size)
 {
 	++sNumAllocations;
 #ifdef TARGET_PC
-	return malloc(size + 10000);
+	return malloc(size);
 #else
 	return NULL;
 #endif
@@ -35,15 +35,8 @@ void	UnitTest::Deallocate(void* ptr)
 #endif
 }
 
-static const char* sTestFilename = NULL;
-static const char* sTestSuiteName = NULL;
-static const char* sTestFixtureName = NULL;
-
 void	UnitTest::BeginFixture(const char* filename, const char* suite_name, const char* fixture_name)
 {
-	sTestFilename    = filename;
-	sTestSuiteName   = suite_name;
-	sTestFixtureName = fixture_name;
 }
 void	UnitTest::EndFixture()
 {
