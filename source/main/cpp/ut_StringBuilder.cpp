@@ -1,3 +1,4 @@
+#include "xunittest\private\ut_Config.h"
 #include "xunittest\private\ut_StringBuilder.h"
 #include "xunittest\private\ut_Utils.h"
 
@@ -144,13 +145,13 @@ namespace UnitTest
 	{
 		int const newCapacity = gRoundUpToMultipleOfPow2Number(desiredCapacity, GROW_CHUNK_SIZE);
 
-		char* buffer = new char[newCapacity];
+		char* buffer = (char*)Allocate(newCapacity);
 		if (mBuffer)
 			gStringCopy(buffer, mBuffer, newCapacity);
 		else
 			gStringCopy(buffer, "", newCapacity);
 
-		delete [] mBuffer;
+		Deallocate(mBuffer);
 		mBuffer = buffer;
 		mCapacity = newCapacity;
 	}
