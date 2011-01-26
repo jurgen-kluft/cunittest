@@ -5,6 +5,9 @@ namespace UnitTest
 {
 	extern void*	Allocate(int size);
 	extern void		Deallocate(void* ptr);
+
+	extern void		BeginFixture(const char* filename, const char* suite_name, const char* fixture_name);
+	extern void		EndFixture();
 }
 
 

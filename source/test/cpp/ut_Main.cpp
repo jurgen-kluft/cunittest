@@ -17,22 +17,39 @@ UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestResults);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTimeConstraint);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestCpp);
 
-
+static int sNumAllocations = 0;
+void*	UnitTest::Allocate(int size)
+{
+	++sNumAllocations;
 #ifdef TARGET_PC
-	static int sNumAllocations = 0;
-	void*	UnitTest::Allocate(int size)
-	{
-		++sNumAllocations;
-		return malloc(size + 10000);
-	}
-	void	UnitTest::Deallocate(void* ptr)
-	{
-		--sNumAllocations;
-		free(ptr);
-	}
+	return malloc(size + 10000);
+#else
+	return NULL;
 #endif
+}
+void	UnitTest::Deallocate(void* ptr)
+{
+	--sNumAllocations;
+#ifdef TARGET_PC
+	free(ptr);
+#endif
+}
 
+static const char* sTestFilename = NULL;
+static const char* sTestSuiteName = NULL;
+static const char* sTestFixtureName = NULL;
 
+void	UnitTest::BeginFixture(const char* filename, const char* suite_name, const char* fixture_name)
+{
+	sTestFilename    = filename;
+	sTestSuiteName   = suite_name;
+	sTestFixtureName = fixture_name;
+}
+void	UnitTest::EndFixture()
+{
+}
+
+	
 int main(int, char const *[])
 {
 	UnitTest::TestReporterStdout stdout_reporter;

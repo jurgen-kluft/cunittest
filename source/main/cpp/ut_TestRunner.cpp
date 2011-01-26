@@ -1,3 +1,4 @@
+#include "xunittest\private\ut_Config.h"
 #include "xunittest\private\ut_TestRunner.h"
 #include "xunittest\private\ut_TestResults.h"
 #include "xunittest\private\ut_Test.h"
@@ -35,7 +36,9 @@ namespace UnitTest
 			curTestFixture = curTestSuite->getFixtures();
 			while (curTestFixture != 0)
 			{
+				BeginFixture(curTestFixture->mFilename, curTestSuite->getName(), curTestFixture->mTestName);
 				curTestFixture->run(result, maxTestTimeInMs);
+				EndFixture();
 				curTestFixture = curTestFixture->getNext();
 			}
 
