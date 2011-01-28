@@ -17,39 +17,57 @@ UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestResults);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTimeConstraint);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestCpp);
 
-static int sNumAllocations = 0;
-void*	UnitTest::Allocate(int size)
+class UnitTestAllocator : public UnitTest::Allocator
 {
-	++sNumAllocations;
-#ifdef TARGET_PC
-	return malloc(size);
-#else
-	return NULL;
-#endif
-}
-void	UnitTest::Deallocate(void* ptr)
-{
-	--sNumAllocations;
-#ifdef TARGET_PC
-	free(ptr);
-#endif
-}
+public:
+	int		mNumAllocations;
 
-void	UnitTest::BeginFixture(const char* filename, const char* suite_name, const char* fixture_name)
-{
-}
-void	UnitTest::EndFixture()
-{
-}
+	UnitTestAllocator()
+		: mNumAllocations(0)
+	{
+	}
 
+	void*	Allocate(int size)
+	{
+		++mNumAllocations;
+	#ifdef TARGET_PC
+		return malloc(size);
+	#else
+		return 0;
+	#endif
+	}
+	void	Deallocate(void* ptr)
+	{
+		--mNumAllocations;
+	#ifdef TARGET_PC
+		free(ptr);
+	#endif
+	}
+};
+
+class UnitTestObserver : public UnitTest::Observer
+{
+public:
+	void	BeginFixture(const char* filename, const char* suite_name, const char* fixture_name)
+	{
+	}
+	void	EndFixture()
+	{
+	}
+};
 	
 int main(int, char const *[])
 {
+	UnitTestAllocator unittestAllocator;
+	UnitTestObserver unittestObserver;
+	UnitTest::SetAllocator(&unittestAllocator);
+	UnitTest::SetObserver(&unittestObserver);
+
 	UnitTest::TestReporterStdout stdout_reporter;
 	UnitTest::TestReporter& reporter = stdout_reporter;
 
 	int r = UNITTEST_SUITE_RUN(reporter, xUnitTestUnitTest);
-	if (sNumAllocations!=0)
+	if (unittestAllocator.mNumAllocations!=0)
 	{
 		reporter.reportFailure(__FILE__, __LINE__, __FUNCTION__, "memory leaks detected!");
 		r = -1;

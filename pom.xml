@@ -61,12 +61,6 @@
 				<ImportGroup Label="TargetDirs">
 					<Import Project="$(SolutionDir)target\xunittest\xunittest.$(Platform).props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.$(Platform).props')" Label="xunittest_TargetDir" />
 				</ImportGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
-				    <TargetExt>.elf</TargetExt>
-				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
-				    <TargetExt>.elf</TargetExt>
-				</PropertyGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
 					<ClCompile>
 						<PreprocessorDefinitions>TARGET_PC;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

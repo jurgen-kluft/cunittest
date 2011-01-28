@@ -76,10 +76,12 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 
 		UNITTEST_TEST(ExceedingCapacityGrowsBuffer)
 		{
-			StringBuilder stream(StringBuilder::GROW_CHUNK_SIZE);
-			stream << "012345678901234567890123456789";
+			StringBuilder stream(StringBuilder::STATIC_CHUNK_SIZE);
+			for (int i=0; i < ((StringBuilder::STATIC_CHUNK_SIZE-1) / 32); ++i)
+				stream << "012345678901234567890123456789xx";
 			char const* const oldBuffer = stream.getText();
-			stream << "0123456789";
+
+			stream << "012345678901234567890123456789xxyyyyyyyy";
 			CHECK (oldBuffer != stream.getText());
 		}
 

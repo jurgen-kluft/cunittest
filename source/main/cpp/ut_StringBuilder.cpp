@@ -4,16 +4,19 @@
 
 namespace UnitTest
 {
-	StringBuilder::StringBuilder(int const size) :
-		mCapacity(0),
-		mBuffer(0)
+	StringBuilder::StringBuilder(const int capacity)
+		: mDefaultSize(STATIC_CHUNK_SIZE)
+		, mCapacity(0)
+		, mBuffer(0)
 	{
-		growBuffer(size);
+		mDefaultBuffer[0] = '\0';
+		growBuffer(capacity);
 	}
 
 	StringBuilder::~StringBuilder()
 	{
-		delete [] mBuffer;
+		if (mBuffer != mDefaultBuffer)
+			GetAllocator()->Deallocate(mBuffer);
 	}
 
 	char const* StringBuilder::getText() const
@@ -143,15 +146,37 @@ namespace UnitTest
 
 	void StringBuilder::growBuffer(int desiredCapacity)
 	{
-		int const newCapacity = gRoundUpToMultipleOfPow2Number(desiredCapacity, GROW_CHUNK_SIZE);
+		int const newCapacity = gRoundUpToMultipleOfPow2Number(desiredCapacity, 32);
+		if (newCapacity <= mDefaultSize)
+		{
+			char* buffer = mDefaultBuffer;
+			if (mBuffer)
+			{
+				if (mDefaultBuffer != mBuffer)
+					gStringCopy(buffer, mBuffer, mCapacity);
+			}
+			else
+			{
+				gStringCopy(buffer, "", mCapacity);
+			}
 
-		char* buffer = (char*)Allocate(newCapacity);
+			if (mBuffer != mDefaultBuffer && mBuffer!=0)
+				GetAllocator()->Deallocate(mBuffer);
+
+			mBuffer = buffer;
+			mCapacity = newCapacity;
+			return;
+		}
+
+		char* buffer = (char*)GetAllocator()->Allocate(newCapacity);
 		if (mBuffer)
-			gStringCopy(buffer, mBuffer, newCapacity);
+			gStringCopy(buffer, mBuffer, mCapacity);
 		else
-			gStringCopy(buffer, "", newCapacity);
+			gStringCopy(buffer, "", mCapacity);
 
-		Deallocate(mBuffer);
+		if (mBuffer != mDefaultBuffer)
+			GetAllocator()->Deallocate(mBuffer);
+
 		mBuffer = buffer;
 		mCapacity = newCapacity;
 	}

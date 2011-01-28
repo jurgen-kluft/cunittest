@@ -6,7 +6,7 @@ namespace UnitTest
 	class StringBuilder
 	{
 	public:
-								StringBuilder(int const size = 256);
+								StringBuilder(const int capacity=256);
 								~StringBuilder();
 
 		char const*				getText() const;
@@ -26,12 +26,15 @@ namespace UnitTest
 		StringBuilder&			operator << (float const f);
 		StringBuilder&			operator << (double const f);
 
-		enum ESettings			{ GROW_CHUNK_SIZE = 32 };
+		enum ESettings			{ STATIC_CHUNK_SIZE=1024, GROW_CHUNK_SIZE = 32 };
 		int						getCapacity() const;
 
 	private:
 		void					operator= (StringBuilder const&);
 		void					growBuffer(int capacity);
+
+		int						mDefaultSize;
+		char					mDefaultBuffer[STATIC_CHUNK_SIZE];
 
 		int						mCapacity;
 		char*					mBuffer;

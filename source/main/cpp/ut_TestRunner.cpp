@@ -36,9 +36,9 @@ namespace UnitTest
 			curTestFixture = curTestSuite->getFixtures();
 			while (curTestFixture != 0)
 			{
-				BeginFixture(curTestFixture->mFilename, curTestSuite->getName(), curTestFixture->mTestName);
+				GetObserver()->BeginFixture(curTestFixture->mFilename, curTestSuite->getName(), curTestFixture->mTestName);
 				curTestFixture->run(result, maxTestTimeInMs);
-				EndFixture();
+				GetObserver()->EndFixture();
 				curTestFixture = curTestFixture->getNext();
 			}
 
