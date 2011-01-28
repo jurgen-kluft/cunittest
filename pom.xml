@@ -52,7 +52,7 @@
 		<Type>Package</Type>
 	</Dependency>
 
-	<Project Name="xunittest" Group="UnitTest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:SDK;sdk_3ds:SDK;sdk_ps3:SDK_PPU;sdk_360:SDK">
+	<Project Name="xunittest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:sdk_wii;sdk_3ds:sdk_3ds;sdk_ps3:sdk_ps3_ppu;sdk_360:sdk_360">
 		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 				<PropertyGroup Label="Globals">
@@ -177,7 +177,7 @@
 		</ProjectFile>
 	</Project>
 
-	<Project Name="xunittest_test" Group="UnitTestTest" Language="C++" Location="source\test\cpp" Scope="Private" DependsOn="xunittest">
+	<Project Name="xunittest_test" Language="C++" Location="source\test\cpp" Scope="Private" DependsOn="xunittest:xunittest">
 		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 				<PropertyGroup Label="Globals">
