@@ -161,7 +161,9 @@ namespace UnitTest
 			}
 
 			if (mBuffer != mDefaultBuffer && mBuffer!=0)
+			{
 				GetAllocator()->Deallocate(mBuffer);
+			}
 
 			mBuffer = buffer;
 			mCapacity = newCapacity;
@@ -175,7 +177,10 @@ namespace UnitTest
 			gStringCopy(buffer, "", mCapacity);
 
 		if (mBuffer != mDefaultBuffer)
-			GetAllocator()->Deallocate(mBuffer);
+		{
+			if (mBuffer!=0)
+				GetAllocator()->Deallocate(mBuffer);
+		}
 
 		mBuffer = buffer;
 		mCapacity = newCapacity;

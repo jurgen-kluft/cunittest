@@ -87,16 +87,14 @@ namespace UnitTest																				\
     class Test##Name : public UnitTest::Test                               							\
     {                                                                      							\
     public:                                                                							\
-        Test##Name() : UnitTest::Test(#Name, __FILE__, __LINE__) {}									\
+        Test##Name(UnitTest::TestFixture* fixture) : UnitTest::Test(#Name, __FILE__, __LINE__) { fixture->addTest(this); }	\
     protected:                                                             							\
         virtual void runImpl(UnitTest::TestResults& testResults_) const;   							\
-    } gTest##Name##Instance;                                                						\
-    static UnitTest::AddTestToFixture gAddTest##Name(&gFixtureInstance, &gTest##Name##Instance);	\
+    };						                                                						\
+	static Test##Name gTest##Name##Instance(&gFixtureInstance);										\
     void Test##Name::runImpl(UnitTest::TestResults& testResults_) const
 
-#define INTERNAL_UNITTEST_FUNC(Name)			UNITTEST_FUNC_EX(Name)
-
-#define UNITTEST_TEST(Name)						INTERNAL_UNITTEST_FUNC(Name)
+#define UNITTEST_TEST(Name)						UNITTEST_FUNC_EX(Name)
 
 
 #endif	///< __XUNITTEST_TESTMACROS_H__

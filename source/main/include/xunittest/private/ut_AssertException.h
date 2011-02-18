@@ -5,7 +5,7 @@
 
 namespace UnitTest
 {
-	class AssertException : Exception
+	class AssertException : public Exception
 	{
 		enum ESettings
 		{

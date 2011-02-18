@@ -5,7 +5,7 @@
 
 UNITTEST_SUITE_BEGIN(TestCpp)
 {
-	UNITTEST_FIXTURE(fixture)
+	UNITTEST_FIXTURE(main)
 	{
 		static int instanceCount = 0;
 
@@ -60,17 +60,16 @@ UNITTEST_SUITE_BEGIN(TestCpp)
 			CHECK_ARRAY_CLOSE (a1, a2, 3, 0.1f);
 		}
 
-		UNITTEST_TEST(CheckThrowMacroSucceedsOnCorrectException)
-		{
-			struct TestException {};
-			CHECK_THROW(throw TestException(), TestException);
-		}
-
 		UNITTEST_TEST(CheckAssertSucceeds)
 		{
 			CHECK_ASSERT(UnitTest::reportAssert("desc", "file", 0));
 		}
 
+		UNITTEST_TEST(CheckThrowMacroSucceedsOnCorrectException)
+		{
+			struct TestException {};
+			CHECK_THROW(throw TestException(), TestException);
+		}
 
 		UNITTEST_TEST(CheckThrowMacroFailsOnMissingException)
 		{

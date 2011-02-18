@@ -1,5 +1,6 @@
 #include "xunittest\private\ut_TestList.h"
 #include "xunittest\private\ut_Test.h"
+#include "xunittest\private\ut_Utils.h"
 
 
 namespace UnitTest
@@ -13,17 +14,12 @@ namespace UnitTest
 
 		if (inName!=0)
 		{
-			int i=0;
-			while (inName[i]!='\0' && i<NAME_MAX_LENGTH)
-			{
-				mName[i] = inName[i];
-				i++;
-			}
+			gStringCopy(mName, inName, NAME_MAX_LENGTH);
 		}
 		else
 		{
-			for (int i=0; i<NAME_MAX_LENGTH; i++)
-				mName[i] = ("MainSuite")[i];
+			const char* mainSuiteStr = "MainSuite";
+			gStringCopy(mName, mainSuiteStr, NAME_MAX_LENGTH);
 		}
 	}
 	void			TestSuite::addFixture(TestFixture* inFixture)
