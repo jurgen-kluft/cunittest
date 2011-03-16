@@ -19,12 +19,11 @@ namespace UnitTest
 
 	int Timer::getTimeInMs() const
 	{
-		nn::os::Tick* curTime = (nn::os::Tick*)(&mData[0]);
-        NN_ASSERT(curTime!=NULL);
+		nn::os::Tick curTime = nn::os::Tick::GetSystemCurrent();
 
         const nn::os::Tick* startTime = reinterpret_cast< const nn::os::Tick* >(&mData[0]);
 
-		int elapsedTime = (*curTime - *startTime).ToTimeSpan().GetMilliSeconds();
+		int elapsedTime = (curTime - *startTime).ToTimeSpan().GetMilliSeconds();
         return elapsedTime;
 	}
 
