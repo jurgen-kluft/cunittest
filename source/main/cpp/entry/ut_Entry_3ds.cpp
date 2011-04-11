@@ -22,20 +22,20 @@ public:
 		mAppHeap.Initialize(nn::os::GetDeviceMemoryAddress(), 8 * 1024 * 1024, nn::os::ALLOCATE_OPTION_LINEAR);
 	}
 
-	void*	Allocate(int size)
+	virtual void*	Allocate(int size)
 	{
 		++mNumAllocations;
 		void* mem = mAppHeap.Allocate(size+32);
 		return mem;
 	}
-	void	Deallocate(void* ptr)
+	virtual void	Deallocate(void* ptr)
 	{
 		--mNumAllocations;
 		if (ptr!=0)
 			mAppHeap.Free(ptr);
 	}
 
-	void	Release()
+	virtual void	Release()
 	{
 		mAppHeap.Finalize(); 
 	}
@@ -45,10 +45,10 @@ public:
 class UnitTestObserver : public UnitTest::Observer
 {
 public:
-	void	BeginFixture(const char* filename, const char* suite_name, const char* fixture_name)
+	virtual void	BeginFixture(const char* filename, const char* suite_name, const char* fixture_name)
 	{
 	}
-	void	EndFixture()
+	virtual void	EndFixture()
 	{
 	}
 };
@@ -69,15 +69,16 @@ void nnMain( void )
 	UnitTest::TestReporterStdout stdout_reporter;
 	UnitTest::TestReporter& reporter = stdout_reporter;
     	
-	gRunUnitTest(reporter);
+	bool result = gRunUnitTest(reporter);
 
 	if (unittestAllocator.mNumAllocations!=0)
 	{
 		reporter.reportFailure(__FILE__, __LINE__, __FUNCTION__, "memory leaks detected!");
-		r = -1;
+		result = false;
 	}
 
 	unittestAllocator.Release();
+	//return result ? 0 : -1;
 }
 
 #endif
