@@ -9,23 +9,49 @@
 #include "xunittest\private\ut_TestReporterStdout.h"
 #include "xunittest\private\ut_TestReporterTeamCity.h"
 
+__weak void gGetHeapMemorySize(s32& outHeapSize);
+
+extern "C" void nninitStartUp()
+{
+	s32 heapSize = 40*1024*1024;
+	gGetHeapMemorySize(heapSize);
+
+	const size_t assignment   = nn::os::GetAppMemorySize();
+	const size_t currentUsing = nn::os::GetUsingMemorySize();
+
+	const size_t available = assignment - currentUsing;
+	size_t deviceSize;
+	if(heapSize <= 0)
+	{
+		deviceSize = available/2;
+		heapSize = available - deviceSize;
+	}
+	else
+	{
+		deviceSize = available - heapSize;
+	}
+
+	nn::os::SetupHeapForMemoryBlock(heapSize);
+	nn::Result result = nn::os::SetDeviceMemorySize( deviceSize );
+	NN_ERR_THROW_FATAL( result );
+}
 
 class UnitTestAllocator : public UnitTest::Allocator
 {
 public:
-	int		mNumAllocations;
-	nn::fnd::ExpHeap mAppHeap;
+	int					mNumAllocations;
+	nn::fnd::ExpHeap	mAppHeap;
 
 	UnitTestAllocator()
 		: mNumAllocations(0)
 	{
-		mAppHeap.Initialize(nn::os::GetDeviceMemoryAddress(), 8 * 1024 * 1024, nn::os::ALLOCATE_OPTION_LINEAR);
+		mAppHeap.Initialize(nn::os::GetHeapAddress(), nn::os::GetHeapSize(), nn::os::ALLOCATE_OPTION_LINEAR);
 	}
 
 	virtual void*	Allocate(int size)
 	{
 		++mNumAllocations;
-		void* mem = mAppHeap.Allocate(size+32);
+		void* mem = mAppHeap.Allocate(size);
 		return mem;
 	}
 	virtual void	Deallocate(void* ptr)
@@ -38,6 +64,7 @@ public:
 	virtual void	Release()
 	{
 		mAppHeap.Finalize(); 
+		mAppHeap.Invalidate();
 	}
 };
 
