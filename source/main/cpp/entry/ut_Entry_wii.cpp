@@ -1,28 +1,43 @@
 #ifdef TARGET_WII
-
 #include "xunittest\xunittest.h"
 #include "xunittest\private\ut_TestReporterStdout.h"
 #include "xunittest\private\ut_TestReporterTeamCity.h"
 
+#include <revolution\mem.h>
+
 class UnitTestAllocator : public UnitTest::Allocator
 {
 public:
-	int		mNumAllocations;
+	MEMAllocator			mMemAllocator;
+	int						mDefaultAlignment;
+	int						mNumAllocations;
 
 	UnitTestAllocator()
-		: mNumAllocations(0)
+		: mDefaultAlignment(4)
+		, mNumAllocations(0)
 	{
+		// Heap on MEM2
+		void* arenaLo = OSGetMEM2ArenaLo();
+		void* arenaHi = OSGetMEM2ArenaHi();
+
+		MEMHeapHandle heapHandle = MEMCreateExpHeap(arenaLo, (u32)arenaHi - (u32)arenaLo);
+		if ( heapHandle != MEM_HEAP_INVALID_HANDLE )
+		{
+			OSSetMEM2ArenaLo(arenaHi);
+			MEMInitAllocatorForExpHeap(&mMemAllocator, heapHandle, mDefaultAlignment);
+		}
 	}
 
 	void*	Allocate(int size)
 	{
 		++mNumAllocations;
-		return malloc(size);
+		void* mem = MEMAllocFromAllocator(&mMemAllocator, size);
+		return mem;
 	}
 	void	Deallocate(void* ptr)
 	{
 		--mNumAllocations;
-		free(ptr);
+		MEMFreeToAllocator(&mMemAllocator, ptr);
 	}
 
 	void	Release()

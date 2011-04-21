@@ -1,4 +1,6 @@
 #ifdef TARGET_PS3
+#include <new>
+#include <stdlib.h>
 
 #include "xunittest\xunittest.h"
 #include "xunittest\private\ut_TestReporterStdout.h"
