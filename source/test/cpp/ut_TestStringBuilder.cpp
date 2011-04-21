@@ -73,7 +73,7 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 			CHECK_EQUAL ((int)StringBuilder::GROW_CHUNK_SIZE * 2, stream.getCapacity());
 		}
 
-
+#ifdef TARGET_PC
 		UNITTEST_TEST(ExceedingCapacityGrowsBuffer)
 		{
 			StringBuilder stream(StringBuilder::STATIC_CHUNK_SIZE);
@@ -91,6 +91,7 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 			stream << "0123456789012345678901234567890123456789";
 			CHECK_EQUAL (StringBuilder::GROW_CHUNK_SIZE * 2, stream.getCapacity());
 		}
+#endif
 
 		UNITTEST_TEST(WritingStringLongerThanCapacityFitsInNewBuffer)
 		{
