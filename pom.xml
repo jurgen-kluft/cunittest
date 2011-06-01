@@ -87,7 +87,7 @@
 						<AdditionalIncludeDirectories>#$(xunittest_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>#$(xunittest_TargetDir)libs</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -97,7 +97,7 @@
 						<AdditionalIncludeDirectories>#$(xunittest_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>#$(xunittest_TargetDir)libs</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
