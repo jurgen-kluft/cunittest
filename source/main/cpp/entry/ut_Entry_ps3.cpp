@@ -2,6 +2,8 @@
 #include <new>
 #include <stdlib.h>
 
+#include <cell/sysmodule.h>
+
 #include "xunittest\xunittest.h"
 #include "xunittest\private\ut_TestReporterStdout.h"
 #include "xunittest\private\ut_TestReporterTeamCity.h"
@@ -20,6 +22,18 @@ public:
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
 int main(int argc, char** argv)
 {
+	//cellSysmoduleLoadModule(CELL_SYSMODULE_USBD);
+	//cellSysmoduleLoadModule(CELL_SYSMODULE_NET);
+	cellSysmoduleLoadModule(CELL_SYSMODULE_FS);
+	cellSysmoduleLoadModule(CELL_SYSMODULE_IO);
+	//cellSysmoduleLoadModule(CELL_SYSMODULE_AUDIO);
+	cellSysmoduleLoadModule(CELL_SYSMODULE_RESC);
+	cellSysmoduleLoadModule(CELL_SYSMODULE_RTC);
+	cellSysmoduleLoadModule(CELL_SYSMODULE_SYSUTIL_SAVEDATA);
+	cellSysmoduleLoadModule(CELL_SYSMODULE_SYSUTIL_USERINFO);
+	cellSysmoduleLoadModule(CELL_SYSMODULE_SYSUTIL_GAME);
+	//cellSysmoduleLoadModule(CELL_SYSMODULE_SYSUTIL_NP_TROPHY);
+
 	UnitTest::SetAllocator(NULL);
 	UnitTestObserver observer;
 	UnitTest::SetObserver(&observer);
