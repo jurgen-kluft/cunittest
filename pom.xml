@@ -48,7 +48,7 @@
 
 	<Dependency Package="sdk_3ds" Platform="N3DS">
 		<Group>com.virtuos.sdk</Group>
-		<Version>[1.0,)</Version>
+		<Version>[0.14,)</Version>
 		<Type>Package</Type>
 	</Dependency>
 
@@ -85,7 +85,7 @@
 					<ProjectGuid>{c81d02a1-2933-49e5-9dba-261317eab3be}</ProjectGuid>
 				</PropertyGroup>
 				<ImportGroup Label="TargetDirs">
-					<Import Project="$(SolutionDir)target\xunittest\xunittest.$(Platform).props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.$(Platform).props')" Label="xunittest_TargetDir" />
+					<Import Project="$(SolutionDir)target\xunittest\xunittest.$(Platform).props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.$(Platform).props')" Label="xunittest_RootDir" />
 				</ImportGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
 					<ClCompile>
@@ -248,7 +248,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -258,7 +258,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -268,7 +268,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -278,7 +278,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -288,7 +288,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -298,7 +298,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -308,7 +308,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -318,7 +318,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -328,7 +328,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|N3DS'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -338,7 +338,7 @@
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|N3DS'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_TargetDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
