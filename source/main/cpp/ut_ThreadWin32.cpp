@@ -1,11 +1,10 @@
 #include "xunittest\private\ut_ThreadWin32.h"
 
-
+#if defined(TARGET_PC)
 
 namespace UnitTest
 {
-	Thread * gCreateThread( Runnable * inRunnable, 
-		bool inCreateSuspend /*= false*/, 
+	Thread * gCreateThread( Runnable * inRunnable,
 		const char * inName /*= NULL*/ )
 	{
 		if (inRunnable == NULL)
@@ -31,10 +30,7 @@ namespace UnitTest
 		// add new thread to manager
 		ThreadManager::instance()->addThread(threadIns, (ThreadHandle_t)hd);
 		
-		if (inCreateSuspend == false)
-		{
-			threadIns->resume();
-		}
+		ResumeThread(threadIns->mThreadHandle);
 
 		return threadIns;
 	}
@@ -108,30 +104,30 @@ namespace UnitTest
 		}
 	}
 
-	bool ThreadWin32::suspend()
-	{
-		DWORD dw = SuspendThread(mThreadHandle);
-		if (dw == -1)
-		{
-			//@TODO: HANDLE ERROR
-			return false;
-		}
-		return true;
-	}
+// 	bool ThreadWin32::suspend()
+// 	{
+// 		DWORD dw = SuspendThread(mThreadHandle);
+// 		if (dw == -1)
+// 		{
+// 			//@TODO: HANDLE ERROR
+// 			return false;
+// 		}
+// 		return true;
+// 	}
+// 
+// 	bool ThreadWin32::resume()
+// 	{
+// 		DWORD dw = ResumeThread(mThreadHandle);
+// 		if (dw == -1)
+// 		{
+// 			//@TODO: HANDLE ERROR
+// 			return false;
+// 		}
+// 
+// 		return true;
+// 	}
 
-	bool ThreadWin32::resume()
-	{
-		DWORD dw = ResumeThread(mThreadHandle);
-		if (dw == -1)
-		{
-			//@TODO: HANDLE ERROR
-			return false;
-		}
-
-		return true;
-	}
-
-	bool ThreadWin32::waitForExit( int inTimeOut /*= 0*/ )
+	bool ThreadWin32::waitForExit()
 	{
 		// a thread should not wait for itself
 		HANDLE hd = GetCurrentThread();
@@ -140,7 +136,7 @@ namespace UnitTest
 			return false;
 		}
 		
-		DWORD timeout = !inTimeOut ? INFINITE : inTimeOut;
+		DWORD timeout = INFINITE;
 		DWORD dw = WaitForSingleObject(mThreadHandle, timeout);
 		switch (dw)
 		{
@@ -212,3 +208,5 @@ namespace UnitTest
 	}
 
 }
+
+#endif

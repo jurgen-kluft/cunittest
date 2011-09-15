@@ -4,7 +4,7 @@
 #include "xunittest\private\ut_Thread.h"
 
 #include <stdio.h>
-#include <memory.h>
+//#include <memory.h>
 
 
 using namespace UnitTest;
@@ -16,120 +16,93 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
-		struct MyRunnable : public Runnable
-		{
-			void run()
-			{
-				for (int i = 0; i < 100; ++i)
-				{
-					printf("A");
-					gSleep(10);
-				}
-			}
-		};
-
-		// test thread creation
-		UNITTEST_TEST(TestTest)
-		{
-			Thread * threadIns = gCreateThread(new MyRunnable);
-
-			for (int i = 0; i < 100; ++i)
-			{
-				printf("C");
-				gSleep(10);
-			}
-			printf("\n");
-
-			threadIns->waitForExit();
-
-			threadIns->release();
-		}
-
-		char gBuff[32];
-		Mutex * gMutex = NULL;
-
-
-		struct RunabWriteA : public Runnable
-		{
-			void run()
-			{
-				/*ScopeLock lock(gMutex);*/
-				gMutex->lock();
-				for (int i = 0; i < 128; i++)
-				{
-					//gBuff[i % 32] = 'A';
-					printf("A");
-					gSleep(10);
-				}
-				gMutex->unlock();
-
-				printf("\n");
-
-				gMutex->lock();
-				for (int i = 0; i < 128; i++)
-				{
-					//gBuff[i % 32] = 'A';
-					printf("A");
-					gSleep(10);
-				}
-				gMutex->unlock();
-
-				printf("\n");
-			}
-		};
-
-		struct RunabWriteB : public Runnable
-		{
-			void run()
-			{
-				/*ScopeLock lock(gMutex);*/
-				gMutex->lock();
-				for (int i = 0; i < 128; i++)
-				{
-					//gBuff[i % 32] = 'A';
-					printf("B");
-					gSleep(10);
-				}
-				gMutex->unlock();
-
-				printf("\n");
-
-				gMutex->lock();
-				for (int i = 0; i < 128; i++)
-				{
-					//gBuff[i % 32] = 'A';
-					printf("B");
-					gSleep(10);
-				}
-				gMutex->unlock();
-
-				printf("\n");
-			}
-		};
-
-		// test thread A and B can be asyned by using mutex
-		UNITTEST_TEST(TestAsynWrite)
-		{
-			gMutex = gCreateMutex();
-			memset(gBuff, 0, sizeof(char) * 32);
-
-			Thread * threadInsA = gCreateThread(new RunabWriteA);
-			Thread * threadInsB = gCreateThread(new RunabWriteB);
-
-			threadInsA->waitForExit();
-			threadInsB->waitForExit();
-
-			for (int i = 0; i < 32; i++)
-			{
-				printf("M");
-			}
-
-			printf("\n");
-
-			gMutex->release();
-			threadInsA->release();
-			threadInsB->release();
-		}
+ 		struct MyRunnable : public Runnable
+ 		{
+ 			void run()
+ 			{
+ 				for (int i = 0; i < 100; ++i)
+ 				{
+ 					printf("A\n");
+ 					gSleep(10);
+ 				}
+ 			}
+ 		};
+ 
+ 		// test thread creation
+ 		UNITTEST_TEST(TestTest)
+ 		{
+ 			Thread * threadIns = gCreateThread(new MyRunnable);
+ 
+ 			for (int i = 0; i < 100; ++i)
+ 			{
+ 				printf("C\n");
+ 				gSleep(10);
+ 			}
+ 			printf("\n");
+ 
+ 			threadIns->waitForExit();
+ 
+ 			threadIns->release();
+ 		}
+ 
+ 		Mutex * gMutex = NULL;
+ 
+ 		struct RunabWriteA : public Runnable
+ 		{
+ 			void run()
+ 			{
+ 				/*ScopeLock lock(gMutex);*/
+ 				gMutex->lock();
+ 				for (int i = 0; i < 128; i++)
+ 				{
+ 					//gBuff[i % 32] = 'A';
+ 					printf("A\n");
+ 					gSleep(10);
+ 				}
+ 				printf("\n");
+ 				gMutex->unlock();
+ 			}
+ 		};
+ 
+ 		struct RunabWriteB : public Runnable
+ 		{
+ 			void run()
+ 			{
+ 				/*ScopeLock lock(gMutex);*/
+ 				gMutex->lock();
+ 				for (int i = 0; i < 128; i++)
+ 				{
+ 					//gBuff[i % 32] = 'A';
+ 					printf("B\n");
+ 					gSleep(10);
+ 				}
+ 				printf("\n");
+ 				gMutex->unlock();
+ 			}
+ 		};
+ 
+ 		// test thread A and B can be asyned by using mutex
+ 		UNITTEST_TEST(TestAsynWrite)
+ 		{
+ 			gMutex = gCreateMutex();
+ 
+ 			Thread * threadInsA = gCreateThread(new RunabWriteA);
+ 			Thread * threadInsB = gCreateThread(new RunabWriteB);
+ 
+ 			threadInsA->waitForExit();
+ 			threadInsB->waitForExit();
+ 
+ 			for (int i = 0; i < 32; i++)
+ 			{
+ 				printf("M\n");
+ 			}
+ 
+ 			printf("\n");
+ 
+ 			gMutex->release();
+ 			threadInsA->release();
+ 			threadInsB->release();
+ 		}
 
 		Timer gTimer;
 
@@ -185,7 +158,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 
 			//hangout for some mini-seconds
 			gSleep(4321);
-			
+
 			gEvent->signal();
 
 			threadA->waitForExit();
@@ -201,7 +174,6 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 			threadB->release();
 			threadC->release();
 		}
-
 	}
 
 }
