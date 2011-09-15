@@ -59,9 +59,9 @@ namespace UnitTest
 	class ThreadWin32 : public ThreadBase
 	{
 	public:
-		virtual bool suspend();
-		virtual bool resume();
-		virtual bool waitForExit(int inTimeOut = 0);
+// 		virtual bool suspend();
+// 		virtual bool resume();
+		virtual bool waitForExit();
 		virtual bool isTerminated();
 		virtual bool terminate() { return false; }
 		virtual bool waitForEvent(Event * inEvent, int inTimeOut = 0);

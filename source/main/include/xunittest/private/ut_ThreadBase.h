@@ -1,8 +1,13 @@
 #ifndef __XUNITTEST_THREAD_BASE_H__
 #define __XUNITTEST_THREAD_BASE_H__
 
+#if defined(TARGET_PS3)
+#include <sys/types.h>
+#endif
+
+#include <stdio.h>
+#include <list>
 #include "ut_thread.h"
-#include "ut_Common.h"
 
 namespace UnitTest
 {
@@ -42,11 +47,11 @@ namespace UnitTest
 
 		ThreadBase * getThreadByHandle(ThreadHandle_t inHandle);
 
-		bool hasThread(ThreadBase * InThread);
+		bool hasThread(ThreadBase * inThread);
 
 	protected:
+		std::list<ThreadInfo>		ThreadList;
 
-		Array<ThreadInfo>		ThreadList;
 	};
 
 }
