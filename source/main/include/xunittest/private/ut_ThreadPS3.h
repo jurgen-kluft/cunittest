@@ -9,7 +9,6 @@
 #include <sys/synchronization.h>
 #include "ut_ThreadBase.h"
 
-#define MAX_THREAD_NUMBER 10
 
 namespace UnitTest 
 {
@@ -25,6 +24,8 @@ namespace UnitTest
 				printf( "MutexPS3> sys_mutex_create failed.\n" );
 			}
 		}
+
+		virtual ~MutexPS3() { }
 
 		virtual void lock()
 		{
@@ -53,6 +54,8 @@ namespace UnitTest
 		virtual void reset();
 		virtual void release();
 
+		virtual ~EventPS3() { }
+
 		friend void gWaitForEvent(Event * inEvent, int inTimeOut);
 		friend Event * gCreateEvent();
 
@@ -78,6 +81,9 @@ namespace UnitTest
 		virtual void release();
 		virtual bool isTerminated();
 		virtual bool terminate() { return false; }
+
+		virtual ~ThreadPS3() { }
+
 		void run();
 
 		friend Thread * gCreateThread(Runnable * inRunnable, const char * inName /* = 0 */);

@@ -45,135 +45,136 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  			threadIns->release();
  		}
  
- 		Mutex * gMutex = NULL;
+  		Mutex * gMutex = NULL;
+  
+  		struct RunabWriteA : public Runnable
+  		{
+  			void run()
+  			{
+  				ScopeLock lock(gMutex);
+ // 				gMutex->lock();
+  				for (int i = 0; i < 128; i++)
+  				{
+  					//gBuff[i % 32] = 'A';
+  					printf("A\n");
+  					gSleep(10);
+  				}
+  				printf("\n");
+ // 				gMutex->unlock();
+  			}
+  		};
+  
+  		struct RunabWriteB : public Runnable
+  		{
+  			void run()
+  			{
+  				ScopeLock lock(gMutex);
+ // 				gMutex->lock();
+  				for (int i = 0; i < 128; i++)
+  				{
+  					//gBuff[i % 32] = 'A';
+  					printf("B\n");
+  					gSleep(10);
+  				}
+  				printf("\n");
+ // 				gMutex->unlock();
+  			}
+  		};
+  
+  		// test thread A and B can be asyned by using mutex
+  		UNITTEST_TEST(TestAsynWrite)
+  		{
+  			gMutex = gCreateMutex();
+  
+  			Thread * threadInsA = gCreateThread(new RunabWriteA);
+  			Thread * threadInsB = gCreateThread(new RunabWriteB);
+  
+  			threadInsA->waitForExit();
+  			threadInsB->waitForExit();
+  
+  			for (int i = 0; i < 32; i++)
+  			{
+  				printf("M\n");
+ 				gSleep(10);
+  			}
+  
+  			printf("\n");
+  
+  			gMutex->release();
+  			threadInsA->release();
+  			threadInsB->release();
+  		}
  
- 		struct RunabWriteA : public Runnable
+ 		Timer gTimer;
+ 
+ 		int gTimeThreadA = 0;
+ 		int gTimeThreadB = 0;
+ 		int gTimeThreadC = 0;
+ 
+ 		Event * gEvent = NULL;
+ 
+ 		struct RunabThreadA : public Runnable
  		{
  			void run()
  			{
- 				/*ScopeLock lock(gMutex);*/
- 				gMutex->lock();
- 				for (int i = 0; i < 128; i++)
- 				{
- 					//gBuff[i % 32] = 'A';
- 					printf("A\n");
- 					gSleep(10);
- 				}
- 				printf("\n");
- 				gMutex->unlock();
+ 				gWaitForEvent(gEvent);
+ 				gTimeThreadA = gTimer.getTimeInMs();
+ 				printf("A over\n");
  			}
  		};
  
- 		struct RunabWriteB : public Runnable
+ 		struct RunabThreadB : public Runnable
  		{
  			void run()
  			{
- 				/*ScopeLock lock(gMutex);*/
- 				gMutex->lock();
- 				for (int i = 0; i < 128; i++)
- 				{
- 					//gBuff[i % 32] = 'A';
- 					printf("B\n");
- 					gSleep(10);
- 				}
- 				printf("\n");
- 				gMutex->unlock();
+ 				gWaitForEvent(gEvent);
+ 				gTimeThreadB = gTimer.getTimeInMs();
+ 				printf("B over\n");
  			}
  		};
  
- 		// test thread A and B can be asyned by using mutex
- 		UNITTEST_TEST(TestAsynWrite)
+ 		struct RunabThreadC : public Runnable
  		{
- 			gMutex = gCreateMutex();
- 
- 			Thread * threadInsA = gCreateThread(new RunabWriteA);
- 			Thread * threadInsB = gCreateThread(new RunabWriteB);
- 
- 			threadInsA->waitForExit();
- 			threadInsB->waitForExit();
- 
- 			for (int i = 0; i < 32; i++)
+ 			void run()
  			{
- 				printf("M\n");
+ 				gWaitForEvent(gEvent);
+ 				gTimeThreadC = gTimer.getTimeInMs();
+ 				printf("C over\n");
  			}
+ 		};
  
- 			printf("\n");
+ 		// test thread A, B and C will launch at the same time
+ 		UNITTEST_TEST(TestAwakenThread)
+ 		{
+ 			gTimer.start();
  
- 			gMutex->release();
- 			threadInsA->release();
- 			threadInsB->release();
+ 			gEvent = gCreateEvent();
+ 
+ 			Thread * threadA = gCreateThread(new RunabThreadA);
+ 			printf("--A--\n");
+ 			Thread * threadB = gCreateThread(new RunabThreadB);
+ 			printf("--B--\n");
+ 			Thread * threadC = gCreateThread(new RunabThreadC);
+ 			printf("--C--\n");
+ 
+ 			//hangout for some mini-seconds
+ 			gSleep(4321);
+ 
+ 			gEvent->signal();
+ 
+ 			threadA->waitForExit();
+ 			threadB->waitForExit();
+ 			threadC->waitForExit();
+ 
+ 			printf("A timer: %d\n", gTimeThreadA);
+ 			printf("B timer: %d\n", gTimeThreadB);
+ 			printf("C timer: %d\n", gTimeThreadC);
+ 
+ 			gEvent->release();
+ 			threadA->release();
+ 			threadB->release();
+ 			threadC->release();
  		}
-
-		Timer gTimer;
-
-		int gTimeThreadA = 0;
-		int gTimeThreadB = 0;
-		int gTimeThreadC = 0;
-
-		Event * gEvent = NULL;
-
-		struct RunabThreadA : public Runnable
-		{
-			void run()
-			{
-				gWaitForEvent(gEvent);
-				gTimeThreadA = gTimer.getTimeInMs();
-				printf("A over\n");
-			}
-		};
-
-		struct RunabThreadB : public Runnable
-		{
-			void run()
-			{
-				gWaitForEvent(gEvent);
-				gTimeThreadB = gTimer.getTimeInMs();
-				printf("B over\n");
-			}
-		};
-
-		struct RunabThreadC : public Runnable
-		{
-			void run()
-			{
-				gWaitForEvent(gEvent);
-				gTimeThreadC = gTimer.getTimeInMs();
-				printf("C over\n");
-			}
-		};
-
-		// test thread A, B and C will launch at the same time
-		UNITTEST_TEST(TestAwakenThread)
-		{
-			gTimer.start();
-
-			gEvent = gCreateEvent();
-
-			Thread * threadA = gCreateThread(new RunabThreadA);
-			printf("--A--\n");
-			Thread * threadB = gCreateThread(new RunabThreadB);
-			printf("--B--\n");
-			Thread * threadC = gCreateThread(new RunabThreadC);
-			printf("--C--\n");
-
-			//hangout for some mini-seconds
-			gSleep(4321);
-
-			gEvent->signal();
-
-			threadA->waitForExit();
-			threadB->waitForExit();
-			threadC->waitForExit();
-
-			printf("A timer: %d\n", gTimeThreadA);
-			printf("B timer: %d\n", gTimeThreadB);
-			printf("C timer: %d\n", gTimeThreadC);
-
-			gEvent->release();
-			threadA->release();
-			threadB->release();
-			threadC->release();
-		}
 	}
 
 }

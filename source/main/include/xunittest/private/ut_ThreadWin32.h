@@ -1,9 +1,14 @@
 #ifndef __XUNITTEST_THREAD_WIN32_H__
 #define __XUNITTEST_THREAD_WIN32_H__
 
-#if defined(TARGET_PC)
+#if defined(TARGET_PC) || defined(TARGET_360)
 
+#if defined(TARGET_PC)
 #include <Windows.h>
+#elif defined(TARGET_360)
+#include <xtl.h>
+#endif
+
 #include "ut_ThreadBase.h"
 
 namespace UnitTest
@@ -17,7 +22,7 @@ namespace UnitTest
 			SetCriticalSectionSpinCount(&mCs, 5000);
 		}
 
-		~MutexWin32()
+		virtual ~MutexWin32()
 		{
 			DeleteCriticalSection(&mCs);
 		}
@@ -50,6 +55,8 @@ namespace UnitTest
 		virtual void release();
 
 		HANDLE getHandle()  { return mHandle; }
+
+		virtual ~EventWin32() { }
 	private:
 		HANDLE		mHandle;
 
@@ -66,7 +73,7 @@ namespace UnitTest
 		virtual bool terminate() { return false; }
 		virtual bool waitForEvent(Event * inEvent, int inTimeOut = 0);
 		virtual void release();
-
+		virtual ~ThreadWin32() { }
 
 		void run();
 
