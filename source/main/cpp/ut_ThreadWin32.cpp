@@ -1,6 +1,6 @@
 #include "xunittest\private\ut_ThreadWin32.h"
 
-#if defined(TARGET_PC)
+#if defined(TARGET_PC) || defined(TARGET_360)
 
 namespace UnitTest
 {

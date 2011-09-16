@@ -22,6 +22,7 @@ namespace UnitTest
 	{
 	public:
 		Runnable *				mRunnable;
+		virtual ~ThreadBase() { }
 	};
 
 	

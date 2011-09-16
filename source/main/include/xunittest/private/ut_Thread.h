@@ -4,6 +4,9 @@
 #define __XUNITTEST_THREAD_H__
 // xunittest threading interface file
 
+#define MAX_THREAD_NUMBER 10
+// MAX_THREAD_NUMBER only matters on PS3,
+// no need to pay attention to it on PC and X360
 
 namespace UnitTest
 {
@@ -13,60 +16,68 @@ namespace UnitTest
 		virtual bool init() { return true; }
 		virtual void run() = 0;
 		virtual void exit() {}
+
+		virtual ~Runnable() { }
 	};
 
- 	class Event
- 	{
- 	public:
- 		virtual bool signal() = 0;
- 		virtual void reset() = 0;
- 		virtual void release() = 0;
- 	};
+  	class Event
+  	{
+  	public:
+  		virtual bool signal() = 0;
+  		virtual void reset() = 0;
+  		virtual void release() = 0;
 
+		virtual ~Event() { }
+  	};
+ 
 	class Thread
 	{
 	public:
-// 		virtual bool suspend() = 0;
-// 		virtual bool resume() = 0;
- 		virtual bool waitForExit() = 0;
- 		virtual bool isTerminated() = 0;
- 		virtual bool terminate() = 0; 
- 		virtual void release() = 0;
+//  		virtual bool suspend() = 0;
+//  		virtual bool resume() = 0;
+  		virtual bool waitForExit() = 0;
+  		virtual bool isTerminated() = 0;
+  		virtual bool terminate() = 0; 
+  		virtual void release() = 0;
+
+		virtual ~Thread() { }
 	};
 
- 	class Mutex
- 	{
- 	public:
- 		virtual void lock() = 0;
- 		virtual void unlock() = 0;
- 		virtual void release() = 0;
- 	};
+	class Mutex
+	{
+	public:
+		virtual void lock() = 0;
+		virtual void unlock() = 0;
+		virtual void release() = 0;
 
-//  	class ScopeLock
-//  	{
-//  	public:
-//  		ScopeLock(Mutex * inMutex):mMutex(inMutex) 
-//  		{
-//  			mMutex->lock();
-//  		}
-//  
-//  		~ScopeLock()
-//  		{
-//  			mMutex->unlock();
-//  		}
-//  
-//  	private:
-//  
-//  		Mutex *			mMutex;
-//  
-//  		ScopeLock() {}
-//  	};
+		virtual ~Mutex() { }
+	};
+
+	class ScopeLock
+	{
+	public:
+		ScopeLock(Mutex * inMutex):mMutex(inMutex) 
+		{
+			mMutex->lock();
+		}
+
+		~ScopeLock()
+		{
+			mMutex->unlock();
+		}
+
+	private:
+
+		Mutex *			mMutex;
+
+		ScopeLock() {}
+	};
 
 	Thread * gCreateThread(Runnable * inRunnable,
 		const char * inName = 0);
 
- 	Mutex * gCreateMutex();
- 	Event * gCreateEvent();
+  	Mutex * gCreateMutex();
+  	Event * gCreateEvent();
  
  	void gSleep(int inMiniSecond);
  	void gWaitForEvent(Event * inEvent, int inTimeOut = 0);

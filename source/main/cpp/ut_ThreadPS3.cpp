@@ -1,8 +1,9 @@
 #include "xunittest\private\ut_ThreadPS3.h"
 
-#include <stdio.h>
 
 #if defined(TARGET_PS3)
+
+#include <stdio.h>
 
 namespace UnitTest
 {
@@ -26,7 +27,7 @@ namespace UnitTest
 			(uint64_t)(uintptr_t)threadIns,
 			1002, 0x10000,
 			SYS_PPU_THREAD_CREATE_JOINABLE,
-			NULL
+			inName
 		);
 
 		if (ret < 0)
