@@ -6,12 +6,32 @@
 #include <stdio.h>
 //#include <memory.h>
 
+/*
+The result should be like:
+CACACACAACACACCACACAACCACACACACACAACACCACAACACCACAACACCACACAACCACACACACAACACCACA
+CACACACACAACACACCAACACACACACACACACACACACACACACACACACACACACACACACACACACACACACACAC
+ACACACACACACACACACACACACACACACACACACACAC
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+--A--
+--B--
+--C--
+A over
+B over
+C over
+A timer: 4321
+B timer: 4321
+C timer: 4321
+*/
 
 using namespace UnitTest;
 
 UNITTEST_SUITE_BEGIN(TestThreadSuite)
 {
-	UNITTEST_FIXTURE(TestThreadFixture)
+	UNITTEST_FIXTURE(main)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
@@ -22,7 +42,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  			{
  				for (int i = 0; i < 100; ++i)
  				{
- 					printf("A\n");
+ 					printf("A");
  					gSleep(10);
  				}
  			}
@@ -35,7 +55,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  
  			for (int i = 0; i < 100; ++i)
  			{
- 				printf("C\n");
+ 				printf("C");
  				gSleep(10);
  			}
  			printf("\n");
@@ -56,7 +76,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   				for (int i = 0; i < 128; i++)
   				{
   					//gBuff[i % 32] = 'A';
-  					printf("A\n");
+  					printf("A");
   					gSleep(10);
   				}
   				printf("\n");
@@ -73,7 +93,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   				for (int i = 0; i < 128; i++)
   				{
   					//gBuff[i % 32] = 'A';
-  					printf("B\n");
+  					printf("B");
   					gSleep(10);
   				}
   				printf("\n");
@@ -94,7 +114,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   
   			for (int i = 0; i < 32; i++)
   			{
-  				printf("M\n");
+  				printf("M");
  				gSleep(10);
   			}
   

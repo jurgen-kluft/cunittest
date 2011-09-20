@@ -5,22 +5,26 @@ namespace UnitTest
 {
 	bool ThreadManager::addThread( ThreadBase * inThread, ThreadHandle_t inHandle )
 	{
-		ThreadInfo tInfo;
-		tInfo.ThreadInstance = inThread;
-		tInfo.ThreadHandle = inHandle;
-
-		ThreadList.push_back(tInfo);
-		return true;
+		for (int i = 0; i < MAX_THREAD_NUMBER; i++)
+		{
+			if (!threadList[i].isUsed)
+			{
+				threadList[i].ThreadInstance = inThread;
+				threadList[i].ThreadHandle = inHandle;
+				threadList[i].isUsed = true;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	bool ThreadManager::removeThread( ThreadBase * inThread )
 	{
-		std::list<ThreadInfo>::iterator it;
-		for (it = ThreadList.begin(); it != ThreadList.end(); it++) 
+		for (int i = 0; i < MAX_THREAD_NUMBER; i++)
 		{
-			if ((*it).ThreadInstance == inThread) 
+			if (threadList[i].isUsed && inThread == threadList[i].ThreadInstance)
 			{
-				ThreadList.erase(it++);
+				threadList[i].isUsed = false;
 				return true;
 			}
 		}
@@ -29,12 +33,11 @@ namespace UnitTest
 
 	ThreadBase * ThreadManager::getThreadByHandle(ThreadHandle_t inHandle)
 	{
-		std::list<ThreadInfo>::iterator it;
-		for (it = ThreadList.begin(); it != ThreadList.end(); it++) 
+		for (int i = 0; i < MAX_THREAD_NUMBER; i++)
 		{
-			if ((*it).ThreadHandle == inHandle) 
+			if (threadList[i].isUsed && threadList[i].ThreadHandle == inHandle)
 			{
-				return (*it).ThreadInstance;
+				return threadList[i].ThreadInstance;
 			}
 		}
 		return NULL;
@@ -42,10 +45,9 @@ namespace UnitTest
 
 	bool ThreadManager::hasThread(ThreadBase * inThread)
 	{
-		std::list<ThreadInfo>::iterator it;
-		for (it = ThreadList.begin(); it != ThreadList.end(); it++) 
+		for (int i = 0; i < MAX_THREAD_NUMBER; i++)
 		{
-			if ((*it).ThreadInstance == inThread) 
+			if (threadList[i].isUsed && threadList[i].ThreadInstance == inThread)
 			{
 				return true;
 			}

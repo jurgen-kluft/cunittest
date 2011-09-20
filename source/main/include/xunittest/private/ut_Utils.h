@@ -2,6 +2,7 @@
 #define __XUNITTEST_UTILS_H__
 
 #include "xunittest\private\ut_Config.h"
+#include <stdio.h>
 
 namespace UnitTest
 {
@@ -141,7 +142,6 @@ namespace UnitTest
 	{
 		return (n + (pow2Number - 1)) & ~(pow2Number - 1);
 	}
-
 }
 
 #endif	///< __XUNITTEST_UTILS_H__

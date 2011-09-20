@@ -6,7 +6,7 @@
 #endif
 
 #include <stdio.h>
-#include <list>
+//#include <list>
 #include "ut_thread.h"
 
 namespace UnitTest
@@ -25,8 +25,6 @@ namespace UnitTest
 		virtual ~ThreadBase() { }
 	};
 
-	
-
 	class ThreadManager
 	{
 	public:
@@ -34,13 +32,22 @@ namespace UnitTest
 		{
 			ThreadBase *		ThreadInstance;
 			ThreadHandle_t		ThreadHandle;
+			bool				isUsed;
+			ThreadInfo()
+			{
+				ThreadInstance = NULL;
+				ThreadHandle = -1;
+				isUsed = false;
+			}
 		};
+
 
 		static ThreadManager * instance() 
 		{
 			static ThreadManager ins;
 			return &ins;
 		}
+
 
 		bool addThread(ThreadBase * inThread, ThreadHandle_t inHandle);
 
@@ -51,8 +58,7 @@ namespace UnitTest
 		bool hasThread(ThreadBase * inThread);
 
 	protected:
-		std::list<ThreadInfo>		ThreadList;
-
+		ThreadInfo threadList[MAX_THREAD_NUMBER];
 	};
 
 }

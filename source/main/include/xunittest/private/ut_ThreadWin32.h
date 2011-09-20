@@ -16,31 +16,12 @@ namespace UnitTest
 	class MutexWin32 : public Mutex
 	{
 	public:
-		MutexWin32()
-		{ 
-			InitializeCriticalSection(&mCs);
-			SetCriticalSectionSpinCount(&mCs, 5000);
-		}
+		MutexWin32();
+		virtual ~MutexWin32();
+		virtual void lock();
+		virtual void unlock();
+		virtual void release();
 
-		virtual ~MutexWin32()
-		{
-			DeleteCriticalSection(&mCs);
-		}
-
-		virtual void lock()
-		{
-			EnterCriticalSection(&mCs);
-		}
-
-		virtual void unlock()
-		{
-			LeaveCriticalSection(&mCs);
-		}
-
-		virtual void release()
-		{
-			delete this;
-		}
 	private:
 		CRITICAL_SECTION		mCs;
 	};
@@ -52,7 +33,7 @@ namespace UnitTest
 
 		virtual bool signal();
 		virtual void reset();
-		virtual void release();
+		virtual bool release();
 
 		HANDLE getHandle()  { return mHandle; }
 

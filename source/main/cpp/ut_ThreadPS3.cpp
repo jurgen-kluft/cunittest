@@ -7,6 +7,9 @@
 
 namespace UnitTest
 {
+	//---------------------------------------------------------
+	// @@Global
+	//---------------------------------------------------------
 	Thread * gCreateThread( Runnable * inRunnable,
 		const char * inName /*= NULL*/ )
 	{
@@ -52,29 +55,12 @@ namespace UnitTest
 		return new EventPS3();
 	}
 
-	void gWaitForEvent(Event * inEvent, int inTimeOut /* = 0 */ )
+	bool gWaitForEvent(Event * inEvent, int inTimeOut /* = 0 */ )
 	{
 		usecond_t timeout = inTimeOut * 1000;
 		EventPS3 * evt = static_cast<EventPS3 *>(inEvent);
 		int ret = sys_semaphore_wait(evt->m_sem, timeout);
-// 		switch(ret)
-// 		{
-// 		case CELL_OK:
-// 			printf("The condition variable is successfully created\n");
-// 			break;
-// 		case ETIMEDOUT:
-// 			printf("Expiration of the specified period\n");
-// 			break;
-// 		case ESRCH:
-// 			printf("Invalid ID (The ID has not been issued by the kernel)\n");
-// 			break;
-// 		case EPERM:
-// 			printf("The caller thread is not the owner of the mutex\n");
-// 			break;
-// 		default:
-// 			printf("Fuck You\n");
-// 			break;
-// 		}
+		return ret == CELL_OK;
 	}
 
 	void gSleep(int inMiniSecond)
@@ -82,6 +68,10 @@ namespace UnitTest
 		sys_timer_usleep(inMiniSecond * 1e3);
 	}
 
+
+	//---------------------------------------------------------
+	// @@Thread
+	//---------------------------------------------------------
 	bool ThreadPS3::isTerminated()
 	{
 		return m_thread_running;
@@ -134,21 +124,64 @@ namespace UnitTest
 		return;
 	}
 
-	void EventPS3::release()
+
+
+	//---------------------------------------------------------
+	// @@Mutex
+	//---------------------------------------------------------
+	MutexPS3::MutexPS3()
 	{
-		sys_semaphore_destroy(this->m_sem);
+		sys_mutex_attribute_t mutex_attr;
+		sys_mutex_attribute_initialize(mutex_attr);
+		if( CELL_OK != sys_mutex_create(&m_mutex, &mutex_attr))
+		{
+			printf( "MutexPS3> sys_mutex_create failed.\n" );
+		}
+	}
+
+	void MutexPS3::lock()
+	{
+		sys_mutex_lock(m_mutex, 0);
+	}
+
+	void MutexPS3::unlock()
+	{
+		sys_mutex_unlock(m_mutex);
+	}
+
+	void MutexPS3::release()
+	{
+		sys_mutex_destroy(m_mutex);
 		delete this;
+	}
+
+
+	//-------------------------------------------------------------
+	// @@EventWin32
+	//-------------------------------------------------------------
+	EventPS3::EventPS3()
+	{
+		sys_semaphore_attribute_t attr;
+		sys_semaphore_attribute_initialize(attr);
+		sys_semaphore_create(&m_sem, &attr, 0, MAX_THREAD_NUMBER);
+	}
+
+	bool EventPS3::release()
+	{
+		int ret = sys_semaphore_destroy(this->m_sem);
+		delete this;
+		return ret == CELL_OK;
 	}
 
 	bool EventPS3::signal()
 	{
-		sys_semaphore_post(this->m_sem, MAX_THREAD_NUMBER);
-		return true;
+		int ret = sys_semaphore_post(this->m_sem, MAX_THREAD_NUMBER);
+		return ret == CELL_OK;
 	}
 
 	void EventPS3::reset()
 	{
-		// don't know how to do it...
+
 	}
 }
 
