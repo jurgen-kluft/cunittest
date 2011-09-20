@@ -58,9 +58,11 @@ namespace UnitTest
 
 		void run();
 
+		friend Thread * gCreateThread(Runnable * inRunnable, const char * inName /* = 0 */);
 
 		static	INT	__stdcall	_dispatch(void * inParam);
 
+	private:
 		HANDLE			mThreadHandle;
 		DWORD			mThreadId;
 	};

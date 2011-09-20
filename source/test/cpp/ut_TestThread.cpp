@@ -2,6 +2,7 @@
 #include "xunittest\private\ut_TestReporter.h"
 #include "xunittest\private\ut_TimeHelpers.h"
 #include "xunittest\private\ut_Thread.h"
+#include "xunittest\private\ut_ThreadBase.h"
 
 #include <stdio.h>
 //#include <memory.h>
@@ -195,6 +196,60 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  			threadB->release();
  			threadC->release();
  		}
+
+		struct RunabThreadD : public Runnable
+		{
+			void run()
+			{
+				gSleep(4321);
+				printf("D over\n");
+			}
+		};
+
+		struct RunabThreadE : public Runnable
+		{
+			void run()
+			{
+				gSleep(4321);
+				printf("E over\n");
+			}
+		};
+
+		struct RunabThreadF : public Runnable
+		{
+			void run()
+			{
+				gSleep(4321);
+				printf("F over\n");
+			}
+		};
+
+		// test thread A, B and C will launch at the same time
+		UNITTEST_TEST(TestThreadManager)
+		{
+			gTimer.start();
+
+			gEvent = gCreateEvent();
+
+			Thread * threadD = gCreateThread(new RunabThreadD);
+			printf("--D--\n");
+			Thread * threadE = gCreateThread(new RunabThreadE);
+			printf("--E--\n");
+			Thread * threadF = gCreateThread(new RunabThreadF);
+			printf("--F--\n");
+
+			CHECK_TRUE(ThreadManager::instance()->hasThread((ThreadBase*)threadD));
+			CHECK_TRUE(ThreadManager::instance()->hasThread((ThreadBase*)threadE));
+			CHECK_TRUE(ThreadManager::instance()->hasThread((ThreadBase*)threadF));
+
+			threadD->waitForExit();
+			threadE->waitForExit();
+			threadF->waitForExit();
+
+			threadD->release();
+			threadE->release();
+			threadF->release();
+		}
 	}
 
 }
