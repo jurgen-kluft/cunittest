@@ -5,8 +5,6 @@
 // xunittest threading interface file
 
 #define MAX_THREAD_NUMBER 10
-// MAX_THREAD_NUMBER only matters on PS3,
-// no need to pay attention to it on PC and X360
 
 namespace UnitTest
 {
@@ -25,7 +23,7 @@ namespace UnitTest
   	public:
   		virtual bool signal() = 0;
   		virtual void reset() = 0;
-  		virtual void release() = 0;
+  		virtual bool release() = 0;
 
 		virtual ~Event() { }
   	};
@@ -80,7 +78,7 @@ namespace UnitTest
   	Event * gCreateEvent();
  
  	void gSleep(int inMiniSecond);
- 	void gWaitForEvent(Event * inEvent, int inTimeOut = 0);
+ 	bool gWaitForEvent(Event * inEvent, int inTimeOut = 0);
 	
 }
 

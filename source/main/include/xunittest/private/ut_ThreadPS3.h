@@ -15,33 +15,11 @@ namespace UnitTest
 	class MutexPS3 : public Mutex
 	{
 	public:
-		MutexPS3()
-		{
-			sys_mutex_attribute_t mutex_attr;
-			sys_mutex_attribute_initialize(mutex_attr);
-			if( CELL_OK != sys_mutex_create(&m_mutex, &mutex_attr))
-			{
-				printf( "MutexPS3> sys_mutex_create failed.\n" );
-			}
-		}
-
+		MutexPS3();
 		virtual ~MutexPS3() { }
-
-		virtual void lock()
-		{
-			sys_mutex_lock(m_mutex, 0);
-		}
-
-		virtual void unlock()
-		{
-			sys_mutex_unlock(m_mutex);
-		}
-
-		virtual void release()
-		{
-			sys_mutex_destroy(m_mutex);
-			delete this;
-		}
+		virtual void lock();
+		virtual void unlock();
+		virtual void release();
 
 	private:
 		sys_mutex_t m_mutex;
@@ -52,20 +30,15 @@ namespace UnitTest
 	public:
 		virtual bool signal();
 		virtual void reset();
-		virtual void release();
+		virtual bool release();
 
 		virtual ~EventPS3() { }
 
-		friend void gWaitForEvent(Event * inEvent, int inTimeOut);
+		friend bool gWaitForEvent(Event * inEvent, int inTimeOut);
 		friend Event * gCreateEvent();
 
 	private:
-		EventPS3()
-		{
-			sys_semaphore_attribute_t attr;
-			sys_semaphore_attribute_initialize(attr);
-			sys_semaphore_create(&m_sem, &attr, 0, MAX_THREAD_NUMBER);
-		}
+		EventPS3();
 
 		sys_semaphore_t m_sem;
 	};
@@ -73,10 +46,6 @@ namespace UnitTest
 	class ThreadPS3 : public ThreadBase
 	{
 	public:
-/*		virtual bool waitForExit(int inTimeOut = 0);*/
-
-		// No need to suspend or resume the thread
-		// there is no need here...
 		virtual bool waitForExit();
 		virtual void release();
 		virtual bool isTerminated();

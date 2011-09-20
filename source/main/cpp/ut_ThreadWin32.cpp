@@ -4,6 +4,9 @@
 
 namespace UnitTest
 {
+	//---------------------------------------------------------
+	// @@Global
+	//---------------------------------------------------------
 	Thread * gCreateThread( Runnable * inRunnable,
 		const char * inName /*= NULL*/ )
 	{
@@ -57,7 +60,7 @@ namespace UnitTest
 		Sleep(inMiniSecond);
 	}
 
-	void gWaitForEvent(Event * inEvent, int inTimeOut/* = 0*/)
+	bool gWaitForEvent(Event * inEvent, int inTimeOut/* = 0*/)
 	{
 		DWORD timeout = !inTimeOut ? INFINITE : inTimeOut;
 		EventWin32 * evt = static_cast<EventWin32 *>(inEvent);
@@ -65,10 +68,11 @@ namespace UnitTest
 		switch (dw)
 		{
 		case WAIT_OBJECT_0:
-			return ;
+			return true;
 		default:
 			break;
 		}
+		return false;
 	}
 
 	//---------------------------------------------------------
@@ -185,16 +189,44 @@ namespace UnitTest
 	}
 
 
+	//---------------------------------------------------------
+	// @@Mutex
+	//---------------------------------------------------------
+	MutexWin32::MutexWin32()
+	{ 
+		InitializeCriticalSection(&mCs);
+		SetCriticalSectionSpinCount(&mCs, 5000);
+	}
 
+	MutexWin32::~MutexWin32()
+	{
+		DeleteCriticalSection(&mCs);
+	}
+
+	void MutexWin32::lock()
+	{
+		EnterCriticalSection(&mCs);
+	}
+
+	void MutexWin32::unlock()
+	{
+		LeaveCriticalSection(&mCs);
+	}
+
+	void MutexWin32::release()
+	{
+		delete this;
+	}
 
 
 	//-------------------------------------------------------------
 	// @@EventWin32
 	//-------------------------------------------------------------
-	void EventWin32::release()
+	bool EventWin32::release()
 	{
-		CloseHandle(mHandle);
+		bool ret = CloseHandle(mHandle);
 		delete this;
+		return ret;
 	}
 
 	bool EventWin32::signal()
