@@ -1,6 +1,6 @@
 #ifdef TARGET_PSP
 
-#include "xunittest\private\ut_TestReporterStdout.h"
+#include "xunittest\private\ut_Stdout.h"
 
 #include <stdio.h>
 #include <cstdio>
@@ -10,35 +10,35 @@
 
 namespace UnitTest
 {
-    void TestReporterStdout::StringFormat(const char* inFormatStr, float inValue)
-    {
-        STRINGFORMAT(mMessage, inFormatStr, inValue);
-    }
+	void Stdout::StringFormat(char* inMessage, const char* inFormatStr, float inValue)
+	{
+		STRINGFORMAT(inMessage, inFormatStr, inValue);
+	}
 
-    void TestReporterStdout::StringFormat(const char* inFormatStr, int inValue)
-    {
-        STRINGFORMAT(mMessage, inFormatStr, inValue);
-    }
+	void Stdout::StringFormat(char* inMessage, const char* inFormatStr, int inValue)
+	{
+		STRINGFORMAT(inMessage, inFormatStr, inValue);
+	}
 
-    void TestReporterStdout::StringFormat(const char* inFormatStr, int inValue, int inValue2)
-    {
-        STRINGFORMAT(mMessage, inFormatStr, inValue, inValue2);
-    }
+	void Stdout::StringFormat(char* inMessage, const char* inFormatStr, int inValue, int inValue2)
+	{
+		STRINGFORMAT(inMessage, inFormatStr, inValue, inValue2);
+	}
 
-    void TestReporterStdout::StringFormat(const char* inFormatStr, int inValue, const char* inName)
-    {
-        STRINGFORMAT(mMessage, inFormatStr, inValue, inName);
-    }
+	void Stdout::StringFormat(char* inMessage, const char* inFormatStr, int inValue, const char* inName)
+	{
+		STRINGFORMAT(inMessage, inFormatStr, inValue, inName);
+	}
 
-    void TestReporterStdout::StringFormat(const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure)
-    {
-        STRINGFORMAT(mMessage, inFormatStr, inFile, inLine, inTestName, inFailure);
-    }
+	void Stdout::StringFormat(char* inMessage, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure)
+	{
+		STRINGFORMAT(inMessage, inFormatStr, inFile, inLine, inTestName, inFailure);
+	}
 
-    void TestReporterStdout::Trace(const char* inMessage)
-    {
-        TRACE(inMessage);
-    }
+	void Stdout::Trace(const char* inMessage)
+	{
+		TRACE(inMessage);
+	}
 }
 
 #endif

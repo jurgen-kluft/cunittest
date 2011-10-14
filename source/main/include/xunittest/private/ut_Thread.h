@@ -33,10 +33,11 @@ namespace UnitTest
 	public:
 //  		virtual bool suspend() = 0;
 //  		virtual bool resume() = 0;
-  		virtual bool waitForExit() = 0;
-  		virtual bool isTerminated() = 0;
-  		virtual bool terminate() = 0; 
+
+//   		virtual bool isTerminated() = 0;
+//  		virtual bool terminate() = 0; 
   		virtual void release() = 0;
+		virtual bool waitForExit() = 0;
 
 		virtual ~Thread() { }
 	};

@@ -114,6 +114,7 @@ UNITTEST_SUITE_BEGIN(TestCpp)
 			test.run(results, 1);
 			CHECK_EQUAL(1, results.getFailureCount());
 		}
+
 	}
 }
 UNITTEST_SUITE_END
