@@ -16,8 +16,8 @@ UNITTEST_SUITE_BEGIN(TestMacros)
 
 		UNITTEST_TEST(TestsAreAddedToTheListThroughMacro)
 		{
-//			CHECK (gGetTestList()->getHead() != 0);
-//			CHECK (gGetTestList()->getHead()->mNext == 0);
+// 			CHECK (gGetTestList()->getHead() != 0);
+// 			CHECK (gGetTestList()->getHead()->mNext == 0);
 		}
 	}
 
