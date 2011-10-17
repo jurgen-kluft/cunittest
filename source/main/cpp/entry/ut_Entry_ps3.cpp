@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 	cellSysmoduleLoadModule(CELL_SYSMODULE_SYSUTIL_GAME);
 	//cellSysmoduleLoadModule(CELL_SYSMODULE_SYSUTIL_NP_TROPHY);
 
-	UnitTest::SetCountingAllocator(NULL);
+	UnitTest::SetAllocator(NULL);
 	UnitTestObserver observer;
 	UnitTest::SetObserver(&observer);
 

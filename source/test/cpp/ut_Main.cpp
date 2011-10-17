@@ -56,13 +56,13 @@ bool	gRunUnitTest(UnitTest::TestReporter& reporter)
 {
 #ifdef TARGET_PC
 	UnitTestAllocator unittestAllocator;
-	UnitTest::SetCountingAllocator(&unittestAllocator);
+	UnitTest::SetAllocator(&unittestAllocator);
 #endif
 	int r = UNITTEST_SUITE_RUN(reporter, xUnitTestUnitTest);
 	unittestAllocator.Release();
 
 #ifdef TARGET_PC
-	UnitTest::SetCountingAllocator(NULL);
+	UnitTest::SetAllocator(NULL);
 #endif
 	return r == 0;
 }

@@ -16,18 +16,18 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 
 		UNITTEST_TEST(NoDeallocate1)
 		{
-			int * a = (int *)UnitTest::GetCountingAllocator()->Allocate(sizeof(int));
+			int * a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
 		}
 
 		UNITTEST_TEST(Correct1)
 		{
-			int * a = (int *)UnitTest::GetCountingAllocator()->Allocate(sizeof(int));
-			UnitTest::GetCountingAllocator()->Deallocate(a);
+			int * a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
+			UnitTest::GetAllocator()->Deallocate(a);
 		}
 
 		UNITTEST_TEST(NoDeallocate2)
 		{
-			int * a = (int *)UnitTest::GetCountingAllocator()->Allocate(sizeof(int));
+			int * a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
 		}
 
 
@@ -39,7 +39,7 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 
 		UNITTEST_FIXTURE_SETUP() 
 		{
-			a = (int *)UnitTest::GetCountingAllocator()->Allocate(sizeof(int));
+			a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
 		}
 
 		UNITTEST_FIXTURE_TEARDOWN() 
