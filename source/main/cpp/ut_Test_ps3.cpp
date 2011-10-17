@@ -71,6 +71,8 @@ namespace UnitTest
 		mStep = FIXTURE_SETUP;
 		try
 		{
+			int iAllocCntX = GetCountingAllocator()->mNumAllocations;
+			int iMemLeakCnt = 0;
 			setup(testResults_);
 
 			if (mTests != 0)
@@ -79,13 +81,23 @@ namespace UnitTest
 				Test* curTest = mTests;
 				while (curTest != 0)
 				{
+					int iAllocCntY = GetCountingAllocator()->mNumAllocations;
 					curTest->run(testResults_, maxTestTimeInMs);
+					if (iAllocCntY != GetCountingAllocator()->mNumAllocations)
+					{
+						iMemLeakCnt += (GetCountingAllocator()->mNumAllocations - iAllocCntY);
+						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, "memory leak detected");
+					}
 					curTest = curTest->mNext;
 				}
 			}
 
 			mStep = FIXTURE_TEARDOWN;
 			teardown(testResults_);
+			if (iAllocCntX != (GetCountingAllocator()->mNumAllocations - iMemLeakCnt))
+			{
+				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, "memory leak detected in setup()/teardown()");
+			}
 		}
 		catch (std::exception const& e)
 		{

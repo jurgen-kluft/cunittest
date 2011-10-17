@@ -20,7 +20,7 @@ public:
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
 int __cdecl  main(int argc, char** argv)
 {
-	UnitTest::SetAllocator(NULL);
+	UnitTest::SetCountingAllocator(NULL);
 	UnitTestObserver observer;
 	UnitTest::SetObserver(&observer);
 
