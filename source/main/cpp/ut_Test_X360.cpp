@@ -71,7 +71,7 @@ namespace UnitTest
         mStep = FIXTURE_SETUP;
         try
         {
-			int iAllocCntX = GetAllocator()->mNumAllocations;
+			int iAllocCntX = GetNumAllocations();
 			int iMemLeakCnt = 0;
             setup(testResults_);
 
@@ -81,11 +81,11 @@ namespace UnitTest
                 Test* curTest = mTests;
                 while (curTest != 0)
                 {
-					int iAllocCntY = GetAllocator()->mNumAllocations;
+					int iAllocCntY = GetNumAllocations();
 					curTest->run(testResults_, maxTestTimeInMs);
-					if (iAllocCntY != GetAllocator()->mNumAllocations)
+					if (iAllocCntY != GetNumAllocations())
 					{
-						iMemLeakCnt += (GetAllocator()->mNumAllocations - iAllocCntY);
+						iMemLeakCnt += (GetNumAllocations() - iAllocCntY);
 						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, "memory leak detected");
 					}
 					curTest = curTest->mNext;
@@ -94,7 +94,7 @@ namespace UnitTest
 
             mStep = FIXTURE_TEARDOWN;
             teardown(testResults_);
-			if (iAllocCntX != (GetAllocator()->mNumAllocations - iMemLeakCnt))
+			if (iAllocCntX != (GetNumAllocations() - iMemLeakCnt))
 			{
 				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, "memory leak detected in setup()/teardown()");
 			}
