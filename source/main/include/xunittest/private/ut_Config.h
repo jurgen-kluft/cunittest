@@ -8,13 +8,12 @@ namespace UnitTest
 	public:
 		virtual				~Allocator() {}
 
-		virtual void*		Allocate(int size) = 0;
+		virtual void*		Allocate(int size, unsigned int alignment=8) = 0;
+		virtual void*		Reallocate(void* ptr, int size, unsigned int alignment=8) = 0;
 		virtual void		Deallocate(void* ptr) = 0;
 	};
 
 	extern void			SetAllocator(Allocator* allocator);
-	extern Allocator*	GetAllocator();
-
 	extern int			GetNumAllocations();
 
 	class Observer
@@ -28,6 +27,11 @@ namespace UnitTest
 
 	extern void			SetObserver(Observer* observer);
 	extern Observer*	GetObserver();
+
+	namespace __private
+	{
+		extern Allocator*	GetAllocator();
+	}
 }
 
 
