@@ -22,21 +22,36 @@ namespace UnitTest
 	static NullAllocator	sNullAllocator;
 //	static Allocator*		sAllocator = &sNullAllocator;
 
+	class CountingAllocator : public Allocator
+	{
+	public:
+		CountingAllocator(Allocator* allocator) : mAllocator(allocator)
+		{
+		}
+
+		virtual void*		Allocate(int size) { mNumAllocations++; return mAllocator->Allocate(size); }
+		virtual void		Deallocate(void* ptr) {mNumAllocations--; mAllocator->Deallocate((ptr)); }
+
+		Allocator*	mAllocator;
+		int			mNumAllocations;
+	};
+
 	static CountingAllocator	sCountingAllocator(&sNullAllocator);
 
-	int			GetNumAllocations()
+	int				GetNumAllocations()
 	{
 		return sCountingAllocator.mNumAllocations;
 	}
 
-	void			SetCountingAllocator(Allocator* allocator)
+	void			SetAllocator(Allocator* allocator)
 	{
+		sCountingAllocator.mNumAllocations = 0;
 		sCountingAllocator.mAllocator = allocator;
 		if (sCountingAllocator.mAllocator == 0)
 			sCountingAllocator.mAllocator = &sNullAllocator;
 	}
 
-	CountingAllocator*		GetCountingAllocator()
+	Allocator*		GetAllocator()
 	{
 		return &sCountingAllocator;
 	}

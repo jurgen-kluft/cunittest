@@ -38,7 +38,7 @@ namespace UnitTest
 			while (curTestFixture != 0)
 			{
 				GetObserver()->BeginFixture(curTestFixture->mFilename, curTestSuite->getName(), curTestFixture->mTestName);
-				int iAllocCnt = GetCountingAllocator()->mNumAllocations;
+				int iAllocCnt = GetNumAllocations();
 				curTestFixture->run(result, maxTestTimeInMs);
 				GetObserver()->EndFixture();
 				curTestFixture = curTestFixture->getNext();

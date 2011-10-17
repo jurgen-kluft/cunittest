@@ -27,7 +27,7 @@ void nnMain( void )
 	nn::os::Initialize();
     nn::fs::Initialize();
 
-	UnitTest::SetCountingAllocator(NULL);
+	UnitTest::SetAllocator(NULL);
 	UnitTestObserver observer;
 	UnitTest::SetObserver(&observer);
 

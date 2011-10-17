@@ -72,7 +72,7 @@ namespace UnitTest
 		try
 		{
 			// Remember allocation count X
-			int iAllocCntX = GetCountingAllocator()->mNumAllocations;
+			int iAllocCntX = GetNumAllocations();
 			int iMemLeakCnt = 0;
 			setup(testResults_);
 
@@ -83,13 +83,13 @@ namespace UnitTest
 				while (curTest != 0)
 				{
 					// Remember allocation count Y
-					int iAllocCntY = GetCountingAllocator()->mNumAllocations;
+					int iAllocCntY = GetNumAllocations();
 					curTest->run(testResults_, maxTestTimeInMs);
 					// Compare allocation count with Y
 					// If different => memory leak error
-					if (iAllocCntY != GetCountingAllocator()->mNumAllocations)
+					if (iAllocCntY != GetNumAllocations())
 					{
-						iMemLeakCnt += (GetCountingAllocator()->mNumAllocations - iAllocCntY);
+						iMemLeakCnt += (GetNumAllocations() - iAllocCntY);
 						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, "memory leak detected");
 					}
 					curTest = curTest->mNext;
@@ -100,7 +100,7 @@ namespace UnitTest
 			teardown(testResults_);
 			// Compare allocation count with X
 			// If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
-			if (iAllocCntX != (GetCountingAllocator()->mNumAllocations - iMemLeakCnt))
+			if (iAllocCntX != (GetNumAllocations() - iMemLeakCnt))
 			{
 				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, "memory leak detected in setup()/teardown()");
 			}
