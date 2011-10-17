@@ -5,6 +5,7 @@
 #include "xunittest\private\ut_TimeHelpers.h"
 #include "xunittest\private\ut_AssertException.h"
 #include "xunittest\private\ut_StringBuilder.h"
+#include "xunittest\private\ut_Stdout.h"
 
 
 namespace UnitTest
@@ -19,20 +20,26 @@ namespace UnitTest
 	};
 
 	static NullAllocator	sNullAllocator;
-	static Allocator*		sAllocator = &sNullAllocator;
+//	static Allocator*		sAllocator = &sNullAllocator;
 
-	void			SetAllocator(Allocator* allocator)
+	static CountingAllocator	sCountingAllocator(&sNullAllocator);
+
+	int			GetNumAllocations()
 	{
-		sAllocator = allocator;
-		if (sAllocator == 0)
-			sAllocator = &sNullAllocator;
+		return sCountingAllocator.mNumAllocations;
 	}
 
-	Allocator*		GetAllocator()
+	void			SetCountingAllocator(Allocator* allocator)
 	{
-		return sAllocator;
+		sCountingAllocator.mAllocator = allocator;
+		if (sCountingAllocator.mAllocator == 0)
+			sCountingAllocator.mAllocator = &sNullAllocator;
 	}
 
+	CountingAllocator*		GetCountingAllocator()
+	{
+		return &sCountingAllocator;
+	}
 
 	class NullObserver : public Observer
 	{

@@ -12,8 +12,23 @@ namespace UnitTest
 		virtual void		Deallocate(void* ptr) = 0;
 	};
 
-	extern void			SetAllocator(Allocator* allocator);
-	extern Allocator*	GetAllocator();
+	class CountingAllocator : public Allocator
+	{
+	public:
+		Allocator*	mAllocator;
+
+		CountingAllocator(Allocator* allocator) : mAllocator(allocator)
+		{
+		}
+
+		virtual void*		Allocate(int size) { mNumAllocations++; return mAllocator->Allocate(size); }
+		virtual void		Deallocate(void* ptr) {mNumAllocations--; mAllocator->Deallocate((ptr)); }
+
+		int			mNumAllocations;
+	};
+
+	extern void			SetCountingAllocator(Allocator* allocator);
+	extern CountingAllocator*	GetCountingAllocator();
 
 
 	class Observer

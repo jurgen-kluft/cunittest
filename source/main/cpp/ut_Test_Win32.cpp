@@ -7,7 +7,7 @@
 #include "xunittest\private\ut_TimeHelpers.h"
 #include "xunittest\private\ut_AssertException.h"
 #include "xunittest\private\ut_StringBuilder.h"
-
+#include "xunittest\private\ut_Stdout.h"
 #include <exception>
 
 namespace UnitTest
@@ -71,6 +71,9 @@ namespace UnitTest
 		mStep = FIXTURE_SETUP;
 		try
 		{
+			// Remember allocation count X
+			int iAllocCntX = GetCountingAllocator()->mNumAllocations;
+			int iMemLeakCnt = 0;
 			setup(testResults_);
 
 			if (mTests != 0)
@@ -79,13 +82,28 @@ namespace UnitTest
 				Test* curTest = mTests;
 				while (curTest != 0)
 				{
+					// Remember allocation count Y
+					int iAllocCntY = GetCountingAllocator()->mNumAllocations;
 					curTest->run(testResults_, maxTestTimeInMs);
+					// Compare allocation count with Y
+					// If different => memory leak error
+					if (iAllocCntY != GetCountingAllocator()->mNumAllocations)
+					{
+						iMemLeakCnt += (GetCountingAllocator()->mNumAllocations - iAllocCntY);
+						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, "memory leak detected");
+					}
 					curTest = curTest->mNext;
 				}
 			}
 
 			mStep = FIXTURE_TEARDOWN;
 			teardown(testResults_);
+			// Compare allocation count with X
+			// If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
+			if (iAllocCntX != (GetCountingAllocator()->mNumAllocations - iMemLeakCnt))
+			{
+				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, "memory leak detected in setup()/teardown()");
+			}
 		}
 		catch (std::exception const& e)
 		{
