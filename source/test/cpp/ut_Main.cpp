@@ -30,15 +30,21 @@ public:
 	{
 	}
 
-	void*	Allocate(int size)
+	void*	Allocate(int size, unsigned int alignment)
 	{
 		++mNumAllocations;
-		return malloc(size);
+		return _aligned_malloc(size, alignment);
 	}
+
+	void*	Reallocate(void* ptr, int size, unsigned int alignment)
+	{
+		return _aligned_realloc(ptr, size, alignment);
+	}
+
 	void	Deallocate(void* ptr)
 	{
 		--mNumAllocations;
-		free(ptr);
+		_aligned_free(ptr);
 	}
 
 	void	Release()
