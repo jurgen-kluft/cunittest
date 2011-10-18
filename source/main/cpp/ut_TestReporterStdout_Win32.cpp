@@ -43,6 +43,7 @@ namespace UnitTest
 	void Stdout::Trace(const char* inMessage)
 	{
 		TRACE(inMessage);
+		::OutputDebugString(inMessage);
 	}
 }
 
