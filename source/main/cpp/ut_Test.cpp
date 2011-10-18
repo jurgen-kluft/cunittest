@@ -33,7 +33,10 @@ namespace UnitTest
 	{
 		sNumAllocations++;
 	}
-
+	void			DecNumAllocations()
+	{
+		sNumAllocations--;
+	}
 	int				GetNumAllocations()
 	{
 		return sNumAllocations;

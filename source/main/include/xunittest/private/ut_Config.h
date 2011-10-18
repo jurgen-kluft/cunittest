@@ -17,6 +17,7 @@ namespace UnitTest
 	
 	extern void			ResetNumAllocations();
 	extern void			IncNumAllocations();
+	extern void			DecNumAllocations();
 	extern int			GetNumAllocations();
 
 	class Observer
