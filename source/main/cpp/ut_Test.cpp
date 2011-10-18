@@ -43,7 +43,7 @@ namespace UnitTest
 
 	void			SetAllocator(Allocator* allocator)
 	{
-		if (allocator == NULL)
+		if (allocator == 0)
 			sAllocator = &sNullAllocator;
 		else
 			sAllocator = allocator;

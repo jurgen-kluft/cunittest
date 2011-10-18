@@ -38,6 +38,8 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
+#ifdef TARGET_PC
+
  		struct MyRunnable : public Runnable
  		{
  			void run()
@@ -255,8 +257,11 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 // 			threadE->release();
 // 			threadF->release();
 // 		}
+
+#endif
 	}
 
 }
 
 UNITTEST_SUITE_END
+
