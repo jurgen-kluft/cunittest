@@ -22,57 +22,38 @@ namespace UnitTest
 
 	static NullAllocator	sNullAllocator;
 
-	class CountingAllocator : public Allocator
+	
+	static int				sNumAllocations = 0;
+	void			ResetNumAllocations()
 	{
-	public:
-		CountingAllocator(Allocator* allocator) : mAllocator(allocator)
-		{
-		}
-
-		virtual void*		Allocate(int size, unsigned int alignment)
-		{
-			mNumAllocations++;
-			return mAllocator->Allocate(size, alignment); 
-		}
-
-		virtual void*		Reallocate(void* ptr, int size, unsigned int alignment)
-		{ 
-			void* ptr2 = mAllocator->Reallocate(ptr, size, alignment); 
-			if (ptr!=ptr2)
-				mNumAllocations++;
-			return ptr2;
-		}
-
-		virtual void		Deallocate(void* ptr) 
-		{
-			mNumAllocations--;
-			mAllocator->Deallocate((ptr)); 
-		}
-
-		Allocator*	mAllocator;
-		int			mNumAllocations;
-	};
-
-	static CountingAllocator	sCountingAllocator(&sNullAllocator);
+		sNumAllocations = 0;
+	}
+	
+	void			IncNumAllocations()
+	{
+		sNumAllocations++;
+	}
 
 	int				GetNumAllocations()
 	{
-		return sCountingAllocator.mNumAllocations;
+		return sNumAllocations;
 	}
+
+	Allocator*				sAllocator = &sNullAllocator;
 
 	void			SetAllocator(Allocator* allocator)
 	{
-		sCountingAllocator.mNumAllocations = 0;
-		sCountingAllocator.mAllocator = allocator;
-		if (sCountingAllocator.mAllocator == 0)
-			sCountingAllocator.mAllocator = &sNullAllocator;
+		if (allocator == NULL)
+			sAllocator = &sNullAllocator;
+		else
+			sAllocator = allocator;
 	}
 
 	namespace __private
 	{
 		Allocator*		GetAllocator()
 		{
-			return &sCountingAllocator;
+			return sAllocator;
 		}
 	}
 
