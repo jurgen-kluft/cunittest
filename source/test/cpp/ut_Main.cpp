@@ -13,7 +13,7 @@ UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTest);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestMacros);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestResults);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTimeConstraint);
-UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestThreadSuite);
+// UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestThreadSuite);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestCountingAllocator);
 
 // UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestList);		//*
@@ -59,7 +59,10 @@ bool	gRunUnitTest(UnitTest::TestReporter& reporter)
 	UnitTest::SetAllocator(&unittestAllocator);
 #endif
 	int r = UNITTEST_SUITE_RUN(reporter, xUnitTestUnitTest);
+
+#ifdef TARGET_PC
 	unittestAllocator.Release();
+#endif
 
 #ifdef TARGET_PC
 	UnitTest::SetAllocator(NULL);

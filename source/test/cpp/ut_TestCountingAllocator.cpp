@@ -7,10 +7,7 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 {
 	UNITTEST_FIXTURE(fixture1)
 	{
-		UNITTEST_FIXTURE_SETUP() 
-		{
-//			int * a = (int *)UnitTest::GetCountingAllocator()->Allocate(sizeof(int));
-		}
+		UNITTEST_FIXTURE_SETUP() {}
 
 		UNITTEST_FIXTURE_TEARDOWN() {}
 

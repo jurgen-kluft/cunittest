@@ -39,7 +39,7 @@ namespace UnitTest
 			return NULL;
 		}
 
-		ThreadManager::instance()->addThread(threadIns, threadIns->m_tid);
+//		ThreadManager::instance()->addThread(threadIns, threadIns->m_tid);
 		threadIns->m_thread_running = true;
 
 		return threadIns;
@@ -97,7 +97,7 @@ namespace UnitTest
 	{
 		if (!this->m_thread_running) 
 		{
-			ThreadManager::instance()->removeThread(this);
+//			ThreadManager::instance()->removeThread(this);
 			this->m_thread_running = 0;
 			delete this;
 		}

@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_THREAD_WIN32_H__
-#define __XUNITTEST_THREAD_WIN32_H__
+#ifndef __XUNITTEST_THREAD_PS3_H__
+#define __XUNITTEST_THREAD_PS3_H__
 
 #if defined(TARGET_PS3)
 

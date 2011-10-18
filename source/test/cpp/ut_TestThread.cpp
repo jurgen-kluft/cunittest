@@ -44,7 +44,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  			{
  				for (int i = 0; i < 100; ++i)
  				{
- 					Stdout::Trace("A");
+ 					//Stdout::Trace("A");
  					gSleep(10);
  				}
  			}
@@ -55,7 +55,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  		{
  			Thread * threadIns = gCreateThread(new MyRunnable);
  
- 			for (int i = 0; i < 100; ++i)
+ 			for (int i = 0; i < 210; ++i)
  			{
  				Stdout::Trace("C");
  				gSleep(10);
