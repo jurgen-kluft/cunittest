@@ -1,6 +1,5 @@
 #include "xunittest\private\ut_Thread_PS3.h"
 
-
 #if defined(TARGET_PS3)
 
 #include <stdio.h>
@@ -39,7 +38,8 @@ namespace UnitTest
 			return NULL;
 		}
 
-		ThreadManager::instance()->addThread(threadIns, threadIns->m_tid);
+		// THIS LINE DOES NOT COMPILE
+		//ThreadManager::instance()->addThread(threadIns, threadIns->m_tid);
 		threadIns->m_thread_running = true;
 
 		return threadIns;
@@ -65,7 +65,7 @@ namespace UnitTest
 
 	void gSleep(int inMiniSecond)
 	{
-		sys_timer_usleep(inMiniSecond * 1e3);
+		sys_timer_usleep(inMiniSecond * 1000);
 	}
 
 
@@ -97,7 +97,8 @@ namespace UnitTest
 	{
 		if (!this->m_thread_running) 
 		{
-			ThreadManager::instance()->removeThread(this);
+			// THIS LINE DOES NOT COMPILE
+			//ThreadManager::instance()->removeThread(this);
 			this->m_thread_running = 0;
 			delete this;
 		}
