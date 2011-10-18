@@ -8,8 +8,7 @@ namespace UnitTest
 	public:
 		virtual				~Allocator() {}
 
-		virtual void*		Allocate(int size, unsigned int alignment=8) = 0;
-		virtual void*		Reallocate(void* ptr, int size, unsigned int alignment=8) = 0;
+		virtual void*		Allocate(int size) = 0;
 		virtual void		Deallocate(void* ptr) = 0;
 	};
 

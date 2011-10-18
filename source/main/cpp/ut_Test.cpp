@@ -15,13 +15,9 @@ namespace UnitTest
 	public:
 							NullAllocator() { }
 
-		virtual void*		Allocate(int size, unsigned int alignment) { return 0; }
-		virtual void*		Reallocate(void* ptr, int size, unsigned int alignment) { return 0; }
+		virtual void*		Allocate(int size) { return 0; }
 		virtual void		Deallocate(void* ptr) {}
 	};
-
-	static NullAllocator	sNullAllocator;
-
 	
 	static int				sNumAllocations = 0;
 	void			ResetNumAllocations()
@@ -42,6 +38,7 @@ namespace UnitTest
 		return sNumAllocations;
 	}
 
+	static NullAllocator	sNullAllocator;
 	Allocator*				sAllocator = &sNullAllocator;
 
 	void			SetAllocator(Allocator* allocator)
