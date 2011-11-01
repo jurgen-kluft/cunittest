@@ -8,7 +8,7 @@
 #include <sys/timer.h>
 #include <sys/synchronization.h>
 #include "ut_Thread_Base.h"
-
+#include "ut_Config.h"
 
 namespace UnitTest 
 {
@@ -21,6 +21,8 @@ namespace UnitTest
 		virtual void unlock();
 		virtual void release();
 
+		CLASS_NEW_DELETE_OVERLOAD;
+
 	private:
 		sys_mutex_t m_mutex;
 	};
@@ -31,6 +33,8 @@ namespace UnitTest
 		virtual bool signal();
 		virtual void reset();
 		virtual bool release();
+
+		CLASS_NEW_DELETE_OVERLOAD;
 
 		virtual ~EventPS3() { }
 
@@ -50,6 +54,8 @@ namespace UnitTest
 		virtual void release();
 		virtual bool isTerminated();
 		virtual bool terminate() { return false; }
+
+		CLASS_NEW_DELETE_OVERLOAD;
 
 		virtual ~ThreadPS3() { }
 

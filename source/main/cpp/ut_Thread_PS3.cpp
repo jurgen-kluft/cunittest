@@ -18,7 +18,8 @@ namespace UnitTest
 			return NULL;
 		}
 
-		ThreadPS3 * threadIns = new ThreadPS3;
+		void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(ThreadPS3));
+		ThreadPS3* threadIns = new (tmp) ThreadPS3();
 		threadIns->mRunnable = inRunnable;
 
 		int ret;
@@ -47,12 +48,16 @@ namespace UnitTest
 
 	Mutex * gCreateMutex()
 	{
-		return new MutexPS3();
+		void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(MutexPS3));
+		MutexPS3* mutex = new (tmp) MutexPS3();
+		return mutex;
 	}
 
 	Event * gCreateEvent()
 	{
-		return new EventPS3();
+		void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(EventPS3));
+		EventPS3* event = new (tmp) EventPS3();
+		return event;
 	}
 
 	bool gWaitForEvent(Event * inEvent, int inTimeOut /* = 0 */ )
@@ -99,7 +104,7 @@ namespace UnitTest
 		{
 //			ThreadManager::instance()->removeThread(this);
 			this->m_thread_running = 0;
-			delete this;
+			GetAllocator()->Deallocate(this);
 		}
 	}
 
@@ -111,7 +116,7 @@ namespace UnitTest
 			mRunnable->exit();
 		}
 
-		delete mRunnable;
+		GetAllocator()->Deallocate(mRunnable);
 		mRunnable = NULL;
 	}
 
@@ -152,7 +157,7 @@ namespace UnitTest
 	void MutexPS3::release()
 	{
 		sys_mutex_destroy(m_mutex);
-		delete this;
+		GetAllocator()->Deallocate(this);
 	}
 
 
@@ -169,7 +174,7 @@ namespace UnitTest
 	bool EventPS3::release()
 	{
 		int ret = sys_semaphore_destroy(this->m_sem);
-		delete this;
+		GetAllocator()->Deallocate(this);
 		return ret == CELL_OK;
 	}
 

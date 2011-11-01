@@ -5,6 +5,13 @@
 // xunittest threading interface file
 
 #define MAX_THREAD_NUMBER 10
+#include "ut_Config.h"
+
+#define CLASS_NEW_DELETE_OVERLOAD																					\
+	void*	operator new(size_t num_bytes, void* mem)			{ return mem; }										\
+	void	operator delete(void* mem, void* )					{ }													\
+	void*	operator new(size_t num_bytes)						{ return GetAllocator()->Allocate(num_bytes); }		\
+	void	operator delete(void* mem)							{ GetAllocator()->Deallocate(mem); }	
 
 namespace UnitTest
 {
@@ -18,25 +25,16 @@ namespace UnitTest
 		virtual ~Runnable() { }
 	};
 
-  	class Event
-  	{
-  	public:
-  		virtual bool signal() = 0;
-  		virtual void reset() = 0;
-  		virtual bool release() = 0;
-
-		virtual ~Event() { }
-  	};
  
 	class Thread
 	{
 	public:
-//  		virtual bool suspend() = 0;
-//  		virtual bool resume() = 0;
+//   		virtual bool suspend() = 0;
+//   		virtual bool resume() = 0;
 
-//   		virtual bool isTerminated() = 0;
-//  		virtual bool terminate() = 0; 
-  		virtual void release() = 0;
+  		virtual bool isTerminated() = 0;
+ 		virtual bool terminate() = 0; 
+	 	virtual void release() = 0;
 		virtual bool waitForExit() = 0;
 
 		virtual ~Thread() { }
@@ -51,6 +49,17 @@ namespace UnitTest
 
 		virtual ~Mutex() { }
 	};
+
+  	class Event
+  	{
+  	public:
+  		virtual bool signal() = 0;
+  		virtual void reset() = 0;
+  		virtual bool release() = 0;
+
+		virtual ~Event() { }
+  	};
+
 
 	class ScopeLock
 	{
@@ -79,7 +88,7 @@ namespace UnitTest
   	Event * gCreateEvent();
  
  	void gSleep(int inMiniSecond);
- 	bool gWaitForEvent(Event * inEvent, int inTimeOut = 0);
+	bool gWaitForEvent(Event * inEvent, int inTimeOut = 0);
 	
 }
 
