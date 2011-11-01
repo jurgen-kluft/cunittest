@@ -9,6 +9,7 @@
 #include <xtl.h>
 #endif
 
+#include "ut_Config.h"
 #include "ut_Thread_Base.h"
 
 namespace UnitTest
@@ -22,6 +23,7 @@ namespace UnitTest
 		virtual void unlock();
 		virtual void release();
 
+		CLASS_NEW_DELETE_OVERLOAD;
 	private:
 		CRITICAL_SECTION		mCs;
 	};
@@ -35,6 +37,8 @@ namespace UnitTest
 		virtual void reset();
 		virtual bool release();
 
+		CLASS_NEW_DELETE_OVERLOAD;
+
 		HANDLE getHandle()  { return mHandle; }
 
 		virtual ~EventWin32() { }
@@ -47,14 +51,16 @@ namespace UnitTest
 	class ThreadWin32 : public ThreadBase
 	{
 	public:
-// 		virtual bool suspend();
-// 		virtual bool resume();
+		virtual bool suspend();
+		virtual bool resume();
 		virtual bool waitForExit();
 		virtual bool isTerminated();
 		virtual bool terminate() { return false; }
 		virtual bool waitForEvent(Event * inEvent, int inTimeOut = 0);
 		virtual void release();
 		virtual ~ThreadWin32() { }
+
+		CLASS_NEW_DELETE_OVERLOAD;
 
 		void run();
 

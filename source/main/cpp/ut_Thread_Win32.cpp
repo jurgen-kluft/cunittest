@@ -15,7 +15,8 @@ namespace UnitTest
 			return NULL;
 		}
 
-		ThreadWin32 * threadIns = new ThreadWin32;
+		void* tmp = GetAllocator()->Allocate(sizeof(ThreadWin32));
+		ThreadWin32 * threadIns = new (tmp) ThreadWin32();
 		threadIns->mRunnable = inRunnable;
 
 		HANDLE hd;
@@ -40,7 +41,9 @@ namespace UnitTest
 
 	Mutex * gCreateMutex()
 	{
-		return new MutexWin32();
+		void* tmp = GetAllocator()->Allocate(sizeof(MutexWin32));
+		MutexWin32 * mutex = new (tmp) MutexWin32();
+		return mutex;
 	}
 
 	Event * gCreateEvent()
@@ -52,7 +55,9 @@ namespace UnitTest
 			return NULL;
 		}
 
-		return new EventWin32(hd);
+		void* tmp = GetAllocator()->Allocate(sizeof(EventWin32));
+		EventWin32 * event = new (tmp) EventWin32(hd);
+		return event;
 	}
 
 	void gSleep(int inMiniSecond)
@@ -94,7 +99,7 @@ namespace UnitTest
 			mRunnable->exit();
 		}
 
-		delete mRunnable;
+		GetAllocator()->Deallocate(mRunnable);
 		mRunnable = NULL;
 	}
 
@@ -104,32 +109,32 @@ namespace UnitTest
 		{
 //			ThreadManager::instance()->removeThread(this);
 			CloseHandle(mThreadHandle);
-			delete this;
+			GetAllocator()->Deallocate(this);
 		}
 	}
 
-// 	bool ThreadWin32::suspend()
-// 	{
-// 		DWORD dw = SuspendThread(mThreadHandle);
-// 		if (dw == -1)
-// 		{
-// 			//@TODO: HANDLE ERROR
-// 			return false;
-// 		}
-// 		return true;
-// 	}
-// 
-// 	bool ThreadWin32::resume()
-// 	{
-// 		DWORD dw = ResumeThread(mThreadHandle);
-// 		if (dw == -1)
-// 		{
-// 			//@TODO: HANDLE ERROR
-// 			return false;
-// 		}
-// 
-// 		return true;
-// 	}
+	bool ThreadWin32::suspend()
+	{
+		DWORD dw = SuspendThread(mThreadHandle);
+		if (dw == -1)
+		{
+			//@TODO: HANDLE ERROR
+			return false;
+		}
+		return true;
+	}
+
+	bool ThreadWin32::resume()
+	{
+		DWORD dw = ResumeThread(mThreadHandle);
+		if (dw == -1)
+		{
+			//@TODO: HANDLE ERROR
+			return false;
+		}
+
+		return true;
+	}
 
 	bool ThreadWin32::waitForExit()
 	{
@@ -215,7 +220,7 @@ namespace UnitTest
 
 	void MutexWin32::release()
 	{
-		delete this;
+		GetAllocator()->Deallocate(this);
 	}
 
 
@@ -225,7 +230,7 @@ namespace UnitTest
 	bool EventWin32::release()
 	{
 		bool ret = CloseHandle(mHandle);
-		delete this;
+		GetAllocator()->Deallocate(this);
 		return ret;
 	}
 

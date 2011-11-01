@@ -5,6 +5,7 @@
 #include "xunittest\private\ut_Thread_Base.h"
 #include "xunittest\private\ut_Stdout.h"
 #include <stdio.h>
+#include "xunittest/private/ut_Thread_Wii.h"
 //#include <memory.h>
 
 /*
@@ -38,24 +39,30 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
- 		struct MyRunnable : public Runnable
+ 		class MyRunnable : public Runnable
  		{
+		public:
  			void run()
  			{
  				for (int i = 0; i < 100; ++i)
  				{
- 					//Stdout::Trace("A");
+ 					Stdout::Trace("A");
  					gSleep(10);
  				}
  			}
+
+			CLASS_NEW_DELETE_OVERLOAD;
  		};
  
  		// test thread creation
  		UNITTEST_TEST(TestTest)
  		{
- 			Thread * threadIns = gCreateThread(new MyRunnable);
+ 			void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(MyRunnable));
+ 			MyRunnable* myRunnable = new (tmp) MyRunnable();
+ 			Thread * threadIns = gCreateThread(myRunnable);
  
- 			for (int i = 0; i < 210; ++i)
+			gSleep(100);
+ 			for (int i = 0; i < 100; ++i)
  			{
  				Stdout::Trace("C");
  				gSleep(10);
@@ -74,7 +81,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
    			void run()
    			{
    				ScopeLock lock(gMutex);
-  // 				gMutex->lock();
+// 				gMutex->lock();
    				for (int i = 0; i < 128; i++)
    				{
    					//gBuff[i % 32] = 'A';
@@ -82,8 +89,10 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
    					gSleep(10);
    				}
    				Stdout::Trace("\n");
-  // 				gMutex->unlock();
-   			}
+// 				gMutex->unlock();
+			}
+
+			CLASS_NEW_DELETE_OVERLOAD;
    		};
    
    		struct RunabWriteB : public Runnable
@@ -91,7 +100,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
    			void run()
    			{
    				ScopeLock lock(gMutex);
-  // 				gMutex->lock();
+// 				gMutex->lock();
    				for (int i = 0; i < 128; i++)
    				{
    					//gBuff[i % 32] = 'A';
@@ -99,8 +108,10 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
    					gSleep(10);
    				}
    				Stdout::Trace("\n");
-  // 				gMutex->unlock();
+// 				gMutex->unlock();
    			}
+
+			CLASS_NEW_DELETE_OVERLOAD;
    		};
    
    		// test thread A and B can be asyned by using mutex
@@ -108,8 +119,13 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
    		{
    			gMutex = gCreateMutex();
    
-   			Thread * threadInsA = gCreateThread(new RunabWriteA);
-   			Thread * threadInsB = gCreateThread(new RunabWriteB);
+			void* tmpA = UnitTest::GetAllocator()->Allocate(sizeof(RunabWriteA));
+			RunabWriteA* runabWriteA = new (tmpA) RunabWriteA();
+			void* tmpB = UnitTest::GetAllocator()->Allocate(sizeof(RunabWriteB));
+			RunabWriteB* runabWriteB = new (tmpB) RunabWriteB();
+
+   			Thread * threadInsA = gCreateThread(runabWriteA);
+   			Thread * threadInsB = gCreateThread(runabWriteB);
    
    			threadInsA->waitForExit();
    			threadInsB->waitForExit();
@@ -143,6 +159,8 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   				gTimeThreadA = gTimer.getTimeInMs();
   				Stdout::Trace("A over\n");
   			}
+
+			CLASS_NEW_DELETE_OVERLOAD;
   		};
   
   		struct RunabThreadB : public Runnable
@@ -153,6 +171,8 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   				gTimeThreadB = gTimer.getTimeInMs();
   				Stdout::Trace("B over\n");
   			}
+
+			CLASS_NEW_DELETE_OVERLOAD;
   		};
   
   		struct RunabThreadC : public Runnable
@@ -163,6 +183,8 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   				gTimeThreadC = gTimer.getTimeInMs();
   				Stdout::Trace("C over\n");
   			}
+
+			CLASS_NEW_DELETE_OVERLOAD;
   		};
   
   		// test thread A, B and C will launch at the same time
@@ -171,12 +193,19 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   			gTimer.start();
   
   			gEvent = gCreateEvent();
+
+			void* tmpA = UnitTest::GetAllocator()->Allocate(sizeof(RunabThreadA));
+			RunabThreadA* runabThreadA = new (tmpA) RunabThreadA();
+			void* tmpB = UnitTest::GetAllocator()->Allocate(sizeof(RunabThreadB));
+			RunabThreadB* runabThreadB = new (tmpB) RunabThreadB();
+			void* tmpC = UnitTest::GetAllocator()->Allocate(sizeof(RunabThreadC));
+			RunabThreadC* runabThreadC = new (tmpC) RunabThreadC();
   
-  			Thread * threadA = gCreateThread(new RunabThreadA);
+  			Thread * threadA = gCreateThread(runabThreadA);
   			Stdout::Trace("--A--\n");
-  			Thread * threadB = gCreateThread(new RunabThreadB);
+  			Thread * threadB = gCreateThread(runabThreadB);
   			Stdout::Trace("--B--\n");
-  			Thread * threadC = gCreateThread(new RunabThreadC);
+  			Thread * threadC = gCreateThread(runabThreadC);
   			Stdout::Trace("--C--\n");
   
   			//hangout for some mini-seconds
