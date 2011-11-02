@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <nn/dbg.h>
 
-#define STRINGFORMAT			sprintf			// Here you can divert to a printf/string-formatting implementation
-#define TRACE(a)				NN_LOG(a)		// Here you can divert to a log/trace/print implementation
+#define STRINGFORMAT			sprintf			///< Here you can divert to a printf/string-formatting implementation
+#define TRACE(a)				NN_LOG(a)		///< Here you can divert to a log/trace/print implementation
 
 namespace UnitTest
 {

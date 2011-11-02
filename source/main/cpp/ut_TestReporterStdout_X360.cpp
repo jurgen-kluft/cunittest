@@ -9,8 +9,8 @@
 #include <time.h>
 #include <stdio.h>
 
-#define STRINGFORMAT			sprintf_s			// Here you can divert to a printf/string-formatting implementation
-#define TRACE(a)				printf(a)			// Here you can divert to a log/trace/print implementation
+#define STRINGFORMAT			sprintf_s			///< Here you can divert to a printf/string-formatting implementation
+#define TRACE(a)				printf(a)			///< Here you can divert to a log/trace/print implementation
 
 namespace UnitTest
 {

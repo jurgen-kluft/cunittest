@@ -3,19 +3,22 @@
 
 namespace UnitTest
 {
-	//------------------------------------------------------------------------------
-	// Author:
-	//     Jurgen Kluft
-	// Module:
-	//     UnitTest
-	// Summary:
-	//     The timer used to time unit test suites, fixtures and tests.
-	// Description:
-	//      This class is the Timer class used to time every single unit test as well
-	//      as the total time
-	// See Also:
-	//     TimeHelpers::sleepMs
-	//------------------------------------------------------------------------------
+	/**
+     *------------------------------------------------------------------------------
+     *
+     * Author:
+	 *     Jurgen Kluft
+	 * Module:
+	 *     UnitTest
+	 * Summary:
+	 *     The timer used to time unit test suites, fixtures and tests.
+	 * Description:
+	 *      This class is the Timer class used to time every single unit test as well
+	 *      as the total time
+	 * See Also:
+	 *     TimeHelpers::sleepMs
+	 *------------------------------------------------------------------------------
+	 */
 	class Timer
 	{
 	public:
@@ -31,18 +34,20 @@ namespace UnitTest
 
 	namespace TimeHelpers
 	{
-		//------------------------------------------------------------------------------
-		// Author:
-		//     Jurgen Kluft
-		// Module:
-		//     UnitTest
-		// Summary:
-		//     The timer used to time unit test suites, fixtures and tests.
-		// Description:
-		//      This function
-		// See Also:
-		//     Timer
-		//------------------------------------------------------------------------------
+		/**
+         *------------------------------------------------------------------------------
+		 * Author:
+		 *     Jurgen Kluft
+		 * Module:
+		 *     UnitTest
+		 * Summary:
+		 *     The timer used to time unit test suites, fixtures and tests.
+		 * Description:
+		 *      This function
+		 * See Also:
+		 *     Timer
+		 *------------------------------------------------------------------------------
+		 */
 		void	sleepMs(int ms);
 	}
 

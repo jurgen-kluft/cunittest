@@ -32,7 +32,7 @@ namespace UnitTest
 						break;
 				}
 
-				if (*n=='\0')	/// matched all of 'needle' to null termination
+				if (*n=='\0')	///< matched all of 'needle' to null termination
 					return src;
 			}
 		}
@@ -56,7 +56,7 @@ namespace UnitTest
 						break;
 				}
 
-				if (*n=='\0')	/// matched all of 'needle' to null termination
+				if (*n=='\0')	///< matched all of 'needle' to null termination
 					return src;
 			}
 		}
