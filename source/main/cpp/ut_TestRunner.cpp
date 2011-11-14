@@ -8,6 +8,7 @@
 #include "xunittest\private\ut_TestReporterStdout.h"
 #include "xunittest\private\ut_TimeHelpers.h"
 #include "xunittest\private\ut_StringBuilder.h"
+#include "xunittest\private\ut_Stdout.h"
 
 namespace UnitTest
 {
@@ -37,6 +38,7 @@ namespace UnitTest
 			while (curTestFixture != 0)
 			{
 				GetObserver()->BeginFixture(curTestFixture->mFilename, curTestSuite->getName(), curTestFixture->mTestName);
+				int iAllocCnt = GetNumAllocations();
 				curTestFixture->run(result, maxTestTimeInMs);
 				GetObserver()->EndFixture();
 				curTestFixture = curTestFixture->getNext();

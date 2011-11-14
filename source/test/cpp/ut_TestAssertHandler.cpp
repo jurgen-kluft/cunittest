@@ -17,9 +17,9 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 
 			try
 			{
-				reportAssert("", "", 0);
+				throw AssertException("", "",0);;
 			}
-			catch(AssertException const&)
+			catch(const AssertException& e)
 			{
 				caught = true;
 			}
@@ -35,7 +35,7 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 
 			try
 			{
-				reportAssert(description, filename, lineNumber);
+				throw AssertException(description, filename, lineNumber);
 			}
 			catch(AssertException const& e)
 			{
@@ -47,4 +47,3 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 	}
 }
 UNITTEST_SUITE_END
-

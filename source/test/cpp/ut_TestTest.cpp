@@ -46,7 +46,6 @@ UNITTEST_SUITE_BEGIN(TestTest)
 			CHECK_EQUAL(1, results.getFailureCount());
 		}
 
-
 		UNITTEST_TEST(ThrowingTestsAreReportedAsFailures)
 		{
 			class CrashingTest : public Test

@@ -15,6 +15,7 @@ namespace UnitTest
 	extern void			SetAllocator(Allocator* allocator);
 	extern Allocator*	GetAllocator();
 
+	extern int			GetNumAllocations();
 
 	class Observer
 	{

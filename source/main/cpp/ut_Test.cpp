@@ -5,6 +5,7 @@
 #include "xunittest\private\ut_TimeHelpers.h"
 #include "xunittest\private\ut_AssertException.h"
 #include "xunittest\private\ut_StringBuilder.h"
+#include "xunittest\private\ut_Stdout.h"
 
 
 namespace UnitTest
@@ -19,20 +20,41 @@ namespace UnitTest
 	};
 
 	static NullAllocator	sNullAllocator;
-	static Allocator*		sAllocator = &sNullAllocator;
+//	static Allocator*		sAllocator = &sNullAllocator;
+
+	class CountingAllocator : public Allocator
+	{
+	public:
+		CountingAllocator(Allocator* allocator) : mAllocator(allocator)
+		{
+		}
+
+		virtual void*		Allocate(int size) { mNumAllocations++; return mAllocator->Allocate(size); }
+		virtual void		Deallocate(void* ptr) {mNumAllocations--; mAllocator->Deallocate((ptr)); }
+
+		Allocator*	mAllocator;
+		int			mNumAllocations;
+	};
+
+	static CountingAllocator	sCountingAllocator(&sNullAllocator);
+
+	int				GetNumAllocations()
+	{
+		return sCountingAllocator.mNumAllocations;
+	}
 
 	void			SetAllocator(Allocator* allocator)
 	{
-		sAllocator = allocator;
-		if (sAllocator == 0)
-			sAllocator = &sNullAllocator;
+		sCountingAllocator.mNumAllocations = 0;
+		sCountingAllocator.mAllocator = allocator;
+		if (sCountingAllocator.mAllocator == 0)
+			sCountingAllocator.mAllocator = &sNullAllocator;
 	}
 
 	Allocator*		GetAllocator()
 	{
-		return sAllocator;
+		return &sCountingAllocator;
 	}
-
 
 	class NullObserver : public Observer
 	{
