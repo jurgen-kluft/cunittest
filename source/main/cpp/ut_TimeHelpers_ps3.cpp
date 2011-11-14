@@ -33,9 +33,10 @@ namespace UnitTest
         elapsedTime = curTime - *startTime;
 
         const system_time_t* frequency = reinterpret_cast< const system_time_t* >(&mData);
-        double const  seconds   = double(elapsedTime) / (double)(*frequency);
+//		double const  seconds   = double(elapsedTime) / (double)(*frequency);
+		double const  seconds   = double(elapsedTime) / 1000.0;
 
-        return int(seconds * 1000.0f);
+        return int(seconds);
     }
 
     void TimeHelpers::sleepMs(int const ms)
