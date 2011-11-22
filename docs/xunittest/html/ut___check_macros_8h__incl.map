@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$ut___checks_8h.html" title="xunittest\\private\\ut_Checks.h" alt="" coords="285,80,477,107"/>
-<area shape="rect" href="$ut___string_builder_8h.html" title="xunittest\\private\\ut_StringBuilder.h" alt="" coords="459,155,683,181"/>
-<area shape="rect" href="$ut___assert_exception_8h.html" title="xunittest\\private\\ut_AssertException.h" alt="" coords="648,80,891,107"/>
-<area shape="rect" href="$ut___config_8h.html" title="xunittest\\private\\ut_Config.h" alt="" coords="5,155,192,181"/>
-<area shape="rect" href="$ut___test_results_8h.html" title="xunittest\\private\\ut_TestResults.h" alt="" coords="216,155,435,181"/>
-<area shape="rect" href="$ut___exception_8h.html" title="xunittest\\private\\ut_Exception.h" alt="" coords="707,155,912,181"/>
-</map>
