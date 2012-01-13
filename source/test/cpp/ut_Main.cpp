@@ -19,24 +19,55 @@ UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestCountingAllocator);
 // UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestList);		//*
 // UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestRunner);		//*
 
-#if defined(TARGET_PC)
-#include "ut_Allocator_Win32.h"
-#elif defined(TARGET_PS3)
-#include "ut_Allocator_PS3.h"
-#elif defined(TARGET_WII)
-#include "ut_Allocator_Wii.h"
-#endif
+#ifdef TARGET_PC
+class UnitTestAllocator : public UnitTest::Allocator
+{
+public:
+	int		mNumAllocations;
 
+	UnitTestAllocator()
+		: mNumAllocations(0)
+	{
+	}
+
+	void*	Allocate(int size)
+	{
+		UnitTest::IncNumAllocations();
+		++mNumAllocations;
+		return _aligned_malloc(size, 4);
+	}
+
+	void	Deallocate(void* ptr)
+	{
+		UnitTest::DecNumAllocations();
+		--mNumAllocations;
+		_aligned_free(ptr);
+	}
+
+	void	Release()
+	{
+		if (mNumAllocations != 0)
+		{
+			UnitTest::Stdout::Trace("ERROR: System Allocator is being released but still has allocations that are not freed\n");
+			mNumAllocations = 0;
+		}
+	}
+};
+#endif
 
 bool	gRunUnitTest(UnitTest::TestReporter& reporter)
 {
-	UnitTestAllocator * unittestAllocator = gCreateSystemAllocator();
-	UnitTest::SetAllocator(unittestAllocator);
+#ifdef TARGET_PC
+	UnitTestAllocator unittestAllocator;
+	UnitTest::SetAllocator(&unittestAllocator);
 
 	int r = UNITTEST_SUITE_RUN(reporter, xUnitTestUnitTest);
 
-	unittestAllocator->Release();
+	unittestAllocator.Release();
 	UnitTest::SetAllocator(NULL);
 
 	return r == 0;
+#else
+	return false;
+#endif
 }

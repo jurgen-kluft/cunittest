@@ -1,4 +1,4 @@
-#ifdef TARGET_PS3
+#ifdef TARGET_PS3_SPU
 
 #include <assert.h>
 #include <sys/timer.h>
@@ -32,7 +32,7 @@ namespace UnitTest
         system_time_t elapsedTime;
         elapsedTime = curTime - *startTime;
 
-//		const system_time_t* frequency = reinterpret_cast< const system_time_t* >(&mData);
+        const system_time_t* frequency = reinterpret_cast< const system_time_t* >(&mData);
 //		double const  seconds   = double(elapsedTime) / (double)(*frequency);
 		double const  seconds   = double(elapsedTime) / 1000.0;
 

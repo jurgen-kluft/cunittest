@@ -9,6 +9,8 @@
 	#include "xunittest\private\ut_Exception_3ds.h"
 #elif defined(TARGET_PS3)
     #include "xunittest\private\ut_Exception_Ps3.h"
+#elif defined(TARGET_PS3_SPU)
+#include "xunittest\private\ut_Exception_Ps3_Spu.h"
 #elif defined(TARGET_PSP)
 	#include "xunittest\private\ut_Exception_psp.h"
 #elif defined(TARGET_360)

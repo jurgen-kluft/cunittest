@@ -7,24 +7,33 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 {
 	UNITTEST_FIXTURE(fixture1)
 	{
-		UNITTEST_FIXTURE_SETUP() {}
+		int*	a = NULL;
+		int*	c = NULL;
 
-		UNITTEST_FIXTURE_TEARDOWN() {}
+		UNITTEST_FIXTURE_SETUP() 
+		{
+		}
+
+		UNITTEST_FIXTURE_TEARDOWN()
+		{
+			UnitTest::__private::GetAllocator()->Deallocate(a);
+			UnitTest::__private::GetAllocator()->Deallocate(c);
+		}
 
 		UNITTEST_TEST(NoDeallocate1)
 		{
-			int * a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
+			a = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
 		}
 
 		UNITTEST_TEST(Correct1)
 		{
-			int * a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
-			UnitTest::GetAllocator()->Deallocate(a);
+			int*	b = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
+			UnitTest::__private::GetAllocator()->Deallocate(b);
 		}
 
 		UNITTEST_TEST(NoDeallocate2)
 		{
-			int * a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
+			c = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
 		}
 
 
@@ -32,16 +41,16 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 
 	UNITTEST_FIXTURE(fixture_with_memory_leak_in_setup_teardown)
 	{
-		int * a;
+		int * d;
 
 		UNITTEST_FIXTURE_SETUP() 
 		{
-			a = (int *)UnitTest::GetAllocator()->Allocate(sizeof(int));
+			d = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
 		}
 
 		UNITTEST_FIXTURE_TEARDOWN() 
 		{
-			/// Oops forgetting to delete 'a'
+			UnitTest::__private::GetAllocator()->Deallocate(d);
 		}
 
 	}

@@ -26,7 +26,7 @@ namespace UnitTest
 		StringBuilder&			operator << (float const f);
 		StringBuilder&			operator << (double const f);
 
-		enum ESettings			{ STATIC_CHUNK_SIZE=1024, GROW_CHUNK_SIZE = 32 };
+		enum ESettings			{ STATIC_CHUNK_SIZE=2048, GROW_CHUNK_SIZE = 32 };
 		int						getCapacity() const;
 
 	private:

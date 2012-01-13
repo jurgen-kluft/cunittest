@@ -7,16 +7,14 @@ namespace UnitTest
 	//---------------------------------------------------------
 	// @@Global
 	//---------------------------------------------------------
-	Thread * gCreateThread( Runnable * inRunnable,
-		const char * inName /*= NULL*/ )
+	Thread * gCreateThread( Runnable * inRunnable, const char * inName /*= NULL*/ )
 	{
 		if (inRunnable == NULL)
 		{
 			return NULL;
 		}
 
-		void* tmp = GetAllocator()->Allocate(sizeof(ThreadWin32));
-		ThreadWin32 * threadIns = new (tmp) ThreadWin32();
+		ThreadWin32 * threadIns = new ThreadWin32();
 		threadIns->mRunnable = inRunnable;
 
 		HANDLE hd;
@@ -41,8 +39,7 @@ namespace UnitTest
 
 	Mutex * gCreateMutex()
 	{
-		void* tmp = GetAllocator()->Allocate(sizeof(MutexWin32));
-		MutexWin32 * mutex = new (tmp) MutexWin32();
+		MutexWin32 * mutex = new MutexWin32();
 		return mutex;
 	}
 
@@ -55,8 +52,7 @@ namespace UnitTest
 			return NULL;
 		}
 
-		void* tmp = GetAllocator()->Allocate(sizeof(EventWin32));
-		EventWin32 * event = new (tmp) EventWin32(hd);
+		EventWin32 * event = new EventWin32(hd);
 		return event;
 	}
 
@@ -99,7 +95,7 @@ namespace UnitTest
 			mRunnable->exit();
 		}
 
-		GetAllocator()->Deallocate(mRunnable);
+		__private::GetAllocator()->Deallocate(mRunnable);
 		mRunnable = NULL;
 	}
 
@@ -109,7 +105,7 @@ namespace UnitTest
 		{
 //			ThreadManager::instance()->removeThread(this);
 			CloseHandle(mThreadHandle);
-			GetAllocator()->Deallocate(this);
+			delete this;
 		}
 	}
 
@@ -220,7 +216,7 @@ namespace UnitTest
 
 	void MutexWin32::release()
 	{
-		GetAllocator()->Deallocate(this);
+		delete this;
 	}
 
 
@@ -229,14 +225,14 @@ namespace UnitTest
 	//-------------------------------------------------------------
 	bool EventWin32::release()
 	{
-		bool ret = CloseHandle(mHandle);
-		GetAllocator()->Deallocate(this);
+		bool ret = CloseHandle(mHandle) ? true : false;
+		delete this;
 		return ret;
 	}
 
 	bool EventWin32::signal()
 	{
-		return SetEvent(mHandle);
+		return SetEvent(mHandle) ? true : false;
 	}
 
 	void EventWin32::reset()

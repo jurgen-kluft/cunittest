@@ -51,7 +51,7 @@ namespace UnitTest
 
 		void init()
 		{
-			mThread = (OSThread*)GetAllocator()->Allocate(sizeof(OSThread));
+			mThread = (OSThread*)__private::GetAllocator()->Allocate(sizeof(OSThread));
 		}
 
 		virtual ~ThreadWii() { }

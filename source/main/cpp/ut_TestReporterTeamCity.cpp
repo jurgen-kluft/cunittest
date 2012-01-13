@@ -1,4 +1,5 @@
 #include "xunittest\private\ut_TestReporterTeamCity.h"
+#include "xunittest\private\ut_Stdout.h"
 
 namespace UnitTest
 {
@@ -124,4 +125,23 @@ namespace UnitTest
 	{
 	}
 
+	void TestReporterTeamCity::StringFormat(const char* inFormatStr, const char* inName)
+	{
+		Stdout::StringFormat(mMessage, MAX_MESSAGE_LENGTH, inFormatStr, inName);
+	}
+
+	void TestReporterTeamCity::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, int inValue)
+	{
+		Stdout::StringFormat(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inValue);
+	}
+
+	void TestReporterTeamCity::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3)
+	{
+		Stdout::StringFormat(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inStr3);
+	}
+
+	void TestReporterTeamCity::Trace(const char* inMessage)
+	{
+		Stdout::Trace(inMessage);
+	}
 }

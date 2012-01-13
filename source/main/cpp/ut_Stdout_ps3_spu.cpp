@@ -1,12 +1,13 @@
-#ifdef TARGET_N3DS
+#ifdef TARGET_PS3_SPU
 
 #include "xunittest\private\ut_Stdout.h"
 
 #include <stdio.h>
-#include <nn/dbg.h>
+#include <cstdio>
+#include <spu_printf.h>
 
-#define STRINGFORMAT			sprintf			// Here you can divert to a printf/string-formatting implementation
-#define TRACE(a)				NN_LOG(a)		// Here you can divert to a log/trace/print implementation
+#define STRINGFORMAT			sprintf				// Here you can divert to a printf/string-formatting implementation
+#define TRACE(a)				spu_printf(a)		// Here you can divert to a log/trace/print implementation
 
 namespace UnitTest
 {
@@ -35,11 +36,25 @@ namespace UnitTest
 		STRINGFORMAT(inMessage, inFormatStr, inFile, inLine, inTestName, inFailure);
 	}
 
+	void			Stdout::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1)
+	{
+		STRINGFORMAT(outMessage, inMaxMessageLength, inFormatStr, inStr1);
+	}
+
+	void			Stdout::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, int inValue)
+	{
+		STRINGFORMAT(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inValue);
+	}
+
+	void			Stdout::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3)
+	{
+		STRINGFORMAT(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inStr3);
+	}
+
 	void Stdout::Trace(const char* inMessage)
 	{
 		TRACE(inMessage);
 	}
 }
-
 
 #endif

@@ -1,7 +1,5 @@
-#include "xunittest\private\ut_Thread_PS3.h"
-
-
 #if defined(TARGET_PS3)
+#include "xunittest\private\ut_Thread_PS3.h"
 
 #include <stdio.h>
 
@@ -18,8 +16,7 @@ namespace UnitTest
 			return NULL;
 		}
 
-		void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(ThreadPS3));
-		ThreadPS3* threadIns = new (tmp) ThreadPS3();
+		ThreadPS3 * threadIns = new ThreadPS3;
 		threadIns->mRunnable = inRunnable;
 
 		int ret;
@@ -40,7 +37,8 @@ namespace UnitTest
 			return NULL;
 		}
 
-//		ThreadManager::instance()->addThread(threadIns, threadIns->m_tid);
+		//ThreadManager::instance()->addThread(threadIns, threadIns->m_tid);
+
 		threadIns->m_thread_running = true;
 
 		return threadIns;
@@ -48,16 +46,12 @@ namespace UnitTest
 
 	Mutex * gCreateMutex()
 	{
-		void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(MutexPS3));
-		MutexPS3* mutex = new (tmp) MutexPS3();
-		return mutex;
+		return new MutexPS3();
 	}
 
 	Event * gCreateEvent()
 	{
-		void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(EventPS3));
-		EventPS3* event = new (tmp) EventPS3();
-		return event;
+		return new EventPS3();
 	}
 
 	bool gWaitForEvent(Event * inEvent, int inTimeOut /* = 0 */ )
@@ -70,7 +64,7 @@ namespace UnitTest
 
 	void gSleep(int inMiniSecond)
 	{
-		sys_timer_usleep(inMiniSecond * 1e3);
+		sys_timer_usleep(inMiniSecond * 1000);
 	}
 
 
@@ -102,9 +96,10 @@ namespace UnitTest
 	{
 		if (!this->m_thread_running) 
 		{
-//			ThreadManager::instance()->removeThread(this);
+			// ThreadManager::instance()->removeThread(this);
+
 			this->m_thread_running = 0;
-			GetAllocator()->Deallocate(this);
+			delete this;
 		}
 	}
 
@@ -116,7 +111,7 @@ namespace UnitTest
 			mRunnable->exit();
 		}
 
-		GetAllocator()->Deallocate(mRunnable);
+		delete mRunnable;
 		mRunnable = NULL;
 	}
 
@@ -157,7 +152,7 @@ namespace UnitTest
 	void MutexPS3::release()
 	{
 		sys_mutex_destroy(m_mutex);
-		GetAllocator()->Deallocate(this);
+		delete this;
 	}
 
 
@@ -174,7 +169,7 @@ namespace UnitTest
 	bool EventPS3::release()
 	{
 		int ret = sys_semaphore_destroy(this->m_sem);
-		GetAllocator()->Deallocate(this);
+		delete this;
 		return ret == CELL_OK;
 	}
 
