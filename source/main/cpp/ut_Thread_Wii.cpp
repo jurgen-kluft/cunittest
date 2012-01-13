@@ -1,15 +1,10 @@
-#include "xunittest\private\ut_Thread_Wii.h"
-
 #if defined(TARGET_WII)
-
-#include "xunittest/private/ut_Config.h"
-#define uint unsigned int
+#include "xunittest\private\ut_Thread_Wii.h"
+#include "xunittest\private\ut_Config.h"
 
 namespace UnitTest
 {
-	u8			ThreadStack[4096];
-	Thread* gCreateThread(Runnable* inRunnable,
-		const char* inName /* = NULL */)
+	Thread*		gCreateThread(Runnable* inRunnable, const char* inName /* = NULL */)
 	{
 		if (inRunnable = NULL)
 		{
@@ -19,16 +14,17 @@ namespace UnitTest
 		OSInit();
 		VIInit();
 
-		ThreadWii* threadIns = (ThreadWii*)__private::GetAllocator()->Allocate(sizeof(ThreadWii));
+		ThreadWii* threadIns = new ThreadWii();
 		threadIns->init();
 		threadIns->mRunnable = inRunnable;
 
+		threadIns->mThreadStack = (char*)__private::GetAllocator()->Allocate(4096);
 		bool status = OSCreateThread(
-			threadIns->mThread,
+			&threadIns->mThread,
 			ThreadWii::_dispatch,
 			0,
-			ThreadStack + sizeof(ThreadStack),
-			sizeof(ThreadStack),
+			threadIns->mThreadStack + sizeof(4096),
+			4096,
 			31,
 			0);
 
@@ -38,8 +34,8 @@ namespace UnitTest
 			return NULL;
 		}
 
-		threadIns->mThreadId = (uint)threadIns->mThread;
-		int statues = OSResumeThread(threadIns->mThread);
+		threadIns->mThreadId = (unsigned int)&threadIns->mThread;
+		int statues = OSResumeThread(&threadIns->mThread);
 		threadIns->m_thread_running = true;
 
 		return threadIns;
@@ -52,7 +48,7 @@ namespace UnitTest
 
 	bool ThreadWii::resume()
 	{
-		int statues = OSResumeThread(this->mThread);
+		int statues = OSResumeThread(&mThread);
 		return !statues;
 	}
 
@@ -64,7 +60,7 @@ namespace UnitTest
 			mRunnable->exit();
 		}
 
-		__private::GetAllocator()->Deallocate(mRunnable);
+		delete mRunnable;
 		mRunnable = NULL;
 	}
 
@@ -81,15 +77,14 @@ namespace UnitTest
 		if (!this->m_thread_running) 
 		{
 			this->m_thread_running = false;
-			__private::GetAllocator()->Deallocate(mThread);
-			__private::GetAllocator()->Deallocate(this);
+			__private::GetAllocator()->Deallocate(mThreadStack);
+			delete this;
 		}
 	}
 
 	bool ThreadWii::waitForExit()
 	{
-		BOOL result = OSJoinThread(mThread, NULL);
-
+		BOOL result = OSJoinThread(&mThread, NULL);
 		return result == true;
 	}
 }

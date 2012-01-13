@@ -10,61 +10,33 @@
 
 namespace UnitTest
 {
-// 	class MutexWii : public Mutex
-// 	{
-// 	public:
-// 		MutexWii();
-// 		virtual ~MutexWii();
-// 		virtual void lock();
-// 		virtual void unlock();
-// 		virtual void release();
-// 
-// 	private:
-// 	};
-// 
-// 	class EventWii : public Event
-// 	{
-// 	public:
-// 		virtual bool signal();
-// 		virtual void reset();
-// 		virtual bool release();
-// 
-// 		virtual ~EventWii() { }
-// 
-// 		friend bool gWaitForEvent(Event * inEvent, int inTimeOut);
-// 		friend Event * gCreateEvent();
-// 	private:
-// 		EventWii() {}
-// 	};
-
 	class ThreadWii : public ThreadBase
 	{
 	public:
-// 		virtual bool suspend();
- 		virtual bool resume();
+							ThreadWii() : mThreadStack(NULL), mThreadId(-1), m_thread_running(false) {}
+		virtual				~ThreadWii() { }
 
- 		virtual bool waitForExit();
-		virtual void release();
-// 		virtual bool isTerminated();
-//		virtual bool terminate() { return false; }
-//		virtual bool waitForEvent(Event * inEvent, int inTimeOut = 0);
+ 		virtual bool		resume();
 
-		void init()
-		{
-			mThread = (OSThread*)__private::GetAllocator()->Allocate(sizeof(OSThread));
-		}
+		virtual bool		isTerminated()		{ return !m_thread_running; }
+		virtual bool		terminate()			{ return false; }
 
-		virtual ~ThreadWii() { }
 
-		void run();
+ 		virtual bool		waitForExit();
+		virtual void		release();
 
-		friend Thread * gCreateThread(Runnable * inRunnable, const char * inName /* = 0 */);
+		void				init()	{ }
+		void				run();
 
-		static	void*	_dispatch(void * inParam);
+		friend Thread*		gCreateThread(Runnable * inRunnable, const char * inName /* = 0 */);
+		static	void*		_dispatch(void * inParam);
+
+		CLASS_NEW_DELETE_OVERLOAD;
 
 	private:
-		OSThread*		mThread;
-		int				mThreadId;
+		char*			mThreadStack;
+		OSThread		mThread;
+		unsigned int	mThreadId;
 
 		bool			m_thread_running;
 	};
