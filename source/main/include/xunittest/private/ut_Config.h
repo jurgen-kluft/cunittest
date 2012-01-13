@@ -13,8 +13,10 @@ namespace UnitTest
 	};
 
 	extern void			SetAllocator(Allocator* allocator);
-	extern Allocator*	GetAllocator();
-
+	
+	extern void			ResetNumAllocations();
+	extern void			IncNumAllocations();
+	extern void			DecNumAllocations();
 	extern int			GetNumAllocations();
 
 	class Observer
@@ -28,6 +30,11 @@ namespace UnitTest
 
 	extern void			SetObserver(Observer* observer);
 	extern Observer*	GetObserver();
+
+	namespace __private
+	{
+		extern Allocator*	GetAllocator();
+	}
 }
 
 

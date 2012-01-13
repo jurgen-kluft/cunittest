@@ -5,7 +5,6 @@
 #include "xunittest\private\ut_Thread_Base.h"
 #include "xunittest\private\ut_Stdout.h"
 #include <stdio.h>
-#include "xunittest/private/ut_Thread_Wii.h"
 //#include <memory.h>
 
 /*
@@ -46,7 +45,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  			{
  				for (int i = 0; i < 100; ++i)
  				{
- 					Stdout::Trace("A");
+ 					//Stdout::Trace("A");
  					gSleep(10);
  				}
  			}
@@ -57,20 +56,18 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
  		// test thread creation
  		UNITTEST_TEST(TestTest)
  		{
- 			void* tmp = UnitTest::GetAllocator()->Allocate(sizeof(MyRunnable));
- 			MyRunnable* myRunnable = new (tmp) MyRunnable();
+ 			MyRunnable* myRunnable = new MyRunnable();
  			Thread * threadIns = gCreateThread(myRunnable);
  
 			gSleep(100);
  			for (int i = 0; i < 100; ++i)
  			{
- 				Stdout::Trace("C");
+ 				//Stdout::Trace("C");
  				gSleep(10);
  			}
  			Stdout::Trace("\n");
  
  			threadIns->waitForExit();
- 
  			threadIns->release();
  		}
  
@@ -81,16 +78,14 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
    			void run()
    			{
    				ScopeLock lock(gMutex);
-// 				gMutex->lock();
    				for (int i = 0; i < 128; i++)
    				{
    					//gBuff[i % 32] = 'A';
-   					Stdout::Trace("A");
+   					//Stdout::Trace("A");
    					gSleep(10);
    				}
    				Stdout::Trace("\n");
-// 				gMutex->unlock();
-			}
+   			}
 
 			CLASS_NEW_DELETE_OVERLOAD;
    		};
@@ -100,28 +95,25 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
    			void run()
    			{
    				ScopeLock lock(gMutex);
-// 				gMutex->lock();
    				for (int i = 0; i < 128; i++)
    				{
-   					//gBuff[i % 32] = 'A';
-   					Stdout::Trace("B");
+   					//Stdout::Trace("B");
    					gSleep(10);
    				}
    				Stdout::Trace("\n");
-// 				gMutex->unlock();
    			}
 
 			CLASS_NEW_DELETE_OVERLOAD;
    		};
    
-   		// test thread A and B can be asyned by using mutex
+   		// test thread A and B can be asynced by using mutex
    		UNITTEST_TEST(TestAsynWrite)
    		{
    			gMutex = gCreateMutex();
    
-			void* tmpA = UnitTest::GetAllocator()->Allocate(sizeof(RunabWriteA));
+			void* tmpA = UnitTest::__private::GetAllocator()->Allocate(sizeof(RunabWriteA));
 			RunabWriteA* runabWriteA = new (tmpA) RunabWriteA();
-			void* tmpB = UnitTest::GetAllocator()->Allocate(sizeof(RunabWriteB));
+			void* tmpB = UnitTest::__private::GetAllocator()->Allocate(sizeof(RunabWriteB));
 			RunabWriteB* runabWriteB = new (tmpB) RunabWriteB();
 
    			Thread * threadInsA = gCreateThread(runabWriteA);
@@ -193,12 +185,12 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   			gTimer.start();
   
   			gEvent = gCreateEvent();
-
-			void* tmpA = UnitTest::GetAllocator()->Allocate(sizeof(RunabThreadA));
+  
+			void* tmpA = UnitTest::__private::GetAllocator()->Allocate(sizeof(RunabThreadA));
 			RunabThreadA* runabThreadA = new (tmpA) RunabThreadA();
-			void* tmpB = UnitTest::GetAllocator()->Allocate(sizeof(RunabThreadB));
+			void* tmpB = UnitTest::__private::GetAllocator()->Allocate(sizeof(RunabThreadB));
 			RunabThreadB* runabThreadB = new (tmpB) RunabThreadB();
-			void* tmpC = UnitTest::GetAllocator()->Allocate(sizeof(RunabThreadC));
+			void* tmpC = UnitTest::__private::GetAllocator()->Allocate(sizeof(RunabThreadC));
 			RunabThreadC* runabThreadC = new (tmpC) RunabThreadC();
   
   			Thread * threadA = gCreateThread(runabThreadA);
@@ -218,11 +210,11 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
   			threadC->waitForExit();
   
  			char output[100];
-  			Stdout::StringFormat(output, "A timer: %d\n", gTimeThreadA);
+  			Stdout::StringFormat(output, sizeof(output), "A timer: %d\n", gTimeThreadA);
  			Stdout::Trace(output);
-  			Stdout::StringFormat(output, "B timer: %d\n", gTimeThreadB);
+  			Stdout::StringFormat(output, sizeof(output), "B timer: %d\n", gTimeThreadB);
  			Stdout::Trace(output);
-  			Stdout::StringFormat(output, "C timer: %d\n", gTimeThreadC);
+  			Stdout::StringFormat(output, sizeof(output), "C timer: %d\n", gTimeThreadC);
  			Stdout::Trace(output);
   
   			gEvent->release();
@@ -289,3 +281,4 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 }
 
 UNITTEST_SUITE_END
+

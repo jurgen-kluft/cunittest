@@ -19,7 +19,7 @@ namespace UnitTest
 		OSInit();
 		VIInit();
 
-		ThreadWii* threadIns = (ThreadWii*)GetAllocator()->Allocate(sizeof(ThreadWii));
+		ThreadWii* threadIns = (ThreadWii*)__private::GetAllocator()->Allocate(sizeof(ThreadWii));
 		threadIns->init();
 		threadIns->mRunnable = inRunnable;
 
@@ -64,7 +64,7 @@ namespace UnitTest
 			mRunnable->exit();
 		}
 
-		GetAllocator()->Deallocate(mRunnable);
+		__private::GetAllocator()->Deallocate(mRunnable);
 		mRunnable = NULL;
 	}
 
@@ -81,8 +81,8 @@ namespace UnitTest
 		if (!this->m_thread_running) 
 		{
 			this->m_thread_running = false;
-			GetAllocator()->Deallocate(mThread);
-			GetAllocator()->Deallocate(this);
+			__private::GetAllocator()->Deallocate(mThread);
+			__private::GetAllocator()->Deallocate(this);
 		}
 	}
 

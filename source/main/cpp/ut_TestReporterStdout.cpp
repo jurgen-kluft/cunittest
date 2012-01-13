@@ -55,27 +55,27 @@ namespace UnitTest
 
 	void			TestReporterStdout::StringFormat(const char* inFormatStr, float inValue)
 	{
-		Stdout::StringFormat(mMessage, inFormatStr, inValue);
+		Stdout::StringFormat(mMessage, MAX_MESSAGE_LENGTH, inFormatStr, inValue);
 	}
 
 	void			TestReporterStdout::StringFormat(const char* inFormatStr, int inValue)
 	{
-		Stdout::StringFormat(mMessage, inFormatStr, inValue);
+		Stdout::StringFormat(mMessage, MAX_MESSAGE_LENGTH, inFormatStr, inValue);
 	}
 
 	void			TestReporterStdout::StringFormat(const char* inFormatStr, int inValue, int inValue2)
 	{
-		Stdout::StringFormat(mMessage, inFormatStr, inValue, inValue2);
+		Stdout::StringFormat(mMessage, MAX_MESSAGE_LENGTH, inFormatStr, inValue, inValue2);
 	}
 
 	void			TestReporterStdout::StringFormat(const char* inFormatStr, int inValue, const char* inName)
 	{
-		Stdout::StringFormat(mMessage, inFormatStr, inValue, inName);
+		Stdout::StringFormat(mMessage, MAX_MESSAGE_LENGTH, inFormatStr, inValue, inName);
 	}
 
 	void			TestReporterStdout::StringFormat(const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure)
 	{
-		Stdout::StringFormat(mMessage, inFormatStr, inFile, inLine, inTestName, inFailure);
+		Stdout::StringFormat(mMessage, MAX_MESSAGE_LENGTH, inFormatStr, inFile, inLine, inTestName, inFailure);
 	}
 
 	void			TestReporterStdout::Trace(const char* inMessage)
