@@ -1,6 +1,5 @@
 #if defined(TARGET_PS3)
 #include "xunittest\private\ut_Thread_PS3.h"
-
 #include <stdio.h>
 
 namespace UnitTest
@@ -8,8 +7,7 @@ namespace UnitTest
 	//---------------------------------------------------------
 	// @@Global
 	//---------------------------------------------------------
-	Thread * gCreateThread( Runnable * inRunnable,
-		const char * inName /*= NULL*/ )
+	Thread * gCreateThread( Runnable * inRunnable, const char * inName /*= NULL*/ )
 	{
 		if (inRunnable == NULL) 
 		{
@@ -73,7 +71,7 @@ namespace UnitTest
 	//---------------------------------------------------------
 	bool ThreadPS3::isTerminated()
 	{
-		return m_thread_running;
+		return !m_thread_running;
 	}
 
 	bool ThreadPS3::waitForExit()

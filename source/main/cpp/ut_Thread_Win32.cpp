@@ -22,16 +22,12 @@ namespace UnitTest
 		hd = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadWin32::_dispatch, threadIns, CREATE_SUSPENDED, &id);
 		if (hd == NULL)
 		{
-			//@TODO: HANDLE ERROR
 			return NULL;
 		}
 
 		threadIns->mThreadHandle = hd;
 		threadIns->mThreadId = id;
 
-		// add new thread to manager
-//		ThreadManager::instance()->addThread(threadIns, (ThreadHandle_t)hd);
-		
 		ResumeThread(threadIns->mThreadHandle);
 
 		return threadIns;
@@ -95,7 +91,7 @@ namespace UnitTest
 			mRunnable->exit();
 		}
 
-		__private::GetAllocator()->Deallocate(mRunnable);
+		delete mRunnable;
 		mRunnable = NULL;
 	}
 
@@ -103,7 +99,6 @@ namespace UnitTest
 	{
 		if (isTerminated())
 		{
-//			ThreadManager::instance()->removeThread(this);
 			CloseHandle(mThreadHandle);
 			delete this;
 		}
