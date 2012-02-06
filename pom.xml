@@ -28,7 +28,7 @@
 		<Item Src="target\xunittest\outdir\${Name}_*\${Name}_*_${Platform}.lib" Dst="libs\" />
 	</Content>
 
-	<Dependency Package="sdk_ps3" Platform="PS3">
+	<Dependency Package="sdk_ps3" Platform="PS3;PS3_SPU">
 		<Group>com.virtuos.sdk</Group>
 		<Version>[300.0.01,)</Version>
 		<Type>Package</Type>
@@ -78,7 +78,7 @@
 		</Properties>
 	</ProjectProperties>
 
-	<Project Name="xunittest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:sdk_wii;sdk_3ds:sdk_3ds;sdk_ps3:sdk_ps3;sdk_360:sdk_360">
+	<Project Name="xunittest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:sdk_wii;sdk_3ds:sdk_3ds;sdk_ps3:sdk_ps3;sdk_ps3:sdk_ps3_spu;sdk_360:sdk_360">
 		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 				<PropertyGroup Label="Globals">
@@ -104,6 +104,26 @@
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3_SPU'">
+					<ClCompile>
+						<PreprocessorDefinitions>TARGET_PS3_SPU;_DEBUG;SPU;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3_SPU'">
+					<ClCompile>
+						<PreprocessorDefinitions>TARGET_PS3_SPU;NDEBUG;SPU;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -267,6 +287,18 @@
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 				    <TargetExt>.elf</TargetExt>
 				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3_SPU'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3_SPU'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3_SPU'">
+				    <TargetExt>.elf</TargetExt>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3_SPU'">
+				    <TargetExt>.elf</TargetExt>
+				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
 				</PropertyGroup>
@@ -322,6 +354,26 @@
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+					<ClCompile>
+						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3_SPU'">
+					<ClCompile>
+						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3_SPU'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
