@@ -83,7 +83,7 @@ namespace UnitTest
 				{
 					int iAllocCntY = GetNumAllocations();
 					curTest->run(testResults_, maxTestTimeInMs);
-					if (iAllocCntY < GetNumAllocations())
+					if (iAllocCntY != GetNumAllocations())
 					{
 						iMemLeakCnt += (GetNumAllocations() - iAllocCntY);
 						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, "memory leak detected");
