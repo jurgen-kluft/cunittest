@@ -9,9 +9,11 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 	{
 		int*	a = NULL;
 		int*	c = NULL;
+		int*	D = NULL;
 
 		UNITTEST_FIXTURE_SETUP() 
 		{
+			D = (int*)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
 		}
 
 		UNITTEST_FIXTURE_TEARDOWN()
@@ -34,6 +36,11 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 		UNITTEST_TEST(NoDeallocate2)
 		{
 			c = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
+		}
+
+		UNITTEST_TEST(DeallocateInTestIsNotALeak)
+		{
+			UnitTest::__private::GetAllocator()->Deallocate(D);
 		}
 
 
