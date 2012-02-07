@@ -69,36 +69,76 @@ namespace UnitTest
         }
 
         mStep = FIXTURE_SETUP;
-        try
-        {
+		try
+		{
+			// Remember allocation count X
 			int iAllocCntX = GetNumAllocations();
 			int iMemLeakCnt = 0;
-            setup(testResults_);
+			int iExtraDeallocCnt = 0;
+			setup(testResults_);
 
-            if (mTests != 0)
-            {
-                mStep = FIXTURE_UNITTESTS;
-                Test* curTest = mTests;
-                while (curTest != 0)
-                {
+			if (mTests != 0)
+			{
+				mStep = FIXTURE_UNITTESTS;
+				Test* curTest = mTests;
+				while (curTest != 0)
+				{
+					// Remember allocation count Y
 					int iAllocCntY = GetNumAllocations();
 					curTest->run(testResults_, maxTestTimeInMs);
+					// Compare allocation count with Y
+					// If different => memory leak error
 					if (iAllocCntY != GetNumAllocations())
 					{
-						iMemLeakCnt += (GetNumAllocations() - iAllocCntY);
-						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, "memory leak detected");
+						int iAllocCountDifference = (GetNumAllocations() - iAllocCntY);
+						
+						StringBuilder str;
+						if(iAllocCountDifference > 0)
+						{
+							iMemLeakCnt += iAllocCountDifference;
+							str << "memory leak detected, leaked memory allocations: ";
+							str << iAllocCountDifference;
+						}
+						else
+						{
+							iExtraDeallocCnt += -1*iAllocCountDifference;
+							str << "extra memory deallocations detected, unmatching deallocations: ";
+							str << -1*iAllocCountDifference;
+						}
+
+						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, str.getText());
 					}
 					curTest = curTest->mNext;
-                }
-            }
+				}
+			}
 
-            mStep = FIXTURE_TEARDOWN;
-            teardown(testResults_);
+			mStep = FIXTURE_TEARDOWN;
+			teardown(testResults_);
+			// Compare allocation count with X
+			// If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
 			if (iAllocCntX != (GetNumAllocations() - iMemLeakCnt))
 			{
-				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, "memory leak detected in setup()/teardown()");
+				StringBuilder str;
+
+				str << "memory leak detected in setup()/teardown(), leaked memory allocations: ";
+				str << iMemLeakCnt;
+				
+
+				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, str.getText());
 			}
-        }
+
+			if( iAllocCntX != (GetNumAllocations() - iExtraDeallocCnt))
+			{
+				StringBuilder str;
+
+				str << "extra deallocations detected in setup()/teardown(), extra deallocations: ";
+				str << iExtraDeallocCnt;
+				
+
+				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, str.getText());
+			}
+
+		}
         catch (std::exception const& e)
         {
             StringBuilder stringBuilder;
