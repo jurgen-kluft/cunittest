@@ -12,6 +12,8 @@
 #include <sys/timer.h>
 #include <sysutil/sysutil_common.h>
 
+#include "xunittest/ppu_exception_handler.h"
+
 SYS_PROCESS_PARAM(1001, 0x10000)
 
 #define EIEIO                 __asm__ volatile ("eieio");
@@ -44,9 +46,6 @@ void sysutil_callback(uint64_t status,
 
     return;
 }
-
-
-
 
 /*E
  * Loaded on an interrupt PPU thread, handles SPU's printf request.
@@ -129,12 +128,12 @@ void handle_syscall(uint64_t arg)
 
 
 int main(void)
-{
-	printf("test!");
-
+{ 
 	int ret;
 	sys_raw_spu_t id;
 	sys_spu_image_t spu_img;
+
+	//ret = init_exception_handler();
 
 	/*
 	 * Register sysutil callback function for shutdown handling
