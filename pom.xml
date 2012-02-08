@@ -372,6 +372,9 @@
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
+					<PostBuildEvent Condition="'$(TargetExt)'=='.elf'">
+						<Command>make_fself "$(OutDir)$(TargetName)$(TargetExt)"  "$(OutDir)$(TargetName).self"</Command>
+					</PostBuildEvent>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3_SPU'">
 					<ClCompile>
@@ -382,6 +385,9 @@
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
+					<PostBuildEvent Condition="'$(TargetExt)'=='.elf'">
+						<Command>make_fself "$(OutDir)$(TargetName)$(TargetExt)"  "$(OutDir)$(TargetName).self"</Command>
+					</PostBuildEvent>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
 					<ClCompile>
