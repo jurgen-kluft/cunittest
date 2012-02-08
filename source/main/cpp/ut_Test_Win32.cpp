@@ -74,6 +74,7 @@ namespace UnitTest
 			// Remember allocation count X
 			int iAllocCntX = GetNumAllocations();
 			int iMemLeakCnt = 0;
+			int iExtraDeallocCnt = 0;
 			setup(testResults_);
 
 			if (mTests != 0)
@@ -89,8 +90,23 @@ namespace UnitTest
 					// If different => memory leak error
 					if (iAllocCntY != GetNumAllocations())
 					{
-						iMemLeakCnt += (GetNumAllocations() - iAllocCntY);
-						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, "memory leak detected");
+						int iAllocCountDifference = (GetNumAllocations() - iAllocCntY);
+						
+						StringBuilder str;
+						if(iAllocCountDifference > 0)
+						{
+							iMemLeakCnt += iAllocCountDifference;
+							str << "memory leak detected, leaked memory allocations: ";
+							str << iAllocCountDifference;
+						}
+						else
+						{
+							iExtraDeallocCnt += -1*iAllocCountDifference;
+							str << "extra memory deallocations detected, unmatching deallocations: ";
+							str << -1*iAllocCountDifference;
+						}
+
+						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, str.getText());
 					}
 					curTest = curTest->mNext;
 				}
@@ -102,8 +118,26 @@ namespace UnitTest
 			// If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
 			if (iAllocCntX != (GetNumAllocations() - iMemLeakCnt))
 			{
-				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, "memory leak detected in setup()/teardown()");
+				StringBuilder str;
+
+				str << "memory leak detected in setup()/teardown(), leaked memory allocations: ";
+				str << iMemLeakCnt;
+				
+
+				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, str.getText());
 			}
+
+			if( iAllocCntX != (GetNumAllocations() - iExtraDeallocCnt))
+			{
+				StringBuilder str;
+
+				str << "extra deallocations detected in setup()/teardown(), extra deallocations: ";
+				str << iExtraDeallocCnt;
+				
+
+				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, str.getText());
+			}
+
 		}
 		catch (std::exception const& e)
 		{

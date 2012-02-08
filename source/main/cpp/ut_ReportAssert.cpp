@@ -4,7 +4,7 @@ namespace UnitTest
 {
 	void reportAssert(char const* description, char const* filename, int const lineNumber)
 	{
-		throw AssertException(description, filename, lineNumber);
+		_THROW1(AssertException(description, filename, lineNumber));
 	}
 }
 
