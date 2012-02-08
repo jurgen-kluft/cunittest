@@ -1,8 +1,8 @@
 #ifdef TARGET_PS3_SPU
 
 #include <assert.h>
-#include <sys/timer.h>
-#include <sys/sys_time.h>
+//#include <sys/timer.h>
+//#include <sys/sys_time.h>
 
 #include "xunittest\private\ut_TimeHelpers.h"
 
@@ -11,20 +11,21 @@ namespace UnitTest
     Timer::Timer()
     {
         uint64_t* frequency = reinterpret_cast<uint64_t*>(&mData);
-        *frequency = sys_time_get_timebase_frequency();
+        //*frequency = sys_time_get_timebase_frequency();
         assert(*frequency);
     }
 
     void Timer::start()
     {
         system_time_t* startTime = reinterpret_cast<system_time_t*>(&mData[2]);
-        *startTime = sys_time_get_system_time();
+        //*startTime = sys_time_get_system_time();
         assert(*startTime);
     }
 
     int Timer::getTimeInMs() const
     {
-        system_time_t curTime = sys_time_get_system_time();
+        //system_time_t curTime = sys_time_get_system_time();
+		system_time_t curTime = 0;
         assert(curTime);
 
         const system_time_t* startTime = reinterpret_cast< const system_time_t* >(&mData[2]);
@@ -41,7 +42,7 @@ namespace UnitTest
 
     void TimeHelpers::sleepMs(int const ms)
     {
-        sys_timer_sleep((second_t)ms / 1000);
+        //sys_timer_sleep((second_t)ms / 1000);
     }
 
 }
