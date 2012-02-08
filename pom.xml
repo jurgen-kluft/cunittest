@@ -13,6 +13,8 @@
 		<Item Folder="source\test\cpp"/>
 		<Item Folder="source\test\include\xunittest"/>
 		<Item Folder="source\test\resources"/>
+		<Item Folder="source\spu_bootloader\cpp"/>
+		<Item Folder="source\spu_bootloader\include\xunittest"/>
 		<Item Folder="target"/>
 		<Item Folder="tools"/>
 	</DirectoryStructure>
@@ -216,7 +218,7 @@
 			</Project>
 		</ProjectFile>
 	</Project>
-	<Project Name="SPU_Bootloader" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_ps3:sdk_ps3">
+	<Project Name="SPU_Bootloader" Language="C++" Location="source\spu_bootloader\cpp" Scope="Private" DependsOn="sdk_ps3:sdk_ps3">
 		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 				<PropertyGroup Label="Globals">
@@ -261,7 +263,7 @@
 					<ClCompile Include="source\spu_bootloader\cpp\*.cpp" />
 				</ItemGroup>
 				<ItemGroup>
-					<ClCompile Include="source\spu_bootloader\include\**\*.h" />
+					<ClInclude Include="source\spu_bootloader\include\**\*.h" />
 				</ItemGroup>
 			</Project>
 		</ProjectFile>
