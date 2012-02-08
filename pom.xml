@@ -113,7 +113,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -123,7 +123,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -216,7 +216,7 @@
 			</Project>
 		</ProjectFile>
 	</Project>
-	<Project Name="SPU_Bootloader" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:sdk_wii;sdk_3ds:sdk_3ds;sdk_ps3:sdk_ps3;sdk_360:sdk_360">
+	<Project Name="SPU_Bootloader" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_ps3:sdk_ps3">
 		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 				<PropertyGroup Label="Globals">

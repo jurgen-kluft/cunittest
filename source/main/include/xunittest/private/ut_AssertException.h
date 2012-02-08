@@ -15,9 +15,9 @@ namespace UnitTest
 
 	public:
 								AssertException(char const* description, char const* filename, const int lineNumber);
-		virtual					~AssertException() throw();
+		virtual					~AssertException() _THROW0();
 
-		virtual char const*		what() const throw();
+		virtual char const*		what() const _THROW0();
 
 		virtual char const*		filename() const;
 		virtual int				lineNumber() const;

@@ -1,3 +1,5 @@
+#ifndef TARGET_PS3_SPU
+
 #include "xunittest\xunittest.h"
 #include "xunittest\private\ut_TestReporter.h"
 #include "xunittest\private\ut_TimeHelpers.h"
@@ -281,4 +283,7 @@ UNITTEST_SUITE_BEGIN(TestThreadSuite)
 }
 
 UNITTEST_SUITE_END
+
+#endif //TARGET_PS3_SPU
+
 

@@ -8,8 +8,6 @@
 #include "xunittest\private\ut_AssertException.h"
 #include "xunittest\private\ut_StringBuilder.h"
 
-#include <exception>
-
 namespace UnitTest
 {
 	void Test::run(TestResults& testResults, int const maxTestTimeInMs)
@@ -18,24 +16,19 @@ namespace UnitTest
 		testTimer.start();
 		testResults.onTestStart(mTestName);
 
-		try
-		{
+		_TRY_BEGIN
 			runImpl(testResults);
-		}
-		catch (AssertException const& e)
-		{
-			testResults.onTestFailure(e.filename(), e.lineNumber(), mTestName, e.what());
-		}
-		catch (std::exception const& e)
-		{
-			StringBuilder stringBuilder;
-			stringBuilder << "Unhandled exception: " << e.what();
-			testResults.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
-		catch (...)
-		{
+		//_CATCH(AssertException const& e)
+		//	testResults.onTestFailure(e.filename(), e.lineNumber(), mTestName, e.what());
+		//catch (std::exception const& e)
+		//{
+		//	StringBuilder stringBuilder;
+		//	stringBuilder << "Unhandled exception: " << e.what();
+		//	testResults.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
+		//}
+		_CATCH_ALL
 			testResults.onTestFailure(mFilename, mLineNumber, mTestName, "Unhandled exception: Crash!");
-		}
+		_CATCH_END
 		const int testTimeInMs = testTimer.getTimeInMs();
 		if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !mTimeConstraintExempt)
 		{
@@ -69,8 +62,7 @@ namespace UnitTest
 		}
 
 		mStep = FIXTURE_SETUP;
-try
-		{
+		_TRY_BEGIN
 			// Remember allocation count X
 			int iAllocCntX = GetNumAllocations();
 			int iMemLeakCnt = 0;
@@ -138,22 +130,20 @@ try
 				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, str.getText());
 			}
 
-		}
-		catch (std::exception const& e)
-		{
-			StringBuilder stringBuilder;
-			if (mStep == FIXTURE_SETUP)
-				stringBuilder << "Unhandled exception in setup of fixture " << mTestName;
-			else if (mStep == FIXTURE_TEARDOWN)
-				stringBuilder << "Unhandled exception in teardown of fixture " << mTestName;
-			else
-				stringBuilder << "Unhandled exception in fixture " << mTestName;
+		//catch (std::exception const& e)
+		//{
+		//	StringBuilder stringBuilder;
+		//	if (mStep == FIXTURE_SETUP)
+		//		stringBuilder << "Unhandled exception in setup of fixture " << mTestName;
+		//	else if (mStep == FIXTURE_TEARDOWN)
+		//		stringBuilder << "Unhandled exception in teardown of fixture " << mTestName;
+		//	else
+		//		stringBuilder << "Unhandled exception in fixture " << mTestName;
 
-			stringBuilder << " : " << e.what();
-			testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
-		catch (...)
-		{
+		//	stringBuilder << " : " << e.what();
+		//	testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
+		//}
+		_CATCH_ALL
 			StringBuilder stringBuilder;
 			if (mStep == FIXTURE_SETUP)
 				stringBuilder << "Unhandled exception in setup of fixture " << mTestName;
@@ -163,7 +153,7 @@ try
 				stringBuilder << "Unhandled exception in fixture " << mTestName;
 
 			testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
+		_CATCH_END
 
 		const int testTimeInMs = testTimer.getTimeInMs();
 		if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !mTimeConstraintExempt)

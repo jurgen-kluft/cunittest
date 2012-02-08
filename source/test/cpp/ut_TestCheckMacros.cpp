@@ -61,7 +61,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		int ThrowingFunction()
 		{
-			throw "Doh";
+			_THROW1("Doh");
 		}
 
 		UNITTEST_TEST(CheckFailsOnException)
@@ -272,7 +272,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		public:
 			float operator[](int) const
 			{
-				throw "Test throw";
+				_THROW1("Test throw");
 			}
 		};
 
