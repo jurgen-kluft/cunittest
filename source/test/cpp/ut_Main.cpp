@@ -13,7 +13,9 @@ UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTest);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestMacros);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestResults);
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTimeConstraint);
+#ifndef TARGET_PS3_SPU
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestThreadSuite);
+#endif //TARGET_PS3_SPU
 UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestCountingAllocator);
 
 // UNITTEST_SUITE_DECLARE(xUnitTestUnitTest, TestTestList);		//*

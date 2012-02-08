@@ -1,11 +1,9 @@
 #ifndef __XUNITTEST_ASSERTEXCEPTION_PS3_SPU_H__
 #define __XUNITTEST_ASSERTEXCEPTION_PS3_SPU_H__
 
-#include <exception>
-
 namespace UnitTest
 {
-	class Exception : public std::exception
+	class Exception
 	{
 	public:
 		virtual char const*		filename() const = 0;

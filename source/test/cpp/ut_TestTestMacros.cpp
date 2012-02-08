@@ -37,12 +37,12 @@ UNITTEST_SUITE_BEGIN(TestMacros)
 		{
 			UNITTEST_FIXTURE_SETUP()
 			{
-				throw "Oops";
+				_THROW1("Oops");
 			}
 
 			UNITTEST_FIXTURE_TEARDOWN()
 			{
-				throw "Oops";
+				_THROW1("Oops");
 			}
 		}
 
