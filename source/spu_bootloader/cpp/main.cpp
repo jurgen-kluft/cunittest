@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <sys/spu_initialize.h>
 #include <sys/raw_spu.h>
@@ -18,7 +18,7 @@ SYS_PROCESS_PARAM(1001, 0x10000)
 
 #define EIEIO                 __asm__ volatile ("eieio");
 #define INT_STAT_MAILBOX      0x01UL
-#define SPU_PROG  (SYS_APP_HOME "/hello.spu.self")
+//#define SPU_PROG  (SYS_APP_HOME "/*.self")
 #define PPU_STACK_SIZE 4096
 
 #define MAX_PHYSICAL_SPU       6 
@@ -127,13 +127,13 @@ void handle_syscall(uint64_t arg)
 }
 
 
-int main(void)
+int main(int argc, char** argv)
 { 
 	int ret;
 	sys_raw_spu_t id;
 	sys_spu_image_t spu_img;
 
-	//ret = init_exception_handler();
+	ret = init_exception_handler();
 
 	/*
 	 * Register sysutil callback function for shutdown handling
@@ -167,10 +167,19 @@ int main(void)
 	}
 	printf("sys_raw_spu_create succeeded. raw_spu number is %d\n", id);
 
-
-	ret = sys_spu_image_open(&spu_img, SPU_PROG);
-	if (ret != CELL_OK) {
-		printf("sys_spu_image_open failed %x\n", ret);
+	if (argc > 1)
+	{
+		char image_name[128] = "";
+		sprintf(image_name, "/app_home/%s", argv[1]);
+		ret = sys_spu_image_open(&spu_img, image_name);
+		if (ret != CELL_OK) {
+			printf("sys_spu_image_open failed %x\n", ret);
+			exit(1);
+	}
+	}else
+	{
+		printf("ERROR:  no SPU image name found! \n");
+		printf("NOTICE: please pass the SPU image name as Command Line parameter \n");
 		exit(1);
 	}
 
