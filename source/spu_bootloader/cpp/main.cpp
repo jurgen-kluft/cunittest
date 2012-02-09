@@ -1,172 +1,76 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/spu_initialize.h>
-#include <sys/raw_spu.h>
+#include <sys/spu_image.h>
+#include <sys/spu_thread.h>
+#include <sys/spu_thread_group.h>
 #include <sys/spu_utility.h>
-#include <sys/ppu_thread.h>
-#include <sys/interrupt.h>
+#include <sys/event.h>
 #include <sys/paths.h>
 #include <sys/process.h>
-#include <spu_printf.h>
-#include <sysutil/sysutil_sysparam.h>  
-#include <sys/timer.h>
-#include <sysutil/sysutil_common.h>
 
 #include "xunittest/ppu_exception_handler.h"
 
 SYS_PROCESS_PARAM(1001, 0x10000)
 
-#define EIEIO                 __asm__ volatile ("eieio");
-#define INT_STAT_MAILBOX      0x01UL
-//#define SPU_PROG  (SYS_APP_HOME "/*.self")
-#define PPU_STACK_SIZE 4096
+#define MAX_PHYSICAL_SPU       4 
+#define MAX_RAW_SPU            0
+#define NUM_SPU_THREADS        1 /* The number of SPU threads in the group */ 
+#define PRIORITY             100
+//#define SPU_PROG       (SYS_APP_HOME "/event_receiver.spu.self")
 
-#define MAX_PHYSICAL_SPU       6 
-#define MAX_RAW_SPU            1
+#include <spu_printf.h>
 
-void handle_syscall(uint64_t arg);
-void sysutil_callback(uint64_t status,
-					  uint64_t param,
-					  void    *userdata);
-
-void sysutil_callback(uint64_t status,
-					  uint64_t param,
-					  void    *userdata)
-{
-	(void)param;
-	(void)userdata;
-
-	switch (status){
-	case CELL_SYSUTIL_REQUEST_EXITGAME:
-	exit(0);
-		break;
-	default:
-		break;
-    }
-
-    return;
-}
-
-/*E
- * Loaded on an interrupt PPU thread, handles SPU's printf request.
- */
-void handle_syscall(uint64_t arg)
-{
-	sys_raw_spu_t id = arg;
-	uint64_t stat;
-	uint32_t mail;
-	int ret;
-	int sys_ret = -1;
-
-	/*E
-	 * Create a tag to handle class 2 interrupt, because PPU Interrupt MB is 
-	 * handled by class 2. 
-	 */
-	ret = sys_raw_spu_get_int_stat(id, 2, &stat);
-	if (ret) {
-		printf("sys_raw_spu_get_int_stat failed %x\n", ret);
-		sys_interrupt_thread_eoi();
-	}
-
-	/*E
-	 * If the caught class 2 interrupt includes mailbox interrupt, handle it.
-	 */
-	if ((stat & INT_STAT_MAILBOX) == INT_STAT_MAILBOX) {
-		ret = sys_raw_spu_read_puint_mb(id, &mail);
-		if (ret) {
-			printf("sys_raw_spu_read_puint_mb failed %x\n", ret);
-			sys_interrupt_thread_eoi();
-		}
-		uint32_t lsaddr;
-		switch (mail >> 24) {
-		case 0x1:
-			lsaddr = sys_raw_spu_mmio_read(id, SPU_Out_MBox);
-			sys_ret = raw_spu_printf(LS_BASE_ADDR(id), lsaddr);
-			break;
-		default:
-			printf("undefined syscall.\n");
-			break;
-		}
-
-		/*E
-		 * Reset the PPU_INTR_MB interrupt status bit.
-		 */
-		ret = sys_raw_spu_set_int_stat(id, 2, stat & INT_STAT_MAILBOX);
-		if (ret) {
-			printf("sys_raw_spu_set_int_stat failed %x\n", ret);
-			sys_interrupt_thread_eoi();
-		}
-
-		/*E 
-		 * SPU's printf is expecting an acknowledgement and a return value are 
-		 * passed to SPU MB.  
-		 * For the acknowledgement, it uses 0 as successful. And return the
-		 * return value. This is going to be the return value of SPU's printf.
-		 */
-
-		sys_raw_spu_mmio_write(id, SPU_In_MBox, 0);
-		sys_raw_spu_mmio_write(id, SPU_In_MBox, sys_ret);
-		EIEIO;
-
-	} else {
-		/*E
-		 * Must reset interrupt status bit of those not handled.  
-		 *
-		 */
-		ret = sys_raw_spu_set_int_stat(id, 2, stat);
-		if (ret) {
-			printf("sys_raw_spu_set_int_stat failed %x\n", ret);
-			sys_interrupt_thread_eoi();
-		}
-	}
-
-	/*E
-	 * End of interrupt
-	 */
-	sys_interrupt_thread_eoi();
-}
-
+void spu_thr_event_handler(uint64_t queue_id);
 
 int main(int argc, char** argv)
-{ 
+{
+	sys_spu_thread_group_t group; /* SPU thread group ID */
+	const char *group_name = "Group";
+	sys_spu_thread_group_attribute_t group_attr;/* SPU thread group attribute*/
+	sys_spu_thread_t threads[NUM_SPU_THREADS];  /* SPU thread IDs */
+	sys_spu_thread_attribute_t thread_attr;     /* SPU thread attribute */
+	const char *thread_names[NUM_SPU_THREADS] = 
+		{"SPU Thread 0"}; /* The names of SPU threads */
+    sys_spu_image_t spu_img;
+
 	int ret;
-	sys_raw_spu_t id;
-	sys_spu_image_t spu_img;
-
-	ret = init_exception_handler();
-
+	
 	/*
-	 * Register sysutil callback function for shutdown handling
+	 * Initialize Exception Handler
 	 */
-	ret = cellSysutilRegisterCallback(0, 
-									  (CellSysutilCallback)sysutil_callback, 
-									  NULL);
-
-	if (ret != CELL_OK) {
-		printf("systemUtilityInit() failed %x\n", ret);
-		exit(ret);
-	}
-
-	/*E
+	ret = init_exception_handler();
+	
+	/*
 	 * Initialize SPUs
 	 */
 	printf("Initializing SPUs\n");
 	ret = sys_spu_initialize(MAX_PHYSICAL_SPU, MAX_RAW_SPU);
-	if (ret) {
-		printf("sys_spu_initialize failed %x\n", ret);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_initialize failed: %#.8x\n", ret);
 		exit(ret);
 	}
 
-	/*E
-	 * Execute a series of system calls to load a program to a Raw SPU.
+	/*
+	 * Create an SPU thread group
+	 * 
+	 * The SPU thread group is initially in the NOT INITIALIZED state.
 	 */
-	ret = sys_raw_spu_create(&id, NULL);
-	if (ret) {
-		printf("sys_raw_spu_create failed %x\n", ret);
+	printf("Creating an SPU thread group.\n");
+
+	sys_spu_thread_group_attribute_initialize(group_attr);
+	sys_spu_thread_group_attribute_name(group_attr,group_name);
+
+	ret = sys_spu_thread_group_create(&group, 
+									  NUM_SPU_THREADS,
+									  PRIORITY, 
+									  &group_attr);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_thread_group_create failed: %#.8x\n", ret);
 		exit(ret);
 	}
-	printf("sys_raw_spu_create succeeded. raw_spu number is %d\n", id);
-
+	
 	if (argc > 1)
 	{
 		char image_name[128] = "";
@@ -183,83 +87,121 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
-	ret = sys_raw_spu_image_load(id, &spu_img);
-	if (ret) {
-		printf("sys_raw_spu_load failed %x\n", ret);
-		exit(1);
-	}
-
-	/*E 
-	 * Create an interrupt handler and establish it on an interrupt PPU 
-	 * thread.  This PPU interrupt thread is going to handle SPU's printf
-	 * request.
+	/*
+	 * Initialize SPU threads in the SPU thread group.
+	 * This sample loads the same image to all SPU threads.
 	 */
-	sys_interrupt_tag_t intrtag;
-	sys_ppu_thread_t handler;
-	sys_interrupt_thread_handle_t ih;
+	sys_spu_thread_attribute_initialize(thread_attr);
+	for (int i = 0; i < NUM_SPU_THREADS; i++) {
+		sys_spu_thread_argument_t thread_args;
 
-	ret = sys_ppu_thread_create(&handler, handle_syscall, 0, 100,
-								PPU_STACK_SIZE, SYS_PPU_THREAD_CREATE_INTERRUPT,
-								"Interrupt Thread");
-	if (ret) {
-		printf("sys_ppu_thread_create is faild %x\n", ret);
-		exit(1);
+		// TODO: jinlin, SpuProgramSize can be set here
+		thread_args.arg1 = SYS_SPU_THREAD_ARGUMENT_LET_32(0);
+		
+		// TODO: jinlin, SpuStackSize can be set here, maybe 0x2000?
+		thread_args.arg2 = SYS_SPU_THREAD_ARGUMENT_LET_32(0);
+
+		printf("Initializing SPU thread %d\n", i);
+		
+		sys_spu_thread_attribute_name(thread_attr,thread_names[i]);
+		
+		ret = sys_spu_thread_initialize(&threads[i],
+										group,
+										i,
+										&spu_img,
+										&thread_attr,
+										&thread_args);
+		if (ret != CELL_OK) {
+			fprintf(stderr, "sys_spu_thread_initialize failed: %#.8x\n", ret);
+			exit(ret);
+		}
 	}
 
-	ret = sys_ppu_thread_set_priority(handler, 111);
-	if (ret) {
-		printf("sys_ppu_thread_set_priority faild %x\n", ret);
-		exit(ret);
-	}
-
-	ret = sys_raw_spu_create_interrupt_tag(id, 2, 0, &intrtag);
-	if (ret) {
-		printf("sys_raw_spu_create_interrupt_tag failed %x\n", ret);
-		exit(ret);
-	}
-
-	ret = sys_interrupt_thread_establish(&ih, intrtag, handler, id);
-	if (ret) {
-		printf("sys_intr_thread_establish failed %x\n", ret);
-		exit(ret);
-	}
-
-	/*E
-	 * Set interrupt mask.
-	 * The third argument = 7 enables Halt, Stop-and-Signal and PPU Mailbox 
-	 * interrupts.
+	printf("All SPU threads have been successfully initialized.\n");
+	
+	/*
+	 * Turn on the spu_printf
 	 */
-	ret = sys_raw_spu_set_int_mask(id, 2, 7);
-	if (ret) {
-		printf("sys_raw_spu_set_int_mask failed %x\n", ret);
+	ret = spu_printf_initialize(1000, NULL);
+	if (ret != CELL_OK) {
+		printf("spu_printf_initialize failed %x\n", ret);
+		exit(-1);
+	}
+
+	ret = spu_printf_attach_group(group);
+	if (ret != CELL_OK) {
+		printf("spu_printf_attach_group failed %x\n", ret);
+		exit(-1);
+	}
+
+	/*
+	 * Start the SPU thread group
+	 */
+	printf("Starting the SPU thread group.\n");
+	ret = sys_spu_thread_group_start(group);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_thread_group_start failed: %#.8x\n", ret);
+		exit(ret);
+	}
+	
+	/*
+	 * Wait for the termination of the SPU thread group
+	 */
+	printf("Waiting for the SPU thread group to be terminated.\n");
+	int cause, status;
+	ret = sys_spu_thread_group_join(group, &cause, &status);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_thread_group_join failed: %#.8x\n", ret);
 		exit(ret);
 	}
 
-	/*E
-	 * Run the Raw SPU.
+	/*
+	 * Show the exit cause and status.
 	 */
-	sys_raw_spu_mmio_write(id, SPU_RunCntl, 0x1);
+	switch(cause) {
+	case SYS_SPU_THREAD_GROUP_JOIN_GROUP_EXIT:
+		printf("The SPU thread group exited by sys_spu_thread_group_exit().\n");
+		printf("The group's exit status = %d\n", status);
+		break;
+	case SYS_SPU_THREAD_GROUP_JOIN_ALL_THREADS_EXIT:
+		printf("All SPU thread exited by sys_spu_thread_exit().\n");
+		for (int i = 0; i < NUM_SPU_THREADS; i++) {
+			int thr_exit_status;
+			ret = sys_spu_thread_get_exit_status(threads[i], &thr_exit_status);
+			if (ret != CELL_OK) {
+				fprintf(stderr, "sys_spu_thread_get_exit_status failed: %#.8x\n", ret);
+			}
+			printf("SPU thread %d's exit status = %d\n", i, thr_exit_status);
+		}
+		break;
+	case SYS_SPU_THREAD_GROUP_JOIN_TERMINATED:
+		printf("The SPU thread group is terminated by sys_spu_thread_terminate().\n");
+		printf("The group's exit status = %d\n", status);
+		break;
+	default:
+		fprintf(stderr, "Unknown exit cause: %d\n", cause);
+		break;
+	}
 
-	uint32_t stat;
+	printf("The expected sum of all exit status is 300.\n");
 
- 	do {
-		stat = sys_raw_spu_mmio_read(id, SPU_Status);
-		sys_timer_usleep(1000);
-	} while ((stat & 0x02U) == 0);
-
-
-	printf("Destroying Raw SPU %d\n", id);
-	if ((ret = sys_raw_spu_destroy(id)) != CELL_OK) {
-		printf("sys_raw_spu_destroy failed %x\n", ret);
-		exit(ret);
+	/*
+	 * Destroy the SPU thread group
+	 */
+	
+	ret = sys_spu_thread_group_destroy(group);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_thread_group_destroy() failed: %#.8x\n", ret);
+	} else {
+		printf("Destroyed the SPU thread group.\n");
 	}
 
 	ret = sys_spu_image_close(&spu_img);
 	if (ret != CELL_OK) {
-		printf("sys_spu_image_close failed %x\n", ret);
-		exit(ret);
+		fprintf(stderr, "sys_spu_image_close failed: %.8x\n", ret);
 	}
+	
+	printf("Exiting.\n");
 
 	return 0;
 }
-

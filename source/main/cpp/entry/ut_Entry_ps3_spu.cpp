@@ -17,9 +17,13 @@ public:
 	}
 };
 
+#include <spu_printf.h>
+
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
-int main(int argc, char** argv)
+int main(int arg1, int arg2)
 {
+	spu_printf("arg1(SpuProgramSize)=%d arg2(SpuStackSize)=%d \n", arg1, arg2);
+
 	UnitTest::SetAllocator(NULL);
 	UnitTestObserver observer;
 	UnitTest::SetObserver(&observer);
