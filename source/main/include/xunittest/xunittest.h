@@ -12,4 +12,8 @@
 #include "xunittest\private\ut_TestReporterStdout.h"
 #include "xunittest\private\ut_TestReporterTeamCity.h"
 
+#ifdef SPU
+void getProgramAndStackSizeForSPU(int* programSize, int* stackSize);
+#endif
+
 #endif	///< __XUNITTEST_SUITE_H__
