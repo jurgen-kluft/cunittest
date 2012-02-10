@@ -22,14 +22,16 @@ public:
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
 extern void gSetProgramAndStackSizeForSPU(int programSize, int stackSize);
 
+int gProgramSize = 0;
+int gStackSize   = 0;
+
 void getProgramAndStackSizeForSPU(int* programSize, int* stackSize)
 {
 	*programSize = gProgramSize;
 	*stackSize   = gStackSize;
 }
 
-int gProgramSize = 0;
-int gStackSize   = 0;
+
 
 int main(int arg1, int arg2)
 {
