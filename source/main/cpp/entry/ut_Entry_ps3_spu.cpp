@@ -20,8 +20,22 @@ public:
 #include <spu_printf.h>
 
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
+extern void gSetProgramAndStackSizeForSPU(int programSize, int stackSize);
+
+void getProgramAndStackSizeForSPU(int* programSize, int* stackSize)
+{
+	*programSize = gProgramSize;
+	*stackSize   = gStackSize;
+}
+
+int gProgramSize = 0;
+int gStackSize   = 0;
+
 int main(int arg1, int arg2)
 {
+	gProgramSize = arg1;
+	gStackSize = arg2;
+
 	spu_printf("arg1(SpuProgramSize)=%d arg2(SpuStackSize)=%d \n", arg1, arg2);
 
 	UnitTest::SetAllocator(NULL);
