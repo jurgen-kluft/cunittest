@@ -1,4 +1,4 @@
-#ifdef TARGET_360
+#if 0
 
 #include "xunittest\private\ut_Stdout.h"
 
