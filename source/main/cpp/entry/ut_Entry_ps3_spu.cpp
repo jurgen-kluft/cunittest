@@ -20,7 +20,6 @@ public:
 #include <spu_printf.h>
 
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
-extern void gSetProgramAndStackSizeForSPU(int programSize, int stackSize);
 
 void getProgramAndStackSizeForSPU(int* programSize, int* stackSize)
 {
