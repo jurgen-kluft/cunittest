@@ -31,10 +31,34 @@ namespace UnitTest
 	extern void			SetObserver(Observer* observer);
 	extern Observer*	GetObserver();
 
+
+	class NullAllocator : public Allocator
+	{
+	public:
+							NullAllocator() { }
+
+		virtual void*		Allocate(int size) { return 0; }
+		virtual void		Deallocate(void* ptr) {}
+		void	Release()		{}
+	};
+	
+
+	class NullObserver : public Observer
+	{
+	public:
+		virtual void		BeginFixture(const char* filename, const char* suite_name, const char* fixture_name) {}
+		virtual void		EndFixture() {}
+
+	};
+
+
 	namespace __private
 	{
-		extern Allocator*	GetAllocator();
+		Allocator*		GetAllocator();
 	}
+
+
+
 }
 
 

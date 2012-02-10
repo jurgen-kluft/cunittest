@@ -1,4 +1,4 @@
-#ifdef TARGET_PC
+#if defined(TARGET_PC) || defined(TARGET_360)
 
 #include "xunittest\private\ut_Stdout.h"
 
@@ -6,7 +6,12 @@
 #define NOGDI
 #define NOMB
 #define NOKANJI
+
+
+#ifdef TARGET_PC
 #include <windows.h>
+#endif
+
 #include <time.h>
 #include <stdio.h>
 
@@ -58,8 +63,10 @@ namespace UnitTest
 
 	void Stdout::Trace(const char* inMessage)
 	{
-		TRACE(inMessage);
+		TRACE(inMessage);	
+		#ifdef TARGET_PC
 		::OutputDebugString(inMessage);
+		#endif
 	}
 }
 

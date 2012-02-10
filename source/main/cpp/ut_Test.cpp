@@ -10,16 +10,24 @@
 
 namespace UnitTest
 {
-	class NullAllocator : public Allocator
-	{
-	public:
-							NullAllocator() { }
 
-		virtual void*		Allocate(int size) { return 0; }
-		virtual void		Deallocate(void* ptr) {}
-	};
+	static NullObserver		sNullObserver;
+	static Observer*		sObserver = &sNullObserver;
+
+	void			SetObserver(Observer* observer)
+	{
+		sObserver = observer;
+		if (sObserver == 0)
+			sObserver = &sNullObserver;
+	}
+
+	Observer*		GetObserver()
+	{
+		return sObserver;
+	}
 	
 	static int				sNumAllocations = 0;
+
 	void			ResetNumAllocations()
 	{
 		sNumAllocations = 0;
@@ -55,30 +63,6 @@ namespace UnitTest
 		{
 			return sAllocator;
 		}
-	}
-
-	class NullObserver : public Observer
-	{
-	public:
-							NullObserver() { }
-
-		virtual void		BeginFixture(const char* filename, const char* suite_name, const char* fixture_name) {}
-		virtual void		EndFixture() {}
-	};
-
-	static NullObserver		sNullObserver;
-	static Observer*		sObserver = &sNullObserver;
-
-	void			SetObserver(Observer* observer)
-	{
-		sObserver = observer;
-		if (sObserver == 0)
-			sObserver = &sNullObserver;
-	}
-
-	Observer*		GetObserver()
-	{
-		return sObserver;
 	}
 
 

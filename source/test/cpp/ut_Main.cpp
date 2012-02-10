@@ -1,6 +1,7 @@
 #include "xunittest\xunittest.h"
 #include "xunittest\private\ut_TestReporter.h"
 #include "xunittest\private\ut_Stdout.h"
+#include "xunittest\private\ut_Config.h"
 
 UNITTEST_SUITE_LIST(xUnitTestUnitTest);
 
@@ -62,6 +63,11 @@ bool	gRunUnitTest(UnitTest::TestReporter& reporter)
 #ifdef TARGET_PC
 	UnitTestAllocator unittestAllocator;
 	UnitTest::SetAllocator(&unittestAllocator);
+#else
+	UnitTest::NullAllocator unittestAllocator;
+	UnitTest::SetAllocator(&unittestAllocator);
+#endif
+
 
 	int r = UNITTEST_SUITE_RUN(reporter, xUnitTestUnitTest);
 
@@ -69,7 +75,5 @@ bool	gRunUnitTest(UnitTest::TestReporter& reporter)
 	UnitTest::SetAllocator(NULL);
 
 	return r == 0;
-#else
-	return false;
-#endif
+
 }
