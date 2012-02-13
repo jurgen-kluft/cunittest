@@ -233,7 +233,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -243,7 +243,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
