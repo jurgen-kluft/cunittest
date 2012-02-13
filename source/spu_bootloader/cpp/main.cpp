@@ -133,11 +133,39 @@ int main(int argc, char** argv)
 	
 	if (argc > 1)
 	{
-		char image_name[128] = "";
+		char image_name[256] = "";
 		sprintf(image_name, "/app_home/%s", argv[1]);
 		ret = sys_spu_image_open(&spu_img, image_name);
 		if (ret != CELL_OK) {
-			printf("sys_spu_image_open failed %x\n", ret);
+			printf("sys_spu_image_open failed with error %x opening program: %s\n", ret, image_name);
+
+			if(ret == ENOENT)
+				printf("SPU program file does not exist.\n");
+			else if(ret == EINVAL)
+				printf("Path to program is not absolute.\n");
+			else if(ret == EMFILE)
+				printf("Too many file descriptors?\n");
+			else if(ret == EISDIR)
+				printf("Path is directory..\n");
+			else if(ret == ENOTDIR)
+				printf("Elements of path include non directory\n");
+			else if(ret == ENAMETOOLONG)
+				printf("Length of path elements is exceeding the limit\n");
+			else if(ret == EFSSPECIFIC)
+				printf("Error specific to the file system occured.\n");
+			else if(ret == ENOEXEC)
+				printf("The format used in the elf file is not supported OR authorization error\n");
+			else if(ret == EAGAIN)
+				printf("Not enough resources to process\n");
+			else if(ret == ENOMEM)
+				printf("Insufficient user memory\n");
+			else if(ret == EFAULT)
+				printf("A specified address was invalid\n");
+			else if(ret == ENOTMOUNTED)
+				printf("The file system which corresponds to path is not mounted\n");
+			else
+				printf("Unknown error????\n");
+
 			exit(1);
 		}
 	}
