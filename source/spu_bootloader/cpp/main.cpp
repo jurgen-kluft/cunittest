@@ -10,6 +10,7 @@
 #include <sys/event.h>
 #include <sys/paths.h>
 #include <sys/process.h>
+#include <cell/cell_fs.h>
 
 #include "xunittest/ppu_exception_handler.h"
 
@@ -37,6 +38,7 @@ int main(int argc, char** argv)
 	const char *thread_names[NUM_SPU_THREADS] = 
 		{"SPU Thread 0"}; /* The names of SPU threads */
     sys_spu_image_t spu_img;
+	int spu_file_size = 0;
 
 	/*
 	 * Variables for the event queue and event handler PPU thread
@@ -135,6 +137,31 @@ int main(int argc, char** argv)
 	{
 		char image_name[256] = "";
 		sprintf(image_name, "/app_home/%s", argv[1]);
+
+		// open file
+		int fd;
+		ret = cellFsOpen(image_name, CELL_FS_O_RDONLY, &fd, NULL, 0);
+		if (ret != CELL_FS_SUCCEEDED) {
+			fprintf(stderr, "cellFsOpen %s failed: 0x%x\n", image_name, ret);
+			return -1;
+		}
+		
+		// obtain file size
+		CellFsStat status;
+		memset(&status, 0, sizeof(CellFsStat));
+		ret = cellFsFstat(fd, &status);
+		if (ret != CELL_FS_SUCCEEDED) {
+			fprintf(stderr, "cellFsFstat failed: 0x%x\n", ret);
+			cellFsClose(fd);
+			return -1;
+		}
+
+		spu_file_size = status.st_size;
+		printf("spu program file size = %d byte \n", spu_file_size);
+
+		// close file
+		cellFsClose(fd);
+
 		ret = sys_spu_image_open(&spu_img, image_name);
 		if (ret != CELL_OK) {
 			printf("sys_spu_image_open failed with error %x opening program: %s\n", ret, image_name);
@@ -184,8 +211,8 @@ int main(int argc, char** argv)
 	for (int i = 0; i < NUM_SPU_THREADS; i++) {
 		sys_spu_thread_argument_t thread_args;
 
-		// TODO: jinlin, SpuProgramSize can be set here
-		thread_args.arg1 = SYS_SPU_THREAD_ARGUMENT_LET_32(0);
+		// set the SPU Program Size as the thread argument 1
+		thread_args.arg1 = SYS_SPU_THREAD_ARGUMENT_LET_32(spu_file_size);
 		
 		// TODO: jinlin, SpuStackSize can be set here, maybe 0x2000?
 		thread_args.arg2 = SYS_SPU_THREAD_ARGUMENT_LET_32(0);
