@@ -56,7 +56,7 @@
 
 	<ProjectProperties>
 		<Properties DependencyType="Root" Platform="*">
-			<PropertyGroup Label="xunittest_TargetDirs">
+			<PropertyGroup Label="xunittest_TargetDirs_aaa">
 				<xunittest_RootDir>$(SolutionDir)</xunittest_RootDir> 
 				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</xunittest_LibraryDir>
 				<xunittest_IncludeDir>$(SolutionDir)source\main\include\</xunittest_IncludeDir>
@@ -64,7 +64,7 @@
 		</Properties>
 				
 		<Properties DependencyType="Package" Platform="*">
-			<PropertyGroup Label="xunittest_TargetDirs">
+			<PropertyGroup Label="xunittest_TargetDirs_aaa">
 				<xunittest_RootDir>${Location}</xunittest_RootDir> 
 				<xunittest_LibraryDir>${Location}libs\</xunittest_LibraryDir>
 				<xunittest_IncludeDir>${Location}source\main\include\</xunittest_IncludeDir>
@@ -78,8 +78,82 @@
 				<xunittest_IncludeDir>$(SolutionDir)target\xunittest\source\main\include\</xunittest_IncludeDir>
 			</PropertyGroup>
 		</Properties>
+		
+		<Properties DependencyType="Root" Platform="*">
+			<PropertyGroup Label="xunittest_spu_TargetDirs">
+				<xunittest_spu_RootDir>$(SolutionDir)</xunittest_spu_RootDir> 
+				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
+				<xunittest_spu_IncludeDir>$(SolutionDir)source\main\include\</xunittest_spu_IncludeDir>
+			</PropertyGroup>
+		</Properties>
+				
+		<Properties DependencyType="Package" Platform="*">
+			<PropertyGroup Label="xunittest_spu_TargetDirs">
+				<xunittest_spu_RootDir>${Location}</xunittest_spu_RootDir> 
+				<xunittest_spu_LibraryDir>${Location}libs\</xunittest_spu_LibraryDir>
+				<xunittest_spu_IncludeDir>${Location}source\main\include\</xunittest_spu_IncludeDir>
+			</PropertyGroup>
+		</Properties>
+	
+		<Properties DependencyType="Source" Platform="*">
+			<PropertyGroup Label="xunittest_spu_TargetDirs">
+				<xunittest_spu_RootDir>$(SolutionDir)target\xunittest\</xunittest_spu_RootDir> 
+				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
+				<xunittest_spu_IncludeDir>$(SolutionDir)target\xunittest\source\main\include\</xunittest_spu_IncludeDir>
+			</PropertyGroup>
+		</Properties>
 	</ProjectProperties>
 
+	<Project Name="SPU_Bootloader" Language="C++" Location="source\spu_bootloader\cpp" Scope="Private" DependsOn="sdk_ps3:sdk_ps3">
+		<ProjectFile>
+			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+				<PropertyGroup Label="Globals">
+					<ProjectGuid>{D035FCCE-4E3C-4C48-A5E1-1CCB598D131A}}</ProjectGuid>
+				</PropertyGroup>
+				<ImportGroup Label="TargetDirs">
+					<Import Project="$(SolutionDir)target\xunittest\xunittest.$(Platform).props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.$(Platform).props')" Label="xunittest_RootDir" />
+				</ImportGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+					<ClCompile>
+						<PreprocessorDefinitions>TARGET_PS3;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+					<ClCompile>
+						<PreprocessorDefinitions>TARGET_PS3;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+				    <TargetExt>.self</TargetExt>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+				    <TargetExt>.self</TargetExt>
+				</PropertyGroup>
+				<ItemGroup>
+					<ClCompile Include="source\spu_bootloader\cpp\*.cpp" />
+				</ItemGroup>
+				<ItemGroup>
+					<ClInclude Include="source\spu_bootloader\include\**\*.h" />
+				</ItemGroup>
+			</Project>
+		</ProjectFile>
+	</Project>
 	<Project Name="xunittest" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_wii:sdk_wii;sdk_3ds:sdk_3ds;sdk_ps3:sdk_ps3;sdk_ps3:sdk_ps3_spu;sdk_360:sdk_360">
 		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -109,29 +183,9 @@
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
-				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3_SPU'">
-					<ClCompile>
-						<PreprocessorDefinitions>TARGET_PS3_SPU;_DEBUG;SPU;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-					</ClCompile>
-					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
-					</Link>
-				</ItemDefinitionGroup>
-				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3_SPU'">
-					<ClCompile>
-						<PreprocessorDefinitions>TARGET_PS3_SPU;NDEBUG;SPU;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-					</ClCompile>
-					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
-					</Link>
-				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
 					<ClCompile>
-						<PreprocessorDefinitions>TARGET_PS3;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<UserPreprocessorDefinitions>TARGET_PS3;_DEBUG;%(PreprocessorDefinitions)</UserPreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
@@ -141,7 +195,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 					<ClCompile>
-						<PreprocessorDefinitions>TARGET_PS3;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<UserPreprocessorDefinitions>TARGET_PS3;NDEBUG;%(PreprocessorDefinitions)</UserPreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
@@ -218,53 +272,47 @@
 			</Project>
 		</ProjectFile>
 	</Project>
-	<Project Name="SPU_Bootloader" Language="C++" Location="source\spu_bootloader\cpp" Scope="Private" DependsOn="sdk_ps3:sdk_ps3">
+	<Project Name="xunittest_spu" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="sdk_ps3:sdk_ps3_spu">
 		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 				<PropertyGroup Label="Globals">
-					<ProjectGuid>{D035FCCE-4E3C-4C48-A5E1-1CCB598D131A}}</ProjectGuid>
+					<ProjectGuid>{F71D8F03-7526-48F8-B83D-B58D9919D6AF}</ProjectGuid>
+					<PlatformToolset>SPU</PlatformToolset>
 				</PropertyGroup>
 				<ImportGroup Label="TargetDirs">
-					<Import Project="$(SolutionDir)target\xunittest\xunittest.$(Platform).props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.$(Platform).props')" Label="xunittest_RootDir" />
+					<Import Project="$(SolutionDir)target\xunittest\xunittest.PS3.props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.PS3.props')" Label="xunittest_RootDir" />
 				</ImportGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
 					<ClCompile>
-						<PreprocessorDefinitions>TARGET_PS3;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;_DEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+						<Warnings>NormalWarnings</Warnings>
+						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
-						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 					<ClCompile>
-						<PreprocessorDefinitions>TARGET_PS3;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;NDEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+						<Warnings>NormalWarnings</Warnings>
+						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
-						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'" Label="Configuration">
-					<ConfigurationType>Application</ConfigurationType>
-				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
-				    <TargetExt>.elf</TargetExt>
-				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'" Label="Configuration">
-					<ConfigurationType>Application</ConfigurationType>
-				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
-				    <TargetExt>.elf</TargetExt>
-				</PropertyGroup>
 				<ItemGroup>
-					<ClCompile Include="source\spu_bootloader\cpp\*.cpp" />
+					<ClCompile Include="source\main\cpp\**\*.cpp" />
 				</ItemGroup>
 				<ItemGroup>
-					<ClInclude Include="source\spu_bootloader\include\**\*.h" />
+					<ClInclude Include="source\main\include\xunittest\**\*.h" />
 				</ItemGroup>
+				<Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />
+				<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+				<ImportGroup Label="ExtensionTargets" />
 			</Project>
 		</ProjectFile>
 	</Project>
@@ -350,7 +398,6 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
 					<ClCompile>
-						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
@@ -360,39 +407,12 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 					<ClCompile>
-						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
-				</ItemDefinitionGroup>
-				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3_SPU'">
-					<ClCompile>
-						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
-					</ClCompile>
-					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
-					</Link>
-					<PostBuildEvent Condition="'$(TargetExt)'=='.elf'">
-						<Command>make_fself "$(OutDir)$(TargetName)$(TargetExt)"  "$(OutDir)$(TargetName).self"</Command>
-					</PostBuildEvent>
-				</ItemDefinitionGroup>
-				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3_SPU'">
-					<ClCompile>
-						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
-					</ClCompile>
-					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
-					</Link>
-					<PostBuildEvent Condition="'$(TargetExt)'=='.elf'">
-						<Command>make_fself "$(OutDir)$(TargetName)$(TargetExt)"  "$(OutDir)$(TargetName).self"</Command>
-					</PostBuildEvent>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
 					<ClCompile>
@@ -463,7 +483,63 @@
 			</Project>
 		</ProjectFile>
 	</Project>
-
+	<Project Name="xunittest_test_spu" Language="C++" Location="source\test\cpp" Scope="Private" DependsOn="xunittest:xunittest_spu">
+		<ProjectFile>
+			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+				<PropertyGroup Label="Globals">
+					<ProjectGuid>{F300F57C-44D0-446F-9D3C-4D6B5818E232}</ProjectGuid>
+					<PlatformToolset>SPU</PlatformToolset>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+				    <TargetExt>.elf</TargetExt>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+				    <TargetExt>.elf</TargetExt>
+				</PropertyGroup>
+				<ImportGroup Label="TargetDirs">
+					<Import Project="$(SolutionDir)target\xunittest\xunittest.PS3_SPU.props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.PS3_SPU.props')" Label="xunittest_RootDir" />
+				</ImportGroup>
+				
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+					<ClCompile>
+						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;_DEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+						<Warnings>NormalWarnings</Warnings>
+						<OptimizationLevel>Level0</OptimizationLevel>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+					<ClCompile>
+						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;NDEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+						<Warnings>NormalWarnings</Warnings>
+						<OptimizationLevel>Level0</OptimizationLevel>
+					</ClCompile>
+				</ItemDefinitionGroup>
+				<ItemGroup>
+					<ClCompile Include="source\test\cpp\**\*.cpp" />
+				</ItemGroup>
+				<ItemGroup>
+					<ClInclude Include="source\test\include\**\*.h" />
+				</ItemGroup>
+			</Project>
+		</ProjectFile>
+	</Project>
 </Package>
 
 
