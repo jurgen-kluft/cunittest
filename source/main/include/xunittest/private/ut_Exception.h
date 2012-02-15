@@ -8,7 +8,13 @@
 #elif defined(TARGET_N3DS)
 	#include "xunittest\private\ut_Exception_3ds.h"
 #elif defined(TARGET_PS3)
-    #include "xunittest\private\ut_Exception_Ps3.h"
+	#ifdef SPU	
+		#include "xunittest\private\ut_Exception_Ps3_Spu.h"
+		#define _NO_EXCEPTIONS
+	#else
+		#include "xunittest\private\ut_Exception_Ps3.h"
+	#endif
+
 #elif defined(TARGET_PS3_SPU)
 	#include "xunittest\private\ut_Exception_Ps3_Spu.h"
 	#define _NO_EXCEPTIONS
