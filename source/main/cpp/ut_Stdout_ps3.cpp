@@ -6,7 +6,13 @@
 #include <cstdio>
 
 #define STRINGFORMAT			snprintf			// Here you can divert to a printf/string-formatting implementation
+
+#ifdef SPU
+#include <spu_printf.h>
+#define TRACE(a)				spu_printf(a)
+#else
 #define TRACE(a)				printf(a)		// Here you can divert to a log/trace/print implementation
+#endif
 
 namespace UnitTest
 {
