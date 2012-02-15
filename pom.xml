@@ -56,7 +56,7 @@
 
 	<ProjectProperties>
 		<Properties DependencyType="Root" Platform="*">
-			<PropertyGroup Label="xunittest_TargetDirs_aaa">
+			<PropertyGroup Label="xunittest_TargetDirs">
 				<xunittest_RootDir>$(SolutionDir)</xunittest_RootDir> 
 				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</xunittest_LibraryDir>
 				<xunittest_IncludeDir>$(SolutionDir)source\main\include\</xunittest_IncludeDir>
@@ -64,7 +64,7 @@
 		</Properties>
 				
 		<Properties DependencyType="Package" Platform="*">
-			<PropertyGroup Label="xunittest_TargetDirs_aaa">
+			<PropertyGroup Label="xunittest_TargetDirs">
 				<xunittest_RootDir>${Location}</xunittest_RootDir> 
 				<xunittest_LibraryDir>${Location}libs\</xunittest_LibraryDir>
 				<xunittest_IncludeDir>${Location}source\main\include\</xunittest_IncludeDir>
