@@ -78,30 +78,6 @@
 				<xunittest_IncludeDir>$(SolutionDir)target\xunittest\source\main\include\</xunittest_IncludeDir>
 			</PropertyGroup>
 		</Properties>
-		
-		<Properties DependencyType="Root" Platform="*">
-			<PropertyGroup Label="xunittest_spu_TargetDirs">
-				<xunittest_spu_RootDir>$(SolutionDir)</xunittest_spu_RootDir> 
-				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
-				<xunittest_spu_IncludeDir>$(SolutionDir)source\main\include\</xunittest_spu_IncludeDir>
-			</PropertyGroup>
-		</Properties>
-				
-		<Properties DependencyType="Package" Platform="*">
-			<PropertyGroup Label="xunittest_spu_TargetDirs">
-				<xunittest_spu_RootDir>${Location}</xunittest_spu_RootDir> 
-				<xunittest_spu_LibraryDir>${Location}libs\</xunittest_spu_LibraryDir>
-				<xunittest_spu_IncludeDir>${Location}source\main\include\</xunittest_spu_IncludeDir>
-			</PropertyGroup>
-		</Properties>
-	
-		<Properties DependencyType="Source" Platform="*">
-			<PropertyGroup Label="xunittest_spu_TargetDirs">
-				<xunittest_spu_RootDir>$(SolutionDir)target\xunittest\</xunittest_spu_RootDir> 
-				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
-				<xunittest_spu_IncludeDir>$(SolutionDir)target\xunittest\source\main\include\</xunittest_spu_IncludeDir>
-			</PropertyGroup>
-		</Properties>
 	</ProjectProperties>
 
 	<Project Name="SPU_Bootloader" Language="C++" Location="source\spu_bootloader\cpp" Scope="Private" DependsOn="sdk_ps3:sdk_ps3">
@@ -301,7 +277,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -312,7 +288,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
@@ -524,7 +500,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -534,6 +510,9 @@
 						<Warnings>NormalWarnings</Warnings>
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
+					<Link>
+						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
 					<ClCompile Include="source\test\cpp\**\*.cpp" />
