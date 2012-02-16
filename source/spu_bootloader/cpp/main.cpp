@@ -81,7 +81,8 @@ void send_terminate_event();
 
 int main(int argc, char** argv)
 {
-	int exception_count = 0; // TODO: To be removed in the future.
+	int exception_count = 0;
+	const int MAX_EXCEPTION_COUNT_ALLOWED = 1000;
 
 	initialize();
 	
@@ -108,9 +109,11 @@ int main(int argc, char** argv)
 			++exception_count;
 			exception_detected = false;
 
-			// TODO: Temporary added to prevent the code from running forever. To be removed.
-			if (exception_count == 10)
+			// Prevent the code from running forever. To be removed.
+			if (exception_count >= MAX_EXCEPTION_COUNT_ALLOWED)
 			{
+				//Shouldn't be in here at all, but just in case.
+				printf("WARNING: Way too many exceptions. Something might be wrong, the game might be in infinite loop!");
 				break;			
 			}
 

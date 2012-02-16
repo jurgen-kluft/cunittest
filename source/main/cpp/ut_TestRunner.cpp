@@ -15,6 +15,9 @@ namespace UnitTest
 	int runAllTests(TestReporter& reporter, SuiteNode* inSuiteList, int maxTestTimeInMs)
 	{
 		TestResults result(&reporter);
+#ifdef TARGET_PS3_SPU
+		result.setExceptionState();
+#endif //TARGET_PS3_SPU
 
 		Timer overallTimer;
 		overallTimer.start();
