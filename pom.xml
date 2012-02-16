@@ -59,6 +59,7 @@
 			<PropertyGroup Label="xunittest_TargetDirs">
 				<xunittest_RootDir>$(SolutionDir)</xunittest_RootDir> 
 				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</xunittest_LibraryDir>
+				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
 				<xunittest_IncludeDir>$(SolutionDir)source\main\include\</xunittest_IncludeDir>
 			</PropertyGroup>
 		</Properties>
@@ -67,6 +68,7 @@
 			<PropertyGroup Label="xunittest_TargetDirs">
 				<xunittest_RootDir>${Location}</xunittest_RootDir> 
 				<xunittest_LibraryDir>${Location}libs\</xunittest_LibraryDir>
+				<xunittest_spu_LibraryDir>${Location}libs\</xunittest_spu_LibraryDir>
 				<xunittest_IncludeDir>${Location}source\main\include\</xunittest_IncludeDir>
 			</PropertyGroup>
 		</Properties>
@@ -75,6 +77,7 @@
 			<PropertyGroup Label="xunittest_TargetDirs">
 				<xunittest_RootDir>$(SolutionDir)target\xunittest\</xunittest_RootDir> 
 				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</xunittest_LibraryDir>
+				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
 				<xunittest_IncludeDir>$(SolutionDir)target\xunittest\source\main\include\</xunittest_IncludeDir>
 			</PropertyGroup>
 		</Properties>
@@ -282,7 +285,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -293,7 +296,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
@@ -505,7 +508,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
+						<AdditionalDependencies>$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -516,7 +519,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_LibraryDir)\..\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
+						<AdditionalDependencies>$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).a</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
