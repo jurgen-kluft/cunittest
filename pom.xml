@@ -285,7 +285,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -296,7 +296,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
@@ -497,7 +497,7 @@
 				    <TargetExt>.elf</TargetExt>
 				</PropertyGroup>
 				<ImportGroup Label="TargetDirs">
-					<Import Project="$(SolutionDir)target\xunittest\xunittest.PS3_SPU.props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.PS3_SPU.props')" Label="xunittest_RootDir" />
+					<Import Project="$(SolutionDir)target\xunittest\xunittest.PS3.props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.PS3.props')" Label="xunittest_RootDir" />
 				</ImportGroup>
 				
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
@@ -508,7 +508,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -519,7 +519,7 @@
 						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_spu_LibraryDir)\xunittest_spu_$(Configuration)_$(Platform)\xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
