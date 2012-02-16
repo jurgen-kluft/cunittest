@@ -55,6 +55,12 @@ namespace UnitTest
 		++mTestCount;
 		if ( mTestReporter && !(mExceptionDetected && mTestCount <= gExceptionTestCount) )
 		{
+			if (mTestSuiteCount > 0x0FFF || mTestSuiteCount < 0 || mTestFixtureCount > 0x0FFF || mTestFixtureCount < 0 ||
+				mTestCount > 0xFFFF || mTestCount < 0 || mFailureCount > 0xFFFF || mFailureCount < 0
+				)
+			{
+				spu_printf("WARNING: Data overflow warning!\n");
+			}
 			unsigned int data1 = ( ((unsigned int)mTestSuiteCount) << 12 ) | (((unsigned int)mTestFixtureCount) & 0x00000FFF );
 			unsigned int data2 = ( ((unsigned int)mTestCount) << 16 ) | (((unsigned int)mFailureCount) & 0x0000FFFF );
 			int ret;
