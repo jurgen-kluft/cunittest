@@ -129,9 +129,6 @@
 				<ItemGroup>
 					<ClCompile Include="source\spu_bootloader\cpp\*.cpp" />
 				</ItemGroup>
-				<ItemGroup>
-					<ClInclude Include="source\spu_bootloader\include\**\*.h" />
-				</ItemGroup>
 			</Project>
 		</ProjectFile>
 	</Project>
@@ -330,12 +327,12 @@
 					<ConfigurationType>Application</ConfigurationType>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
-				    <TargetExt>.elf</TargetExt>
+				    <TargetExt>.self</TargetExt>
 					<ExceptionsAndRtti>WithExceptsWithRtti</ExceptionsAndRtti>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 					<ExceptionsAndRtti>WithExceptsWithRtti</ExceptionsAndRtti>
-				    <TargetExt>.elf</TargetExt>
+				    <TargetExt>.self</TargetExt>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
@@ -491,10 +488,10 @@
 					<ConfigurationType>Application</ConfigurationType>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
-				    <TargetExt>.elf</TargetExt>
+				    <TargetExt>.self</TargetExt>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
-				    <TargetExt>.elf</TargetExt>
+				    <TargetExt>.self</TargetExt>
 				</PropertyGroup>
 				<ImportGroup Label="TargetDirs">
 					<Import Project="$(SolutionDir)target\xunittest\xunittest.PS3.props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.PS3.props')" Label="xunittest_RootDir" />

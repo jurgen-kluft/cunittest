@@ -16,8 +16,6 @@
 
 #include <cell/cell_fs.h>
 
-#include "xunittest/ppu_exception_handler.h"
-
 SYS_PROCESS_PARAM(1001, 0x10000)
 
 #define MAX_PHYSICAL_SPU		4 
