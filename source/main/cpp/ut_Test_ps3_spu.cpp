@@ -8,6 +8,12 @@
 #include "xunittest\private\ut_AssertException.h"
 #include "xunittest\private\ut_StringBuilder.h"
 
+
+extern unsigned int exceptionSuiteIndex;
+extern unsigned int exceptionFixtureIndex;
+extern unsigned int exceptionTestIndex;
+extern unsigned int failureCount;
+
 namespace UnitTest
 {
 	void Test::run(TestResults& testResults, int const maxTestTimeInMs)
@@ -15,6 +21,17 @@ namespace UnitTest
 		Timer testTimer;
 		testTimer.start();
 		testResults.onTestStart(mTestName);
+
+		if (testResults.getTestCount() < exceptionTestIndex)
+		{
+			return;
+		}
+		else if (testResults.getTestCount() == exceptionTestIndex)
+		{
+			testResults.onTestFailure("Unknown File", 0, mTestName, "An exception in SPU occurred while running this test.");
+			testResults.onTestEnd(mTestName, testTimer.getTimeInMs()/1000.0f);
+			return;
+		}
 
 		_TRY_BEGIN
 			runImpl(testResults);
@@ -44,7 +61,7 @@ namespace UnitTest
 		testResults.onTestEnd(mTestName, testTimeInMs/1000.0f);
 	}
 
-	void		TestFixture::run(TestResults& testResults_, int const maxTestTimeInMs)
+	void TestFixture::run(TestResults& testResults_, int const maxTestTimeInMs)
 	{
 		Timer testTimer;
 		testTimer.start();
