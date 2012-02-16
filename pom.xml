@@ -280,6 +280,9 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 						<Warnings>NormalWarnings</Warnings>
 						<OptimizationLevel>Level0</OptimizationLevel>
+						<FunctionSections>true</FunctionSections>
+						<DataSections>true</DataSections>
+						<StackCheck>true</StackCheck>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -291,6 +294,9 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 						<Warnings>NormalWarnings</Warnings>
 						<OptimizationLevel>Level0</OptimizationLevel>
+						<FunctionSections>true</FunctionSections>
+						<DataSections>true</DataSections>
+						<StackCheck>true</StackCheck>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
