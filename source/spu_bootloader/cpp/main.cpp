@@ -16,50 +16,128 @@
 
 #include <cell/cell_fs.h>
 
-#include "xunittest/ppu_exception_handler.h"
-
 SYS_PROCESS_PARAM(1001, 0x10000)
 
-#define MAX_PHYSICAL_SPU       4 
-#define MAX_RAW_SPU            0
-#define NUM_SPU_THREADS        1 /* The number of SPU threads in the group */ 
-#define PRIORITY             100
-//#define SPU_PROG       (SYS_APP_HOME "/event_receiver.spu.self")
+#define MAX_PHYSICAL_SPU		4 
+#define MAX_RAW_SPU				0
+#define NUM_SPU_THREADS			1 /* The number of SPU threads in the group */ 
+#define PRIORITY				100
 
-#define QUEUE_SIZE             32
+#define TERMINATE_PORT_NAME		102047749UL
+#define QUEUE_SIZE				32
+#define SPU_THREAD_PORT			58
 
-bool exception_detected = false;
+//Thread Related Varables
+volatile bool exception_detected = false;
 
-void spu_thr_exception_handler(uint64_t queue_id);
+// In order to be compatible with the sys_spu_thread_send_event
+// suite_index and fixture_index are going to be of only 12 bit
+// in other words, 0 - 4095
+volatile uint16_t suite_index = 0;
+volatile uint16_t fixture_index = 0;
+volatile uint16_t test_index = 0;
+volatile uint16_t failure_count = 0;
+
+//Variables for the SPU thread group
+sys_spu_thread_group_t group;					/* SPU thread group ID */
+sys_spu_thread_group_attribute_t group_attr;	/* SPU thread group attribute*/
+sys_spu_thread_t threads[NUM_SPU_THREADS];		/* SPU thread IDs */
+sys_spu_thread_attribute_t thread_attr;			/* SPU thread attribute */
+
+const char *group_name = "_group";
+const char *thread_names[NUM_SPU_THREADS] =  
+	{"SPU Thread 0"}; /* The names of SPU threads */
+
+// Variable for the SPU image
+sys_spu_image_t spu_img;
+int spu_file_size = 0;
+
+//Variables for the event queue and event handler PPU thread
+sys_event_queue_t queue;
+sys_event_queue_attribute_t queue_attr;
+sys_ppu_thread_t event_handle_thread; 
+
+// The SPU event handler thread
+void spu_thread_event_handler(uint64_t queue_id);
+
+// The initialize function, initializes SPUs, event queue, etc.
+void initialize();
+
+// Load SPU image
+void load_spu_image(const char* image_name);
+
+// Start running the SPU program
+void start();
+
+// Clean up function, call when an SPU exception is detected (before restarting
+// the spu program)and it's called before the finalize function when exit
+void clean_up();
+
+// The finalize function
+void finalize();
+
+// Send terminate event to the spu event handler thread
+void send_terminate_event();
 
 int main(int argc, char** argv)
 {
-	sys_spu_thread_group_t group; /* SPU thread group ID */
-	const char *group_name = "Group";
-	sys_spu_thread_group_attribute_t group_attr;/* SPU thread group attribute*/
-	sys_spu_thread_t threads[NUM_SPU_THREADS];  /* SPU thread IDs */
-	sys_spu_thread_attribute_t thread_attr;     /* SPU thread attribute */
-	const char *thread_names[NUM_SPU_THREADS] = 
-		{"SPU Thread 0"}; /* The names of SPU threads */
-    sys_spu_image_t spu_img;
-	int spu_file_size = 0;
+	int exception_count = 0; // TODO: To be removed in the future.
 
-	/*
-	 * Variables for the event queue and event handler PPU thread
-	 */
-	sys_event_queue_t queue;
-	sys_event_queue_attribute_t queue_attr;
-	sys_ppu_thread_t event_handle_thread; 
+	initialize();
+	
+	// Load SPU image
+	if (argc > 1)
+	{
+		char image_name[256] = "";
+		sprintf(image_name, "/app_home/%s", argv[1]);
+		load_spu_image(image_name);
+	}
+	else
+	{
+		printf("ERROR:  No SPU image name found! \n");
+		printf("NOTICE: Please pass the SPU image name as command Line parameter.\n");
+		exit(1);
+	}
 
+	start();
+
+	while (1)
+	{
+		if (exception_detected)
+		{
+			++exception_count;
+			exception_detected = false;
+
+			// TODO: Temporary added to prevent the code from running forever. To be removed.
+			if (exception_count == 10)
+			{
+				break;			
+			}
+
+			// Clean up before we restart the SPU program
+			clean_up();
+
+			start();
+
+		}
+		else
+		{
+			break;
+		}	
+	}
+
+	// Clean up before we exit
+	clean_up();
+	
+	finalize();
+
+	return 0;
+}
+
+void initialize()
+{
 	int ret;
-	bool first_time_execution = true;
-	int exception_count = 0;
-	
-	/*
-	 * Initialize Exception Handler
-	 */
-	ret = init_exception_handler();
-	
+
 	/*
 	 * Initialize SPUs
 	 */
@@ -102,7 +180,7 @@ int main(int argc, char** argv)
 		event_handle_prio += 1;
 	}
 
-	ret = sys_ppu_thread_create(&event_handle_thread, spu_thr_exception_handler,
+	ret = sys_ppu_thread_create(&event_handle_thread, spu_thread_event_handler,
 								(uint64_t)queue, event_handle_prio,
 								4096, SYS_PPU_THREAD_CREATE_JOINABLE,
 								event_handle_name);
@@ -120,144 +198,39 @@ int main(int argc, char** argv)
 		printf("spu_printf_initialize failed %x\n", ret);
 		exit(-1);
 	}
-	
-	// Open SPU image
-	if (argc > 1)
-	{
-		char image_name[256] = "";
-		sprintf(image_name, "/app_home/%s", argv[1]);
 
-		// open file
-		int fd;
-		ret = cellFsOpen(image_name, CELL_FS_O_RDONLY, &fd, NULL, 0);
-		if (ret != CELL_FS_SUCCEEDED) {
-			fprintf(stderr, "cellFsOpen %s failed: 0x%x\n", image_name, ret);
-			return -1;
-		}
-		
-		// obtain file size
-		CellFsStat status;
-		memset(&status, 0, sizeof(CellFsStat));
-		ret = cellFsFstat(fd, &status);
-		if (ret != CELL_FS_SUCCEEDED) {
-			fprintf(stderr, "cellFsFstat failed: 0x%x\n", ret);
-			cellFsClose(fd);
-			return -1;
-		}
+}
 
-		spu_file_size = status.st_size;
-		printf("spu program file size = %d byte \n", spu_file_size);
+void start()
+{
+	int ret;
 
-		// close file
-		cellFsClose(fd);
+	/*
+	 * Create an SPU thread group
+	 * 
+	 * The SPU thread group is initially in the NOT INITIALIZED state.
+	 */
+	printf("Creating an SPU thread group.\n");
 
-		ret = sys_spu_image_open(&spu_img, image_name);
-		if (ret != CELL_OK) {
-			printf("sys_spu_image_open failed with error %x opening program: %s\n", ret, image_name);
+	sys_spu_thread_group_attribute_initialize(group_attr);
+	sys_spu_thread_group_attribute_name(group_attr,group_name);
 
-			if(ret == ENOENT)
-				printf("SPU program file does not exist.\n");
-			else if(ret == EINVAL)
-				printf("Path to program is not absolute.\n");
-			else if(ret == EMFILE)
-				printf("Too many file descriptors?\n");
-			else if(ret == EISDIR)
-				printf("Path is directory..\n");
-			else if(ret == ENOTDIR)
-				printf("Elements of path include non directory\n");
-			else if(ret == ENAMETOOLONG)
-				printf("Length of path elements is exceeding the limit\n");
-			else if(ret == EFSSPECIFIC)
-				printf("Error specific to the file system occured.\n");
-			else if(ret == ENOEXEC)
-				printf("The format used in the elf file is not supported OR authorization error\n");
-			else if(ret == EAGAIN)
-				printf("Not enough resources to process\n");
-			else if(ret == ENOMEM)
-				printf("Insufficient user memory\n");
-			else if(ret == EFAULT)
-				printf("A specified address was invalid\n");
-			else if(ret == ENOTMOUNTED)
-				printf("The file system which corresponds to path is not mounted\n");
-			else
-				printf("Unknown error????\n");
-
-			exit(1);
-		}
-	}
-	else
-	{
-		printf("ERROR:  no SPU image name found! \n");
-		printf("NOTICE: please pass the SPU image name as Command Line parameter \n");
-		exit(1);
+	ret = sys_spu_thread_group_create(&group, 
+										NUM_SPU_THREADS,
+										PRIORITY, 
+										&group_attr);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_thread_group_create failed: %#.8x\n", ret);
+		exit(ret);
 	}
 
-	while (1)
-	{
-		if (exception_detected || first_time_execution)
-		{
-			if (exception_detected)
-			{
-				++exception_count;
-				exception_detected = false;
-
-				//Disconnect the Event to Event Queue
-				ret = sys_spu_thread_group_disconnect_event(group, SYS_SPU_THREAD_GROUP_EVENT_EXCEPTION);
-				if (ret != CELL_OK) {
-					printf("sys_spu_thread_group_disconnect_event failed %x\n", ret);
-					exit(1);
-				}
-
-				//Detach the SPU printf thread from the thread group
-				ret = spu_printf_detach_group(group);
-				if (ret != CELL_OK) {
-					printf("spu_printf_detach_group failed %x\n", ret);
-					exit(-1);
-				}
-
-				/*
-				 * Destroy the SPU thread group
-				 */
-	
-				ret = sys_spu_thread_group_destroy(group);
-				if (ret != CELL_OK) {
-					fprintf(stderr, "sys_spu_thread_group_destroy() failed: %#.8x\n", ret);
-				} else {
-					printf("Destroyed the SPU thread group.\n");
-				}
-			}
-
-			if (first_time_execution)
-			{
-				first_time_execution = false;
-			}
-			
-			/*
-			 * Create an SPU thread group
-			 * 
-			 * The SPU thread group is initially in the NOT INITIALIZED state.
-			 */
-			printf("Creating an SPU thread group.\n");
-
-			sys_spu_thread_group_attribute_initialize(group_attr);
-			sys_spu_thread_group_attribute_name(group_attr,group_name);
-
-			ret = sys_spu_thread_group_create(&group, 
-											  NUM_SPU_THREADS,
-											  PRIORITY, 
-											  &group_attr);
-			if (ret != CELL_OK) {
-				fprintf(stderr, "sys_spu_thread_group_create failed: %#.8x\n", ret);
-				exit(ret);
-			}
-
-			/*
-			 * Initialize SPU threads in the SPU thread group.
-			 * This sample loads the same image to all SPU threads.
-			 */
-			sys_spu_thread_attribute_initialize(thread_attr);
-			for (int i = 0; i < NUM_SPU_THREADS; i++) {
-				sys_spu_thread_argument_t thread_args;
+	/*
+	 * Initialize SPU threads in the SPU thread group.
+	 * This sample loads the same image to all SPU threads.
+	 */
+	sys_spu_thread_attribute_initialize(thread_attr);
+	for (int i = 0; i < NUM_SPU_THREADS; i++) {
+		sys_spu_thread_argument_t thread_args;
 
 		// set the SPU Program Size as the thread argument 1
 		thread_args.arg1 = SYS_SPU_THREAD_ARGUMENT_LET_32(spu_file_size);
@@ -265,116 +238,127 @@ int main(int argc, char** argv)
 		// TODO: jinlin, SpuStackSize can be set here, maybe 0x2000?
 		thread_args.arg2 = SYS_SPU_THREAD_ARGUMENT_LET_32(0);
 
-				printf("Initializing SPU thread %d\n", i);
+		// Stores the suite index and fixture index
+		thread_args.arg3 = SYS_SPU_THREAD_ARGUMENT_LET_32( ((uint32_t)suite_index << 16) | fixture_index );
+
+		// Stores the test index and failure count
+		thread_args.arg4 = SYS_SPU_THREAD_ARGUMENT_LET_32( ((uint32_t)test_index << 16) | failure_count );
+
+		printf("Initializing SPU thread %d\n", i);
 		
-				sys_spu_thread_attribute_name(thread_attr,thread_names[i]);
+		sys_spu_thread_attribute_name(thread_attr,thread_names[i]);
 		
-				ret = sys_spu_thread_initialize(&threads[i],
-												group,
-												i,
-												&spu_img,
-												&thread_attr,
-												&thread_args);
-				if (ret != CELL_OK) {
-					fprintf(stderr, "sys_spu_thread_initialize failed: %#.8x\n", ret);
-					exit(ret);
-				}
-			}
-
-			printf("All SPU threads have been successfully initialized.\n");
-			
-			
-			// Attach spu printf thread to the thread group
-			ret = spu_printf_attach_group(group);
-			if (ret != CELL_OK) {
-				printf("spu_printf_attach_group failed %x\n", ret);
-				exit(-1);
-			}
-			
-			
-			//Connect the Event to Event Queue
-			ret = sys_spu_thread_group_connect_event(group, queue, SYS_SPU_THREAD_GROUP_EVENT_EXCEPTION);
-			if (ret != CELL_OK) {
-				printf("sys_spu_thread_group_connect_event failed %x\n", ret);
-				exit(1);
-			}
-
-			/*
-			 * Start the SPU thread group
-			 */
-			printf("Starting the SPU thread group.\n");
-			ret = sys_spu_thread_group_start(group);
-			if (ret != CELL_OK) {
-				fprintf(stderr, "sys_spu_thread_group_start failed: %#.8x\n", ret);
-				exit(ret);
-			}
-
-			/*
-			 * Wait for the termination of the SPU thread group
-			 */
-			printf("Waiting for the SPU thread group to be terminated.\n");
-			int cause, status;
-			ret = sys_spu_thread_group_join(group, &cause, &status);
-			if (ret != CELL_OK) {
-				fprintf(stderr, "sys_spu_thread_group_join failed: %#.8x\n", ret);
-				exit(ret);
-			}
-
-			/*
-			 * Show the exit cause and status.
-			 */
-			switch(cause) {
-			case SYS_SPU_THREAD_GROUP_JOIN_GROUP_EXIT:
-				printf("The SPU thread group exited by sys_spu_thread_group_exit().\n");
-				printf("The group's exit status = %d\n", status);
-				break;
-			case SYS_SPU_THREAD_GROUP_JOIN_ALL_THREADS_EXIT:
-				printf("All SPU thread exited by sys_spu_thread_exit().\n");
-				for (int i = 0; i < NUM_SPU_THREADS; i++) {
-					int thr_exit_status;
-					ret = sys_spu_thread_get_exit_status(threads[i], &thr_exit_status);
-					if (ret != CELL_OK) {
-						fprintf(stderr, "sys_spu_thread_get_exit_status failed: %#.8x\n", ret);
-					}
-					printf("SPU thread %d's exit status = %d\n", i, thr_exit_status);
-				}
-				break;
-			case SYS_SPU_THREAD_GROUP_JOIN_TERMINATED:
-				printf("The SPU thread group is terminated by sys_spu_thread_terminate().\n");
-				printf("The group's exit status = %d\n", status);
-				break;
-			default:
-				fprintf(stderr, "Unknown exit cause: %d\n", cause);
-				break;
-			}
-
-			// TODO: Temporary added to prevent the code from running forever. To be removed.
-			if (exception_count == 5)
-			{
-				break;			
-			}
+		ret = sys_spu_thread_initialize(&threads[i],
+										group,
+										i,
+										&spu_img,
+										&thread_attr,
+										&thread_args);
+		if (ret != CELL_OK) {
+			fprintf(stderr, "sys_spu_thread_initialize failed: %#.8x\n", ret);
+			exit(ret);
 		}
-		else
-		{
-			break;
-		}	
+
+		ret = sys_spu_thread_connect_event( threads[i],
+											queue,
+											SYS_SPU_THREAD_EVENT_USER,
+											SPU_THREAD_PORT);
+		if (ret != CELL_OK) {
+			fprintf(stderr, "sys_spu_thread_connect_event() failed: %#.8x\n", ret);
+		} else {
+			printf("Connected SPU thread %u to the user event port %u.\n", threads[i], SPU_THREAD_PORT);
+		}
 	}
 
-	//Disconnect the Event to Event Queue
+	printf("All SPU threads have been successfully initialized.\n");
+			
+			
+	// Attach spu printf thread to the thread group
+	ret = spu_printf_attach_group(group);
+	if (ret != CELL_OK) {
+		printf("spu_printf_attach_group failed %x\n", ret);
+		exit(-1);
+	}
+			
+			
+	//Connect the Event to Event Queue
+	ret = sys_spu_thread_group_connect_event(group, queue, SYS_SPU_THREAD_GROUP_EVENT_EXCEPTION);
+	if (ret != CELL_OK) {
+		printf("sys_spu_thread_group_connect_event failed %x\n", ret);
+		exit(1);
+	}
+
+	/*
+	 * Start the SPU thread group
+	 */
+	printf("Starting the SPU thread group.\n");
+	ret = sys_spu_thread_group_start(group);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_thread_group_start failed: %#.8x\n", ret);
+		exit(ret);
+	}
+
+	/*
+	 * Wait for the termination of the SPU thread group
+	 */
+	printf("Waiting for the SPU thread group to be terminated.\n");
+	int cause, status;
+	ret = sys_spu_thread_group_join(group, &cause, &status);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_spu_thread_group_join failed: %#.8x\n", ret);
+		exit(ret);
+	}
+
+	/*
+	 * Show the exit cause and status.
+	 */
+	switch(cause) {
+	case SYS_SPU_THREAD_GROUP_JOIN_GROUP_EXIT:
+		printf("The SPU thread group exited by sys_spu_thread_group_exit().\n");
+		printf("The group's exit status = %d\n", status);
+		break;
+	case SYS_SPU_THREAD_GROUP_JOIN_ALL_THREADS_EXIT:
+		printf("All SPU thread exited by sys_spu_thread_exit().\n");
+		for (int i = 0; i < NUM_SPU_THREADS; i++) {
+			int thr_exit_status;
+			ret = sys_spu_thread_get_exit_status(threads[i], &thr_exit_status);
+			if (ret != CELL_OK) {
+				fprintf(stderr, "sys_spu_thread_get_exit_status failed: %#.8x\n", ret);
+			}
+			printf("SPU thread %d's exit status = %d\n", i, thr_exit_status);
+		}
+		break;
+	case SYS_SPU_THREAD_GROUP_JOIN_TERMINATED:
+		printf("The SPU thread group is terminated by sys_spu_thread_terminate().\n");
+		printf("The group's exit status = %d\n", status);
+		break;
+	default:
+		fprintf(stderr, "Unknown exit cause: %d\n", cause);
+		break;
+	}
+}
+
+void clean_up()
+{
+	int ret;
+
+	//Disconnect the thread group event to Event Queue
 	ret = sys_spu_thread_group_disconnect_event(group, SYS_SPU_THREAD_GROUP_EVENT_EXCEPTION);
 	if (ret != CELL_OK) {
 		printf("sys_spu_thread_group_disconnect_event failed %x\n", ret);
 		exit(1);
 	}
-
-	ret = sys_event_queue_destroy(queue, 0);
-	if (ret != CELL_OK) {
-		fprintf(stderr, "sys_event_queue_destroy failed: %#.8x\n", ret);
-	} else {
-		printf("Destroyed the event queue.\n");
+				
+	//Disconnect the user event.
+	for (int i = 0; i < NUM_SPU_THREADS; i++) {	
+		ret = sys_spu_thread_disconnect_event(threads[i], SYS_SPU_THREAD_EVENT_USER, SPU_THREAD_PORT);
+		if (ret != CELL_OK) {
+			fprintf(stderr, "sys_spu_thread_disconnect_event() failed: %#.8x\n", ret);
+		} else {
+			printf("Disconnected SPU thread %u from the user event port %u.\n", threads[i], SPU_THREAD_PORT);
+		}
 	}
-	
-	
+
 	//Detach the SPU printf thread from the thread group
 	ret = spu_printf_detach_group(group);
 	if (ret != CELL_OK) {
@@ -382,13 +366,6 @@ int main(int argc, char** argv)
 		exit(-1);
 	}
 
-	// Finalize SPU printf thread
-	ret = spu_printf_finalize();
-	if (ret != CELL_OK) {
-		printf("spu_printf_finalize failed %x\n", ret);
-		exit(-1);
-	}
-	
 	/*
 	 * Destroy the SPU thread group
 	 */
@@ -399,23 +376,140 @@ int main(int argc, char** argv)
 	} else {
 		printf("Destroyed the SPU thread group.\n");
 	}
+}
+
+void finalize()
+{
+	int ret;
+
+	//Send terminate event to the SPU event handler thread
+	send_terminate_event();
+
+	// Finalize SPU printf thread
+	ret = spu_printf_finalize();
+	if (ret != CELL_OK) {
+		printf("spu_printf_finalize failed %x\n", ret);
+		exit(-1);
+	}
 
 	ret = sys_spu_image_close(&spu_img);
 	if (ret != CELL_OK) {
 		fprintf(stderr, "sys_spu_image_close failed: %.8x\n", ret);
 	}
-	
 	printf("Exiting.\n");
-
-	return 0;
 }
 
-/*
- * SPU Thread Event handler
- *
- * \param queue_id Event queue ID (Casted to uint64_t)
- */
-void spu_thr_exception_handler(uint64_t uint64_t_queue_id) 
+void load_spu_image(const char* image_name)
+{
+	// open file
+	int ret, fd;
+	ret = cellFsOpen(image_name, CELL_FS_O_RDONLY, &fd, NULL, 0);
+	if (ret != CELL_FS_SUCCEEDED) {
+		fprintf(stderr, "cellFsOpen %s failed: 0x%x\n", image_name, ret);
+		exit(-1);
+	}
+
+	// obtain file size
+	CellFsStat status;
+	memset(&status, 0, sizeof(CellFsStat));
+	ret = cellFsFstat(fd, &status);
+	if (ret != CELL_FS_SUCCEEDED) {
+		fprintf(stderr, "cellFsFstat failed: 0x%x\n", ret);
+		cellFsClose(fd);
+		exit(-1);
+	}
+
+	spu_file_size = status.st_size;
+	printf("spu program file size = %d byte \n", spu_file_size);
+
+	// close file
+	cellFsClose(fd);
+
+	ret = sys_spu_image_open(&spu_img, image_name);
+	if (ret != CELL_OK) {
+		printf("sys_spu_image_open failed with error %x opening program: %s\n", ret, image_name);
+
+		if(ret == ENOENT)
+			printf("SPU program file does not exist.\n");
+		else if(ret == EINVAL)
+			printf("Path to program is not absolute.\n");
+		else if(ret == EMFILE)
+			printf("Too many file descriptors?\n");
+		else if(ret == EISDIR)
+			printf("Path is directory..\n");
+		else if(ret == ENOTDIR)
+			printf("Elements of path include non directory\n");
+		else if(ret == ENAMETOOLONG)
+			printf("Length of path elements is exceeding the limit\n");
+		else if(ret == EFSSPECIFIC)
+			printf("Error specific to the file system occurred.\n");
+		else if(ret == ENOEXEC)
+			printf("The format used in the elf file is not supported OR authorization error\n");
+		else if(ret == EAGAIN)
+			printf("Not enough resources to process\n");
+		else if(ret == ENOMEM)
+			printf("Insufficient user memory\n");
+		else if(ret == EFAULT)
+			printf("A specified address was invalid\n");
+		else if(ret == ENOTMOUNTED)
+			printf("The file system which corresponds to path is not mounted\n");
+		else
+			printf("Unknown error????\n");
+
+		exit(1);
+	}
+}
+
+void send_terminate_event()
+{
+	int ret;
+
+	/*
+	 * Send a terminating event, and wait for event_handle_thread to join.
+	 * If it successfully joined, disconnect and destroy the event queue
+ 	 */
+	sys_event_port_t terminate_port;
+	ret = sys_event_port_create(&terminate_port, SYS_EVENT_PORT_LOCAL,
+		TERMINATE_PORT_NAME);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_event_port_create failed: %#.8x\n", ret);
+	}
+
+	ret = sys_event_port_connect_local(terminate_port, queue);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_event_port_connect_local failed: %#.8x\n", ret);
+	}
+
+	ret = sys_event_port_send(terminate_port, 0, 0, 0);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_event_port_send failed: %#.8x\n", ret);
+	}
+
+	ret = sys_event_port_disconnect(terminate_port);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_event_port_disconnect failed; %#.8x\n", ret);
+	}
+
+	ret = sys_event_port_destroy(terminate_port);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_event_port_destroy() failed: %#.8x\n", ret);
+	}	
+
+	uint64_t event_handle_status;
+	ret = sys_ppu_thread_join(event_handle_thread, &event_handle_status);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_ppu_thread_join failed: %#.8x\n", ret);
+	}
+
+	ret = sys_event_queue_destroy(queue, 0);
+	if (ret != CELL_OK) {
+		fprintf(stderr, "sys_event_queue_destroy failed: %#.8x\n", ret);
+	} else {
+		printf("Destroyed the event queue.\n");
+	}
+}
+
+void spu_thread_event_handler(uint64_t uint64_t_queue_id) 
 {
 	sys_event_queue_t queue_id = uint64_t_queue_id;
 	sys_spu_thread_group_t source_group_id;
@@ -437,7 +531,28 @@ void spu_thr_exception_handler(uint64_t uint64_t_queue_id)
 			}
 		}
 
-		if (event.source == SYS_SPU_THREAD_GROUP_EVENT_EXCEPTION_KEY) {
+		if (event.source == TERMINATE_PORT_NAME) {
+			printf("Received the terminating event.\n");
+			break;
+		}
+		else if (event.source == SYS_SPU_THREAD_EVENT_USER_KEY) {
+			printf("Received a user SPU thread event.\n");
+			printf("SPU Thread ID = %#llx\n", event.data1);
+			printf("SPU thread port number = %llu\n", 
+				(event.data2 >> 32) & 0x000000FF);
+
+			suite_index = (event.data2 >> 12) & 0x0FFF;
+			fixture_index = event.data2 & 0x0FFF;
+			test_index = event.data3 >> 16;
+			failure_count = event.data3;
+
+			printf("Suite = %llu\n", suite_index);
+			printf("Fixture = %llu\n", fixture_index);
+			printf("Test = %llu\n", test_index);
+			printf("Failure = %llu\n", failure_count);
+			printf("\n");
+		}
+		else if (event.source == SYS_SPU_THREAD_GROUP_EVENT_EXCEPTION_KEY){
 			source_group_id = (sys_spu_thread_group_t)(event.data1>>32);
 			source_thread_id = (sys_spu_thread_t)event.data1;
 			spu_npc = (uint32_t)(event.data2>>32);
