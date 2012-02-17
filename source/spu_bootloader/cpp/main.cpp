@@ -250,6 +250,8 @@ void start()
 		printf("Initializing SPU thread %d\n", i);
 		
 		sys_spu_thread_attribute_name(thread_attr,thread_names[i]);
+
+		sys_spu_thread_attribute_option(thread_attr,SYS_SPU_THREAD_OPTION_DEC_SYNC_TB_ENABLE);
 		
 		ret = sys_spu_thread_initialize(&threads[i],
 										group,
