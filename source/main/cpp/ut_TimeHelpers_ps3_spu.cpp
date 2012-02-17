@@ -1,57 +1,53 @@
 #ifdef TARGET_PS3_SPU
 
 #include <assert.h>
-//#include <sys/timer.h>
-//#include <sys/sys_time.h>
-
+#include <spu_mfcio_gcc.h>
 #include "xunittest\private\ut_TimeHelpers.h"
 
 namespace UnitTest
 {
     Timer::Timer()
     {
-#if 0
-        uint64_t* frequency = reinterpret_cast<uint64_t*>(&mData);
-        //*frequency = sys_time_get_timebase_frequency();
-        assert(*frequency);
-#endif
     }
 
     void Timer::start()
     {
-#if 0
-        system_time_t* startTime = reinterpret_cast<system_time_t*>(&mData[2]);
-        //*startTime = sys_time_get_system_time();
-        assert(*startTime);
-#endif
+		uint32_t* startTime = reinterpret_cast<uint32_t*>(&mData[2]);
+		*startTime = ~spu_read_decrementer();
+		assert(*startTime);
     }
 
     int Timer::getTimeInMs() const
     {
-#if 0
-        //system_time_t curTime = sys_time_get_system_time();
-		system_time_t curTime = 0;
-        assert(curTime);
+		uint32_t nowTime = ~spu_read_decrementer();
+		uint32_t actualTime = 0;
+		const uint32_t* startTime = reinterpret_cast<const uint32_t*>(&mData[2]);
 
-        const system_time_t* startTime = reinterpret_cast< const system_time_t* >(&mData[2]);
+		actualTime = (nowTime < *startTime) ?
+			(0xffffffff - *startTime + nowTime)/79800: //80mhz
+			(nowTime - *startTime)/79800; //80mhz
 
-        system_time_t elapsedTime;
-        elapsedTime = curTime - *startTime;
-
-        const system_time_t* frequency = reinterpret_cast< const system_time_t* >(&mData);
-//		double const  seconds   = double(elapsedTime) / (double)(*frequency);
-		double const  seconds   = double(elapsedTime) / 1000.0;
-
-        return int(seconds);
-#endif
-		return 0;
+		return actualTime;
     }
 
     void TimeHelpers::sleepMs(int const ms)
     {
-        //sys_timer_sleep((second_t)ms / 1000);
+		uint32_t sleepStartTime = ~spu_read_decrementer();
+		while(1)
+		{
+			uint32_t nowTime = ~spu_read_decrementer();
+			uint32_t elapsedTime = (nowTime < sleepStartTime) ?
+				(0xffffffff - sleepStartTime + nowTime)/79800:
+			(nowTime - sleepStartTime)/79800;
+
+			if ( elapsedTime >= ms)
+			{
+				break;
+			}
+		}
     }
 
 }
+
 
 #endif
