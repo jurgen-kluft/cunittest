@@ -40,6 +40,9 @@ namespace UnitTest
 			curTestFixture = curTestSuite->getFixtures();
 			while (curTestFixture != 0)
 			{
+#ifdef TARGET_PS3_SPU
+				overallTimer.update();
+#endif //TARGET_PS3_SPU
 				GetObserver()->BeginFixture(curTestFixture->mFilename, curTestSuite->getName(), curTestFixture->mTestName);
 				int iAllocCnt = GetNumAllocations();
 				curTestFixture->run(result, maxTestTimeInMs);
@@ -52,7 +55,6 @@ namespace UnitTest
 
 			suiteList = suiteList->mNext;
 		}
-
 		float const secondsElapsed = overallTimer.getTimeInMs() / 1000.0f;
 		reporter.reportSummary(secondsElapsed, result.getFailureCount(), result.getTestCount());
 
