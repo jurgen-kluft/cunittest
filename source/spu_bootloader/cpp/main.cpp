@@ -24,7 +24,7 @@ SYS_PROCESS_PARAM(1001, 0x10000)
 #define PRIORITY				100
 
 #define TERMINATE_PORT_NAME		102047749UL
-#define QUEUE_SIZE				32
+#define QUEUE_SIZE				127
 #define SPU_THREAD_PORT			58
 
 //Thread Related Varables
@@ -37,6 +37,7 @@ volatile uint16_t suite_index = 0;
 volatile uint16_t fixture_index = 0;
 volatile uint16_t test_index = 0;
 volatile uint16_t failure_count = 0;
+uint16_t previous_test_index = 0;
 
 //Variables for the SPU thread group
 sys_spu_thread_group_t group;					/* SPU thread group ID */
@@ -81,7 +82,8 @@ void send_terminate_event();
 
 int main(int argc, char** argv)
 {
-	int exception_count = 0; // TODO: To be removed in the future.
+	int exception_count = 0;
+	const int MAX_EXCEPTION_COUNT_ALLOWED = 10000;
 
 	initialize();
 	
@@ -105,12 +107,28 @@ int main(int argc, char** argv)
 	{
 		if (exception_detected)
 		{
-			++exception_count;
 			exception_detected = false;
 
-			// TODO: Temporary added to prevent the code from running forever. To be removed.
-			if (exception_count == 10)
+			if (test_index == 0)
 			{
+				printf("ERROR: SPU exception detected before running any unit test!\n");
+				break;
+			}
+
+			if (previous_test_index == test_index)
+			{
+				printf("ERROR: Skipping crashed unit test failed! The game might be in a loop.\n");
+				break;
+			}
+
+			++exception_count;
+			previous_test_index = test_index;
+
+			// Prevent the code from running forever. To be removed.
+			if (exception_count >= MAX_EXCEPTION_COUNT_ALLOWED)
+			{
+				//Shouldn't be in here at all, but just in case.
+				printf("WARNING: Way too many exceptions. Something might be wrong, the game might be in infinite loop!");
 				break;			
 			}
 
@@ -247,6 +265,8 @@ void start()
 		printf("Initializing SPU thread %d\n", i);
 		
 		sys_spu_thread_attribute_name(thread_attr,thread_names[i]);
+
+		sys_spu_thread_attribute_option(thread_attr,SYS_SPU_THREAD_OPTION_DEC_SYNC_TB_ENABLE);
 		
 		ret = sys_spu_thread_initialize(&threads[i],
 										group,
@@ -481,10 +501,16 @@ void send_terminate_event()
 	}
 
 	ret = sys_event_port_send(terminate_port, 0, 0, 0);
-	if (ret != CELL_OK) {
-		fprintf(stderr, "sys_event_port_send failed: %#.8x\n", ret);
+	while (ret != CELL_OK) {
+		if (ret == EBUSY) {
+			printf("The event queue is full. Resending...\n");
+			ret = sys_event_port_send(terminate_port, 0, 0, 0);
+		}
+		else {
+			fprintf(stderr, "sys_event_port_send failed: %#.8x\n", ret);
+			break;
+		}
 	}
-
 	ret = sys_event_port_disconnect(terminate_port);
 	if (ret != CELL_OK) {
 		fprintf(stderr, "sys_event_port_disconnect failed; %#.8x\n", ret);

@@ -9,10 +9,10 @@
 #include "xunittest\private\ut_StringBuilder.h"
 
 
-extern unsigned int exceptionSuiteIndex;
-extern unsigned int exceptionFixtureIndex;
-extern unsigned int exceptionTestIndex;
-extern unsigned int failureCount;
+extern unsigned int gExceptionSuiteCount;
+extern unsigned int gExceptionFixtureCount;
+extern unsigned int gExceptionTestCount;
+extern unsigned int gExceptionFailureCount;
 
 namespace UnitTest
 {
@@ -22,14 +22,13 @@ namespace UnitTest
 		testTimer.start();
 		testResults.onTestStart(mTestName);
 
-		if (testResults.getTestCount() < exceptionTestIndex)
+		if (testResults.isToBeSkipped())
 		{
 			return;
 		}
-		else if (testResults.getTestCount() == exceptionTestIndex)
+		else if (testResults.isTheCrashedTest())
 		{
 			testResults.onTestFailure("Unknown File", 0, mTestName, "An exception in SPU occurred while running this test.");
-			testResults.onTestEnd(mTestName, testTimer.getTimeInMs()/1000.0f);
 			return;
 		}
 
