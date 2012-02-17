@@ -21,12 +21,25 @@ namespace UnitTest
 		int				getTestCount() const;
 		int				getFailureCount() const;
 
+#ifdef TARGET_PS3_SPU
+		void			setExceptionState();
+		bool			isToBeSkipped();
+
+		// Check if we are now about to run the test that crashed in the previous run.
+		bool			isTheCrashedTest();
+#endif
+
 	private:
 		TestReporter*	mTestReporter;
 		int				mTestSuiteCount;
 		int				mTestFixtureCount;
 		int				mTestCount;
 		int				mFailureCount;
+
+#ifdef TARGET_PS3_SPU
+		// Variables for SPU only, see if any SPU exception has occurred before this run
+		bool			mExceptionDetected;
+#endif
 
 		// Copy Constructor & Assignment operator are private
 						TestResults(TestResults const&);
