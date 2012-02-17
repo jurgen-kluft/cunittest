@@ -37,6 +37,7 @@ volatile uint16_t suite_index = 0;
 volatile uint16_t fixture_index = 0;
 volatile uint16_t test_index = 0;
 volatile uint16_t failure_count = 0;
+uint16_t previous_test_index = 0;
 
 //Variables for the SPU thread group
 sys_spu_thread_group_t group;					/* SPU thread group ID */
@@ -82,7 +83,7 @@ void send_terminate_event();
 int main(int argc, char** argv)
 {
 	int exception_count = 0;
-	const int MAX_EXCEPTION_COUNT_ALLOWED = 1000;
+	const int MAX_EXCEPTION_COUNT_ALLOWED = 10000;
 
 	initialize();
 	
@@ -106,8 +107,22 @@ int main(int argc, char** argv)
 	{
 		if (exception_detected)
 		{
-			++exception_count;
 			exception_detected = false;
+
+			if (test_index == 0)
+			{
+				printf("ERROR: SPU exception detected before running any unit test!\n");
+				break;
+			}
+
+			if (previous_test_index == test_index)
+			{
+				printf("ERROR: Skipping crashed unit test failed! The game might be in a loop.\n");
+				break;
+			}
+
+			++exception_count;
+			previous_test_index = test_index;
 
 			// Prevent the code from running forever. To be removed.
 			if (exception_count >= MAX_EXCEPTION_COUNT_ALLOWED)
