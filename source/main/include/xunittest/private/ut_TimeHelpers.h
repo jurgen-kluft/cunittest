@@ -27,6 +27,10 @@ namespace UnitTest
 		void		start();
 		int			getTimeInMs() const;
 
+#ifdef TARGET_PS3_SPU
+		void		update();
+#endif
+
 	private:
 		int			mData[8];
 	};
