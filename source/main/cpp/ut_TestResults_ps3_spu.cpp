@@ -3,7 +3,9 @@
 #include "xunittest\private\ut_TestResults.h"
 #include "xunittest\private\ut_TestReporter.h"
 
+//#include <spu_internals.h>
 #include <spu_printf.h>
+
 
 extern unsigned int gExceptionSuiteCount;
 extern unsigned int gExceptionFixtureCount;
@@ -63,12 +65,31 @@ namespace UnitTest
 			}
 			unsigned int data1 = ( ((unsigned int)mTestSuiteCount) << 12 ) | (((unsigned int)mTestFixtureCount) & 0x00000FFF );
 			unsigned int data2 = ( ((unsigned int)mTestCount) << 16 ) | (((unsigned int)mFailureCount) & 0x0000FFFF );
-			int ret;
-			ret = sys_spu_thread_send_event(SPU_THREAD_PORT, data1, data2);
+			
+			int ret = sys_spu_thread_send_event(SPU_THREAD_PORT, data1, data2);
 
-			if (ret != CELL_OK)
+			while (ret != CELL_OK)
 			{
-				spu_printf("Error sending message to the PPU thread!\n");
+				if (ret == ENOTCONN)
+				{
+					spu_printf("Error sending message to the PPU thread : spup is not connected to any event queue.\n");
+					break;
+				}
+				else if (ret == EINVAL)
+				{
+					spu_printf("Error sending message to the PPU thread : spup is out of range.\n");
+					break;
+				}
+				else if (ret == EBUSY)
+				{
+					spu_printf("WARNING IN SENDING MESSAGE TO PPU: The event queue is full. Resending...\n");
+					ret = sys_spu_thread_send_event(SPU_THREAD_PORT, data1, data2);
+				}
+				else
+				{
+					spu_printf("Unknown error while sending message to the PPU thread!\n");
+					break;
+				}
 			}
 			//spu_printf("The counts are : %d\t%d\t%d\t%d\t %s \n", mTestSuiteCount, mTestFixtureCount, mTestCount, mFailureCount, testName);
 

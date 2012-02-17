@@ -24,7 +24,7 @@ SYS_PROCESS_PARAM(1001, 0x10000)
 #define PRIORITY				100
 
 #define TERMINATE_PORT_NAME		102047749UL
-#define QUEUE_SIZE				32
+#define QUEUE_SIZE				127
 #define SPU_THREAD_PORT			58
 
 //Thread Related Varables
@@ -484,10 +484,16 @@ void send_terminate_event()
 	}
 
 	ret = sys_event_port_send(terminate_port, 0, 0, 0);
-	if (ret != CELL_OK) {
-		fprintf(stderr, "sys_event_port_send failed: %#.8x\n", ret);
+	while (ret != CELL_OK) {
+		if (ret == EBUSY) {
+			printf("The event queue is full. Resending...\n");
+			ret = sys_event_port_send(terminate_port, 0, 0, 0);
+		}
+		else {
+			fprintf(stderr, "sys_event_port_send failed: %#.8x\n", ret);
+			break;
+		}
 	}
-
 	ret = sys_event_port_disconnect(terminate_port);
 	if (ret != CELL_OK) {
 		fprintf(stderr, "sys_event_port_disconnect failed; %#.8x\n", ret);
