@@ -30,12 +30,20 @@ namespace UnitTest
 	void TestResults::onTestSuiteStart(char const* testName, int inNumTests)
 	{
 		++mTestSuiteCount;
+		if (mTestState && mTestState->hasExceptionOccurred() && mTestState->needToSkipTest(mTestCount))
+		{
+			return;
+		}
 		if ( mTestReporter )
 			mTestReporter->reportTestSuiteStart(inNumTests,testName);
 	}
-	
+
 	void TestResults::onTestSuiteEnd(char const* testName, float secondsElapsed)
 	{
+		if (mTestState && mTestState->hasExceptionOccurred() && mTestState->needToSkipTest(mTestCount))
+		{
+			return;
+		}
 		if ( mTestReporter )
 			mTestReporter->reportTestSuiteEnd(testName, secondsElapsed);
 	}
@@ -43,12 +51,20 @@ namespace UnitTest
 	void TestResults::onTestFixtureStart(char const* testName, int inNumTests)
 	{
 		++mTestFixtureCount;
+		if (mTestState && mTestState->hasExceptionOccurred() && mTestState->needToSkipTest(mTestCount))
+		{
+			return;
+		}
 		if ( mTestReporter )
 			mTestReporter->reportTestFixtureStart(inNumTests,testName);
 	}
 
 	void TestResults::onTestFixtureEnd(char const* testName, float secondsElapsed)
 	{
+		if (mTestState && mTestState->hasExceptionOccurred() && mTestState->needToSkipTest(mTestCount))
+		{
+			return;
+		}
 		if ( mTestReporter )
 			mTestReporter->reportTestFixtureEnd(testName, secondsElapsed);
 	}
@@ -56,42 +72,50 @@ namespace UnitTest
 	void TestResults::onTestStart(char const* testName)
 	{
 		++mTestCount;
-		if ( mTestReporter && mTestState && mTestState->hasExceptionOccurred() && mTestState->needToSkipTest(mTestCount) )
+		if ( mTestReporter )
 		{
-			if ( mTestCount > 0xFFFF || mTestCount < 0 || mFailureCount > 0xFFFF || mFailureCount < 0 )
+			if (mTestState)
 			{
-				spu_printf("WARNING: Data overflow warning!\n");
-			}
-			unsigned int data1 = mTestCount;
-			unsigned int data2 = mFailureCount;
-			
-			int ret = sys_spu_thread_send_event(SPU_THREAD_PORT, data1, data2);
+				if ( mTestState->hasExceptionOccurred() && 
+					( mTestState->needToSkipTest(mTestCount) || mTestState->isTheCrashedTest(mTestCount)) )
+				{
+					return;
+				}
 
-			while (ret != CELL_OK)
-			{
-				if (ret == ENOTCONN)
+				if ( mTestCount > 0xFFFF || mTestCount < 0 || mFailureCount > 0xFFFF || mFailureCount < 0 )
 				{
-					spu_printf("Error sending message to the PPU thread : spup is not connected to any event queue.\n");
-					break;
+					spu_printf("WARNING: Data overflow warning!\n");
 				}
-				else if (ret == EINVAL)
-				{
-					spu_printf("Error sending message to the PPU thread : spup is out of range.\n");
-					break;
-				}
-				else if (ret == EBUSY)
-				{
-					spu_printf("WARNING IN SENDING MESSAGE TO PPU: The event queue is full. Resending...\n");
-					ret = sys_spu_thread_send_event(SPU_THREAD_PORT, data1, data2);
-				}
-				else
-				{
-					spu_printf("Unknown error while sending message to the PPU thread!\n");
-					break;
-				}
-			}
-			//spu_printf("The counts are : %d\t%d\t%d\t%d\t %s \n", mTestSuiteCount, mTestFixtureCount, mTestCount, mFailureCount, testName);
+				unsigned int data1 = mTestCount;
+				unsigned int data2 = mFailureCount;
 
+				int ret = sys_spu_thread_send_event(SPU_THREAD_PORT, data1, data2);
+
+				while (ret != CELL_OK)
+				{
+					if (ret == ENOTCONN)
+					{
+						spu_printf("Error sending message to the PPU thread : spup is not connected to any event queue.\n");
+						break;
+					}
+					else if (ret == EINVAL)
+					{
+						spu_printf("Error sending message to the PPU thread : spup is out of range.\n");
+						break;
+					}
+					else if (ret == EBUSY)
+					{
+						spu_printf("WARNING IN SENDING MESSAGE TO PPU: The event queue is full. Resending...\n");
+						ret = sys_spu_thread_send_event(SPU_THREAD_PORT, data1, data2);
+					}
+					else
+					{
+						spu_printf("Unknown error while sending message to the PPU thread!\n");
+						break;
+					}
+				}
+				//spu_printf("The counts are : %d\t%d\t%d\t%d\t %s \n", mTestSuiteCount, mTestFixtureCount, mTestCount, mFailureCount, testName);
+			}
 			mTestReporter->reportTestStart(testName);
 		}
 	}
@@ -109,6 +133,10 @@ namespace UnitTest
 
 	void TestResults::onTestEnd(char const* testName, float secondsElapsed)
 	{
+		if (mTestState && mTestState->hasExceptionOccurred() && mTestState->needToSkipTest(mTestCount))
+		{
+			return;
+		}
 		if (mTestReporter)
 			mTestReporter->reportTestEnd(testName, secondsElapsed);
 	}
