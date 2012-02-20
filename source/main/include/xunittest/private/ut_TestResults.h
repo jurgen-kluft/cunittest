@@ -4,11 +4,12 @@
 namespace UnitTest
 {
 	class TestReporter;
+	class TestState;
 
 	class TestResults
 	{
 	public:
-		explicit		TestResults(TestReporter* reporter = 0);
+		explicit		TestResults(TestReporter* reporter = 0, TestState* state = 0);
 
 		void			onTestSuiteStart(char const* testName, int inNumTests);
 		void			onTestSuiteEnd(char const* testName, float secondsElapsed);
@@ -21,25 +22,15 @@ namespace UnitTest
 		int				getTestCount() const;
 		int				getFailureCount() const;
 
-#ifdef TARGET_PS3_SPU
-		void			setExceptionState();
-		bool			isToBeSkipped();
-
-		// Check if we are now about to run the test that crashed in the previous run.
-		bool			isTheCrashedTest();
-#endif
+		TestState*		getTestState() const;
 
 	private:
 		TestReporter*	mTestReporter;
+		TestState*		mTestState;
 		int				mTestSuiteCount;
 		int				mTestFixtureCount;
 		int				mTestCount;
 		int				mFailureCount;
-
-#ifdef TARGET_PS3_SPU
-		// Variables for SPU only, see if any SPU exception has occurred before this run
-		bool			mExceptionDetected;
-#endif
 
 		// Copy Constructor & Assignment operator are private
 						TestResults(TestResults const&);
