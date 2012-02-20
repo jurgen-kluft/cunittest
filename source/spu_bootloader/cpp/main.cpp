@@ -30,14 +30,10 @@ SYS_PROCESS_PARAM(1001, 0x10000)
 //Thread Related Varables
 volatile bool exception_detected = false;
 
-// In order to be compatible with the sys_spu_thread_send_event
-// suite_index and fixture_index are going to be of only 12 bit
-// in other words, 0 - 4095
-volatile uint16_t suite_index = 0;
-volatile uint16_t fixture_index = 0;
-volatile uint16_t test_index = 0;
+// Different from exception_detected, has_exception is used later as a parameter for SPU image
+volatile uint16_t test_count = 0;
 volatile uint16_t failure_count = 0;
-uint16_t previous_test_index = 0;
+uint16_t previous_test_count = 0;
 
 //Variables for the SPU thread group
 sys_spu_thread_group_t group;					/* SPU thread group ID */
@@ -109,20 +105,20 @@ int main(int argc, char** argv)
 		{
 			exception_detected = false;
 
-			if (test_index == 0)
+			if (test_count == 0)
 			{
 				printf("ERROR: SPU exception detected before running any unit test!\n");
 				break;
 			}
 
-			if (previous_test_index == test_index)
+			if (previous_test_count == test_count)
 			{
 				printf("ERROR: Skipping crashed unit test failed! The game might be in a loop.\n");
 				break;
 			}
 
 			++exception_count;
-			previous_test_index = test_index;
+			previous_test_count = test_count;
 
 			// Prevent the code from running forever. To be removed.
 			if (exception_count >= MAX_EXCEPTION_COUNT_ALLOWED)
@@ -256,11 +252,12 @@ void start()
 		// TODO: jinlin, SpuStackSize can be set here, maybe 0x2000?
 		thread_args.arg2 = SYS_SPU_THREAD_ARGUMENT_LET_32(0);
 
-		// Stores the suite index and fixture index
-		thread_args.arg3 = SYS_SPU_THREAD_ARGUMENT_LET_32( ((uint32_t)suite_index << 16) | fixture_index );
 
-		// Stores the test index and failure count
-		thread_args.arg4 = SYS_SPU_THREAD_ARGUMENT_LET_32( ((uint32_t)test_index << 16) | failure_count );
+		// Stores the test count
+		thread_args.arg3 = SYS_SPU_THREAD_ARGUMENT_LET_32( test_count );
+
+		// Stores the failure count
+		thread_args.arg4 = SYS_SPU_THREAD_ARGUMENT_LET_32( failure_count );
 
 		printf("Initializing SPU thread %d\n", i);
 		
@@ -567,14 +564,10 @@ void spu_thread_event_handler(uint64_t uint64_t_queue_id)
 			printf("SPU thread port number = %llu\n", 
 				(event.data2 >> 32) & 0x000000FF);
 
-			suite_index = (event.data2 >> 12) & 0x0FFF;
-			fixture_index = event.data2 & 0x0FFF;
-			test_index = event.data3 >> 16;
+			test_count = event.data2;
 			failure_count = event.data3;
 
-			printf("Suite = %llu\n", suite_index);
-			printf("Fixture = %llu\n", fixture_index);
-			printf("Test = %llu\n", test_index);
+			printf("Test = %llu\n", test_count);
 			printf("Failure = %llu\n", failure_count);
 			printf("\n");
 		}
