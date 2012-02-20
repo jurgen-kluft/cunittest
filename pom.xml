@@ -279,7 +279,6 @@
 						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;_DEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 						<Warnings>NormalWarnings</Warnings>
-						<OptimizationLevel>Level0</OptimizationLevel>
 						<FunctionSections>true</FunctionSections>
 						<DataSections>true</DataSections>
 						<StackCheck>true</StackCheck>
@@ -293,7 +292,6 @@
 						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;NDEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 						<Warnings>NormalWarnings</Warnings>
-						<OptimizationLevel>Level0</OptimizationLevel>
 						<FunctionSections>true</FunctionSections>
 						<DataSections>true</DataSections>
 						<StackCheck>true</StackCheck>
@@ -502,7 +500,6 @@
 						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;_DEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 						<Warnings>NormalWarnings</Warnings>
-						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -513,7 +510,6 @@
 						<UserPreprocessorDefinitions>TARGET_PS3_SPU;SPU;NDEBUG;%(UserPreprocessorDefinitions)</UserPreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 						<Warnings>NormalWarnings</Warnings>
-						<OptimizationLevel>Level0</OptimizationLevel>
 					</ClCompile>
 					<Link>
 						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
