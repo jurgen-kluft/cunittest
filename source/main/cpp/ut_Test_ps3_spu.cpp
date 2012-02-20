@@ -4,15 +4,10 @@
 #include "xunittest\private\ut_Test.h"
 #include "xunittest\private\ut_TestList.h"
 #include "xunittest\private\ut_TestResults.h"
+#include "xunittest\private\ut_TestState.h"
 #include "xunittest\private\ut_TimeHelpers.h"
 #include "xunittest\private\ut_AssertException.h"
 #include "xunittest\private\ut_StringBuilder.h"
-
-
-extern unsigned int gExceptionSuiteCount;
-extern unsigned int gExceptionFixtureCount;
-extern unsigned int gExceptionTestCount;
-extern unsigned int gExceptionFailureCount;
 
 namespace UnitTest
 {
@@ -22,14 +17,17 @@ namespace UnitTest
 		testTimer.start();
 		testResults.onTestStart(mTestName);
 
-		if (testResults.isToBeSkipped())
+		if (testResults.getTestState() && testResults.getTestState()->hasExceptionOccurred() )
 		{
-			return;
-		}
-		else if (testResults.isTheCrashedTest())
-		{
-			testResults.onTestFailure("Unknown File", 0, mTestName, "An exception in SPU occurred while running this test.");
-			return;
+			if (testResults.getTestState()->needToSkipTest(testResults.getTestCount()))
+			{
+				return;
+			}
+			else if (testResults.getTestState()->isTheCrashedTest(testResults.getTestCount()))
+			{
+				testResults.onTestFailure("Unknown File", 0, mTestName, "An exception in SPU occurred while running this test.");
+				return;
+			}
 		}
 
 		_TRY_BEGIN

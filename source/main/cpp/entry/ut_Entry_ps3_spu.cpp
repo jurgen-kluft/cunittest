@@ -3,8 +3,11 @@
 #include <stdlib.h>
 
 #include "xunittest\xunittest.h"
+#include "xunittest\private\ut_TestState.h"
 #include "xunittest\private\ut_TestReporterStdout.h"
 #include "xunittest\private\ut_TestReporterTeamCity.h"
+
+#include <spu_printf.h>
 
 class UnitTestObserver : public UnitTest::Observer
 {
@@ -17,18 +20,12 @@ public:
 	}
 };
 
-#include <spu_printf.h>
-
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
 
 int gProgramSize = 0;
 int gStackSize   = 0;
 
-// The indices start at 1 instead of 0; 0 means no exception has ever happened yet
-unsigned int gExceptionSuiteCount;
-unsigned int gExceptionFixtureCount;
-unsigned int gExceptionTestCount;
-unsigned int gExceptionFailureCount;
+UnitTest::TestState gTestState;
 
 void getProgramAndStackSizeForSPU(int* programSize, int* stackSize)
 {
@@ -41,13 +38,10 @@ int main(uint32_t arg1, uint32_t arg2, uint32_t arg3, uint32_t arg4)
 	gProgramSize = arg1;
 	gStackSize = arg2;
 
-	gExceptionSuiteCount = arg3 >> 16;
-	gExceptionFixtureCount = arg3 & 0x0000FFFF;
-	gExceptionTestCount = arg4 >> 16;
-	gExceptionFailureCount = arg4 & 0x0000FFFF;
+	gTestState.setTestState(arg3, arg4);
 
 	spu_printf("arg1(SpuProgramSize)=%d arg2(SpuStackSize)=%d \n", gProgramSize, gStackSize);
-	spu_printf("Suite: %d \t Fixture: %d \t Test: %d \t Failure Count: %d\n", gExceptionSuiteCount, gExceptionFixtureCount, gExceptionTestCount, gExceptionFailureCount);
+	spu_printf("Test Count: %d \t Failure Count: %d\n", arg3, arg4);
 
 	UnitTest::SetAllocator(NULL);
 	UnitTestObserver observer;
