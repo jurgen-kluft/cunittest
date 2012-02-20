@@ -115,9 +115,6 @@
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
 				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
-				    <TargetExt>.self</TargetExt>
-				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
 					<ExceptionsAndRtti>WithExceptsWithRtti</ExceptionsAndRtti>
@@ -139,11 +136,9 @@
 					<ProjectGuid>{c81d02a1-2933-49e5-9dba-261317eab3be}</ProjectGuid>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
-					<TargetExt>.lib</TargetExt>
 					<ExceptionsAndRtti>WithExceptsWithRtti</ExceptionsAndRtti>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
-					<TargetExt>.lib</TargetExt>
 					<ExceptionsAndRtti>WithExceptsWithRtti</ExceptionsAndRtti>
 				</PropertyGroup>
 				<ImportGroup Label="TargetDirs">
@@ -265,12 +260,6 @@
 					<ProjectGuid>{F71D8F03-7526-48F8-B83D-B58D9919D6AF}</ProjectGuid>
 					<PlatformToolset>SPU</PlatformToolset>
 				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
-					<TargetExt>.lib</TargetExt>
-				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
-					<TargetExt>.lib</TargetExt>
-				</PropertyGroup>
 				<ImportGroup Label="TargetDirs">
 					<Import Project="$(SolutionDir)target\xunittest\xunittest.PS3.props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.PS3.props')" Label="xunittest_RootDir" />
 				</ImportGroup>
@@ -331,12 +320,10 @@
 					<ConfigurationType>Application</ConfigurationType>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
-				    <TargetExt>.self</TargetExt>
 					<ExceptionsAndRtti>WithExceptsWithRtti</ExceptionsAndRtti>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 					<ExceptionsAndRtti>WithExceptsWithRtti</ExceptionsAndRtti>
-				    <TargetExt>.self</TargetExt>
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
@@ -484,12 +471,6 @@
 				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
-				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
-				    <TargetExt>.self</TargetExt>
-				</PropertyGroup>
-				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
-				    <TargetExt>.self</TargetExt>
 				</PropertyGroup>
 				<ImportGroup Label="TargetDirs">
 					<Import Project="$(SolutionDir)target\xunittest\xunittest.PS3.props" Condition="exists('$(SolutionDir)target\xunittest\xunittest.PS3.props')" Label="xunittest_RootDir" />
