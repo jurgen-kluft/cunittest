@@ -5,8 +5,9 @@
 
 namespace UnitTest
 {
-	TestResults::TestResults(TestReporter* testReporter)
+	TestResults::TestResults(TestReporter* testReporter, TestState* testState)
 		:mTestReporter(testReporter)
+		,mTestState(testState)
 		,mTestSuiteCount(0)
 		,mTestFixtureCount(0)
 		,mTestCount(0)
@@ -60,6 +61,10 @@ namespace UnitTest
 			mTestReporter->reportTestEnd(testName, secondsElapsed);
 	}
 
+	TestState* TestResults::getTestState() const
+	{
+		return mTestState;
+	}
 
 	int TestResults::getTestCount() const
 	{

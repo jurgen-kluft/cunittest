@@ -10,13 +10,19 @@
 #include "xunittest\private\ut_StringBuilder.h"
 #include "xunittest\private\ut_Stdout.h"
 
+#ifdef TARGET_PS3_SPU
+extern UnitTest::TestState gTestState;
+#endif //TARGET_PS3_SPU
+
 namespace UnitTest
 {
 	int runAllTests(TestReporter& reporter, SuiteNode* inSuiteList, int maxTestTimeInMs)
 	{
-		TestResults result(&reporter);
+
 #ifdef TARGET_PS3_SPU
-		result.setExceptionState();
+		TestResults result(&reporter, &gTestState);
+#else
+		TestResults result(&reporter);
 #endif //TARGET_PS3_SPU
 
 		Timer overallTimer;
