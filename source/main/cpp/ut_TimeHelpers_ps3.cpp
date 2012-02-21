@@ -22,6 +22,10 @@ namespace UnitTest
         assert(*startTime);
     }
 
+	void Timer::update()
+	{
+	}
+
     int Timer::getTimeInMs() const
     {
         system_time_t curTime = sys_time_get_system_time();

@@ -25,11 +25,10 @@ namespace UnitTest
 					Timer();
 		
 		void		start();
+		void		update();
 		int			getTimeInMs() const;
 
-#ifdef TARGET_PS3_SPU
-		void		update();
-#endif
+
 
 	private:
 		int			mData[8];

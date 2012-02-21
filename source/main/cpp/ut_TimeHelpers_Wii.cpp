@@ -20,6 +20,10 @@ namespace UnitTest
         ASSERT(*startTime);
 	}
 
+	void Timer::update()
+	{
+	}
+
 	int Timer::getTimeInMs() const
 	{
         OSTime curTime = OSGetTime();

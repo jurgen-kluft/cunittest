@@ -20,6 +20,10 @@ namespace UnitTest
         assert(startTime);
     }
 
+	void Timer::update()
+	{
+	}
+
     int Timer::getTimeInMs() const
     {
 		long long curTime = sceKernelGetSystemTimeWide();

@@ -17,6 +17,10 @@ namespace UnitTest
         NN_ASSERT(*startTime);
 	}
 
+	void Timer::update()
+	{
+	}
+
 	int Timer::getTimeInMs() const
 	{
 		nn::os::Tick curTime = nn::os::Tick::GetSystemCurrent();

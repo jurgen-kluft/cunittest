@@ -23,6 +23,10 @@ namespace UnitTest
         (void) success;
     }
 
+	void Timer::update()
+	{
+	}
+
     int Timer::getTimeInMs() const
     {
         LARGE_INTEGER curTime;
