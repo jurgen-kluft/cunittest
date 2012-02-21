@@ -13,6 +13,16 @@ namespace UnitTest
 
     void Timer::start()
     {
+		//mData
+		//mData[0] : WorkingMode(0: LimitationMode, 1:UpdateMode )
+		//LimitationMode:the timer can record up to 53 seconds.
+		//UpdateMode: To break this limitation, calling update() function regularly 
+		//			  (please ensure the time between 2 update() call is less than 53 seconds)
+		//			  (please ensure the time between last update() call and the getTimeInMs() call is less than 53 seconds)
+		//mData[2] : start timing
+		//mData[4] : previous time(only used in update mode)
+		//mData[6] : count the wrapped-rounds(only used in update mode)
+
 		int* updateMode = reinterpret_cast<int*>(&mData[0]);
 		*updateMode = 0;
 
@@ -43,7 +53,6 @@ namespace UnitTest
 			(*carryCounter)++;
 			//spu_printf("carryCounter = %u\n", *carryCounter);
 		}
-		uint32_t* carryCounter = reinterpret_cast<uint32_t*>(&mData[6]);
 		*prevTime = currTime;
 	}
 
@@ -52,8 +61,7 @@ namespace UnitTest
 
 		const int* updateMode = reinterpret_cast<const int*>(&mData[0]);
 		if (*updateMode)
-		{
-			
+		{ 
 			uint32_t nowTime = ~spu_read_decrementer();
 			const uint32_t* startTime = reinterpret_cast<const uint32_t*>(&mData[2]);
 			const uint32_t* carryCounter = reinterpret_cast<const uint32_t*>(&mData[6]);
