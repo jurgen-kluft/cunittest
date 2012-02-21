@@ -2,6 +2,7 @@
 #include "xunittest\private\ut_TestRunner.h"
 #include "xunittest\private\ut_TestResults.h"
 #include "xunittest\private\ut_Test.h"
+#include "xunittest\private\ut_TestState.h"
 #include "xunittest\private\ut_TestMacros.h"
 #include "xunittest\private\ut_TestList.h"
 #include "xunittest\private\ut_TestReporter.h"
@@ -10,20 +11,12 @@
 #include "xunittest\private\ut_StringBuilder.h"
 #include "xunittest\private\ut_Stdout.h"
 
-#ifdef TARGET_PS3_SPU
-extern UnitTest::TestState gTestState;
-#endif //TARGET_PS3_SPU
 
 namespace UnitTest
 {
 	int runAllTests(TestReporter& reporter, SuiteNode* inSuiteList, int maxTestTimeInMs)
 	{
-
-#ifdef TARGET_PS3_SPU
-		TestResults result(&reporter, &gTestState);
-#else
-		TestResults result(&reporter);
-#endif //TARGET_PS3_SPU
+		TestResults result(&reporter, TestState::sGetInstance());
 
 		Timer overallTimer;
 		overallTimer.start();
