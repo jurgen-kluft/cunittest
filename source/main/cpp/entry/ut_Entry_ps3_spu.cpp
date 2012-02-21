@@ -25,8 +25,6 @@ extern bool gRunUnitTest(UnitTest::TestReporter& reporter);
 int gProgramSize = 0;
 int gStackSize   = 0;
 
-UnitTest::TestState gTestState;
-
 void getProgramAndStackSizeForSPU(int* programSize, int* stackSize)
 {
 	*programSize = gProgramSize;
@@ -38,7 +36,8 @@ int main(uint32_t arg1, uint32_t arg2, uint32_t arg3, uint32_t arg4)
 	gProgramSize = arg1;
 	gStackSize = arg2;
 
-	gTestState.setTestState(arg3, arg4);
+	UnitTest::TestState::sCreateInstance();
+	UnitTest::TestState::sGetInstance()->setTestState(arg3, arg4);
 
 	spu_printf("arg1(SpuProgramSize)=%d arg2(SpuStackSize)=%d \n", gProgramSize, gStackSize);
 	spu_printf("Test Count: %d \t Failure Count: %d\n", arg3, arg4);
@@ -51,6 +50,8 @@ int main(uint32_t arg1, uint32_t arg2, uint32_t arg3, uint32_t arg4)
 	UnitTest::TestReporter& reporter = stdout_reporter;
 
 	bool result = gRunUnitTest(reporter);
+
+	UnitTest::TestState::sDestroyInstance();
 
 	return result ? 0 : -1;
 }

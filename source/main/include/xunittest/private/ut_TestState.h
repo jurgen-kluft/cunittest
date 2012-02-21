@@ -6,7 +6,6 @@ namespace UnitTest
 	class TestState
 	{
 	public:
-		TestState(int testCount = 0, int failureCount = 0);
 		~TestState();
 
 		void setTestState(int testCount, int failureCount);
@@ -16,10 +15,18 @@ namespace UnitTest
 		bool isTheCrashedTest(int testCount) { return mExceptionOccurred && (testCount == mExceptionTestCount); }
 		int  getExceptionFailureCount() { return mExceptionFailureCount; }
 
+		static void sCreateInstance();
+		static TestState* sGetInstance();
+		static void sDestroyInstance();
+
 	private:
-		bool		mExceptionOccurred;
-		int			mExceptionTestCount;
-		int			mExceptionFailureCount;
+		TestState(int testCount = 0, int failureCount = 0);
+
+		static TestState*	sInstance;
+
+		bool				mExceptionOccurred;
+		int					mExceptionTestCount;
+		int					mExceptionFailureCount;
 	};
 }
 #endif	///<__XUNITTEST_TESTSTATE_H__
