@@ -10,6 +10,32 @@
 
 namespace UnitTest
 {
+	class EventWII : public Event
+	{
+	public:
+		EventWII();
+		virtual ~EventWII() {}
+
+		virtual bool signal();
+		virtual void reset();
+		virtual bool release();
+
+		CLASS_NEW_DELETE_OVERLOAD
+	};
+
+	class MutexWII : public Mutex
+	{
+	public:
+		MutexWII();
+		virtual ~MutexWII() {}
+
+		virtual void lock();
+		virtual void unlock();
+		virtual void release();
+
+		CLASS_NEW_DELETE_OVERLOAD
+	};
+
 	class ThreadWii : public ThreadBase
 	{
 	public:
