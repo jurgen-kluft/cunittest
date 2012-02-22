@@ -4,6 +4,9 @@
 
 namespace UnitTest
 {
+	//---------------------------------------------------------
+	// @@Global
+	//---------------------------------------------------------
 	Thread*		gCreateThread(Runnable* inRunnable, const char* inName /* = NULL */)
 	{
 		if (inRunnable = NULL)
@@ -46,6 +49,28 @@ namespace UnitTest
 		OSSleepTicks(inMiniSecond);
 	}
 
+	Mutex * gCreateMutex()
+	{
+		MutexWII* mutex = new MutexWII();
+		return mutex;
+	}
+
+	Event* gCreateEvent()
+	{
+		EventWII* event = new EventWII();
+		return event;
+	}
+
+	bool gWaitForEvent(Event * inEvent, int inTimeOut/* = 0*/)
+	{
+		//TODO
+
+		return false;
+	}
+
+	//---------------------------------------------------------
+	// @@Thread
+	//---------------------------------------------------------
 	bool ThreadWii::resume()
 	{
 		int statues = OSResumeThread(&mThread);
@@ -86,6 +111,52 @@ namespace UnitTest
 	{
 		BOOL result = OSJoinThread(&mThread, NULL);
 		return result == true;
+	}
+
+	//---------------------------------------------------------
+	// @@Mutex
+	//---------------------------------------------------------
+	MutexWII::MutexWII()
+	{
+		//TODO
+	}
+
+	void MutexWII::lock()
+	{
+		//TODO
+	}
+
+	void MutexWII::unlock()
+	{
+		//TODO
+	}
+
+	void MutexWII::release()
+	{
+		//TODO
+	}
+
+	//---------------------------------------------------------
+	// @@Event
+	//---------------------------------------------------------
+	EventWII::EventWII()
+	{
+		//TODO
+	}
+
+	bool EventWII::signal()
+	{
+		//TODO
+	}
+
+	void EventWII::reset()
+	{
+		//TODO
+	}
+
+	bool EventWII::release()
+	{
+		//TODO
 	}
 }
 
