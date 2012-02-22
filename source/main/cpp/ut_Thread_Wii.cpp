@@ -63,7 +63,11 @@ namespace UnitTest
 
 	bool gWaitForEvent(Event * inEvent, int inTimeOut/* = 0*/)
 	{
-		//TODO
+		EventWII* event = static_cast<EventWII*>(inEvent);
+
+		OSLockMutex(&event->m_mutex);
+		OSWaitCond(&event->m_condition, &event->m_mutex);
+		OSUnlockMutex(&event->m_mutex);
 
 		return false;
 	}
@@ -118,22 +122,22 @@ namespace UnitTest
 	//---------------------------------------------------------
 	MutexWII::MutexWII()
 	{
-		//TODO
+		OSInitMutex(&m_mutext);
 	}
 
 	void MutexWII::lock()
 	{
-		//TODO
+		OSLockMutex(&m_mutext);
 	}
 
 	void MutexWII::unlock()
 	{
-		//TODO
+		OSUnlockMutex(&m_mutext);
 	}
 
 	void MutexWII::release()
 	{
-		//TODO
+		delete this;
 	}
 
 	//---------------------------------------------------------
@@ -141,22 +145,24 @@ namespace UnitTest
 	//---------------------------------------------------------
 	EventWII::EventWII()
 	{
-		//TODO
+		OSInitCond(&m_condition);
+		OSInitMutex(&m_mutex);
 	}
 
 	bool EventWII::signal()
 	{
-		//TODO
+		OSSignalCond(&m_condition);
+		return true;
 	}
 
 	void EventWII::reset()
 	{
-		//TODO
 	}
 
 	bool EventWII::release()
 	{
-		//TODO
+		delete this;
+		return true;
 	}
 }
 

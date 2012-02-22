@@ -21,6 +21,12 @@ namespace UnitTest
 		virtual bool release();
 
 		CLASS_NEW_DELETE_OVERLOAD
+
+			friend bool gWaitForEvent(Event * inEvent, int inTimeOut);
+
+	private:
+		OSCond  m_condition;
+		OSMutex m_mutex;
 	};
 
 	class MutexWII : public Mutex
@@ -34,21 +40,24 @@ namespace UnitTest
 		virtual void release();
 
 		CLASS_NEW_DELETE_OVERLOAD
+
+	private:
+		OSMutex m_mutext;
 	};
 
 	class ThreadWii : public ThreadBase
 	{
 	public:
-							ThreadWii() : mThreadStack(NULL), mThreadId(-1), m_thread_running(false) {}
+		ThreadWii() : mThreadStack(NULL), mThreadId(-1), m_thread_running(false) {}
 		virtual				~ThreadWii() { }
 
- 		virtual bool		resume();
+		virtual bool		resume();
 
 		virtual bool		isTerminated()		{ return !m_thread_running; }
 		virtual bool		terminate()			{ return false; }
 
 
- 		virtual bool		waitForExit();
+		virtual bool		waitForExit();
 		virtual void		release();
 
 		void				init()	{ }
