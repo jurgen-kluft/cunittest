@@ -8,10 +8,10 @@
 
 namespace UnitTest
 {
-    void	gStringPrint(char* dest, int n, const char* format, const void* p)
-    {
-        sprintf(dest, format, p);
-    }
+	void	gStringPrint(char* dest, int n, const char* format, const void* p)
+	{
+		sprintf(dest, format, p);
+	}
 
     void	gStringPrint(char* dest, int n, const char* format, char c)
     {
