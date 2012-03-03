@@ -68,7 +68,7 @@ UNITTEST_SUITE_BEGIN(TestCpp)
 		UNITTEST_TEST(CheckThrowMacroSucceedsOnCorrectException)
 		{
 			struct TestException {};
-			CHECK_THROW(_THROW1(TestException()), TestException);
+			CHECK_THROW(UT_THROW1(TestException()), TestException);
 		}
 
 		UNITTEST_TEST(CheckThrowMacroFailsOnMissingException)
@@ -104,7 +104,7 @@ UNITTEST_SUITE_BEGIN(TestCpp)
 
 				virtual void runImpl(UnitTest::TestResults& testResults_) const
 				{
-					CHECK_THROW(_THROW1("oops"), int);
+					CHECK_THROW(UT_THROW1("oops"), int);
 				}
 			};
 

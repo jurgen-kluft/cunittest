@@ -30,9 +30,9 @@ namespace UnitTest
 			}
 		}
 
-		_TRY_BEGIN
+		UT_TRY_BEGIN
 			runImpl(testResults);
-		//_CATCH(AssertException const& e)
+		//UT_CATCH(AssertException const& e)
 		//	testResults.onTestFailure(e.filename(), e.lineNumber(), mTestName, e.what());
 		//catch (std::exception const& e)
 		//{
@@ -40,9 +40,9 @@ namespace UnitTest
 		//	stringBuilder << "Unhandled exception: " << e.what();
 		//	testResults.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
 		//}
-		_CATCH_ALL
+		UT_CATCH_ALL
 			testResults.onTestFailure(mFilename, mLineNumber, mTestName, "Unhandled exception: Crash!");
-		_CATCH_END
+		UT_CATCH_END
 		const int testTimeInMs = testTimer.getTimeInMs();
 		if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !mTimeConstraintExempt)
 		{
@@ -76,7 +76,7 @@ namespace UnitTest
 		}
 
 		mStep = FIXTURE_SETUP;
-		_TRY_BEGIN
+		UT_TRY_BEGIN
 			// Remember allocation count X
 			int iAllocCntX = GetNumAllocations();
 			int iMemLeakCnt = 0;
@@ -157,7 +157,7 @@ namespace UnitTest
 		//	stringBuilder << " : " << e.what();
 		//	testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
 		//}
-		_CATCH_ALL
+		UT_CATCH_ALL
 			StringBuilder stringBuilder;
 			if (mStep == FIXTURE_SETUP)
 				stringBuilder << "Unhandled exception in setup of fixture " << mTestName;
@@ -167,7 +167,7 @@ namespace UnitTest
 				stringBuilder << "Unhandled exception in fixture " << mTestName;
 
 			testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		_CATCH_END
+		UT_CATCH_END
 
 		const int testTimeInMs = testTimer.getTimeInMs();
 		if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !mTimeConstraintExempt)
