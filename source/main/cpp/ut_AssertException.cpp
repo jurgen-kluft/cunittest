@@ -10,11 +10,11 @@ namespace UnitTest
 		gStringCopy(mFilename, filename, DESCRIPTION_MAX_STR_LENGTH);
 	}
 
-	AssertException::~AssertException() _THROW0()
+	AssertException::~AssertException() UT_THROW0()
 	{
 	}
 
-	char const* AssertException::what() const _THROW0()
+	char const* AssertException::what() const UT_THROW0()
 	{
 		return mDescription;
 	}

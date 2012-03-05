@@ -15,11 +15,11 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 		{
 			bool caught = false;
 
-			_TRY_BEGIN
-				_THROW1(AssertException("", "",0));
-			_CATCH(const AssertException& e)
+			UT_TRY_BEGIN
+				UT_THROW1(AssertException("", "",0));
+			UT_CATCH(const AssertException&)
 				caught = true;
-			_CATCH_END
+			UT_CATCH_END
 
 			CHECK (true == caught);
 		}
@@ -32,13 +32,13 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 			const char* description = "description";
 			const char* filename = "filename";
 
-			_TRY_BEGIN
-				_THROW1(AssertException(description, filename, lineNumber));
-			_CATCH(AssertException const& e)
+			UT_TRY_BEGIN
+				UT_THROW1(AssertException(description, filename, lineNumber));
+			UT_CATCH(AssertException const& e)
 				CHECK_EQUAL(description, e.what());
 				CHECK_EQUAL(filename, e.filename());
 				CHECK_EQUAL(lineNumber, e.lineNumber());
-			_CATCH_END
+			UT_CATCH_END
 		}
 #endif //TARGET_PS3_SPU		
 	}
