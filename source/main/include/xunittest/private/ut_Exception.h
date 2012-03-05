@@ -26,25 +26,25 @@
 
 #ifdef _NO_EXCEPTIONS
 
-	#define _TRY_BEGIN    {{
-	#define _CATCH(x)        } if (0) {
-	#define _CATCH_ALL    } if (0) {
-	#define _CATCH_END  }}
+	#define UT_TRY_BEGIN    {{
+	#define UT_CATCH(x)        } if (0) {
+	#define UT_CATCH_ALL    } if (0) {
+	#define UT_CATCH_END  }}
 
-	#define _THROW0()
-	#define _THROW1(x)
-	#define _THROW(x, y) x(y)
+	#define UT_THROW0()
+	#define UT_THROW1(x)
+	#define UT_THROW(x, y) x(y)
 
 #else /* _NO_EXCEPTIONS */
 
-	#define _TRY_BEGIN    try {
-	#define _CATCH(x)        } catch (x) {
-	#define _CATCH_ALL    } catch (...) {
-	#define _CATCH_END  }
+	#define UT_TRY_BEGIN    try {
+	#define UT_CATCH(x)        } catch (x) {
+	#define UT_CATCH_ALL    } catch (...) {
+	#define UT_CATCH_END  }
 
-	#define _THROW0()      throw ()
-	#define _THROW1(x)    throw (x)
-	#define _THROW(x, y) throw x(y)
+	#define UT_THROW0()      throw ()
+	#define UT_THROW1(x)    throw (x)
+	#define UT_THROW(x, y) throw x(y)
 
 #endif /* _NO_EXCEPTIONS */
 

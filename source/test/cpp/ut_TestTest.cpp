@@ -54,7 +54,7 @@ UNITTEST_SUITE_BEGIN(TestTest)
 				CrashingTest() : Test("throwing") {}
 				virtual void runImpl(TestResults&) const
 				{
-					_THROW1("Blah");
+					UT_THROW1("Blah");
 				}
 			};
 
