@@ -101,6 +101,22 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			CHECK (!failure);
 		}
 
+		UNITTEST_TEST(CheckEqualSuceedsWithStrings)
+		{
+			char string1[] = "xunittest";
+			char string2[] = "xunittest";
+
+			bool failure = true;
+			{
+				RecordingReporter reporter;
+				UnitTest::TestResults testResults_(&reporter);
+				CHECK_EQUAL (string1, string2);
+				failure = (testResults_.getFailureCount() > 0);
+			}
+
+			CHECK (!failure);
+		}
+
 		UNITTEST_TEST(CheckEqualFailsOnNotEqual)
 		{
 			bool failure = false;
