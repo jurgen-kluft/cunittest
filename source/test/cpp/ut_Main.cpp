@@ -33,7 +33,7 @@ public:
 	{
 	}
 
-	void*	Allocate(int size)
+	void*	Allocate(size_t size)
 	{
 		UnitTest::IncNumAllocations();
 		++mNumAllocations;

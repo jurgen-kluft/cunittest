@@ -8,7 +8,7 @@ namespace UnitTest
 	public:
 		virtual				~Allocator() {}
 
-		virtual void*		Allocate(int size) = 0;
+		virtual void*		Allocate(size_t size) = 0;
 		virtual void		Deallocate(void* ptr) = 0;
 	};
 
@@ -37,9 +37,9 @@ namespace UnitTest
 	public:
 							NullAllocator() { }
 
-		virtual void*		Allocate(int size) { return 0; }
+		virtual void*		Allocate(size_t size) { return 0; }
 		virtual void		Deallocate(void* ptr) {}
-		void	Release()		{}
+		void				Release()		{}
 	};
 	
 
