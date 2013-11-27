@@ -164,6 +164,26 @@
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|x64'">
+					<ClCompile>
+						<PreprocessorDefinitions>TARGET_PC;WIN32;WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)\</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|x64'">
+					<ClCompile>
+						<PreprocessorDefinitions>TARGET_PC;WIN32;WIN64;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
 					<ClCompile>
 						<UserPreprocessorDefinitions>TARGET_PS3;_DEBUG;%(PreprocessorDefinitions)</UserPreprocessorDefinitions>
@@ -313,6 +333,12 @@
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
 				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|x64'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|x64'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
 				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'" Label="Configuration">
 					<ConfigurationType>Application</ConfigurationType>
 				</PropertyGroup>
@@ -360,6 +386,26 @@
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
+					<ClCompile>
+						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|x64'">
+					<ClCompile>
+						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
+						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|x64'">
 					<ClCompile>
 						<PreprocessorDefinitions>%()</PreprocessorDefinitions>
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
