@@ -27,7 +27,7 @@
 		<Item Src="libs\**\*.*" Dst="libs\" />
 		<Item Src="docs\**\*.*" Dst="docs\" />
 		<Item Src="tools\**\*.*" Dst="Tools\" />
-		<Item Src="target\xunittest\outdir\${Name}_*\${Name}_*_${Platform}.lib" Dst="libs\" />
+		<Item Src="target\xunittest\outdir\${Name}_*_${Platform}_${ToolSet}\${Name}_*_${Platform}_${ToolSet}.lib" Dst="libs\" />
 	</Content>
 
 	<Dependency Package="sdk_ps3" Platform="PS3;PS3_SPU">
@@ -58,8 +58,8 @@
 		<Properties DependencyType="Root" Platform="*">
 			<PropertyGroup Label="xunittest_TargetDirs">
 				<xunittest_RootDir>$(SolutionDir)</xunittest_RootDir> 
-				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</xunittest_LibraryDir>
-				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
+				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_$(PackageSignature)\</xunittest_LibraryDir>
+				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\outdir\xunittest_spu_$(PackageSignature)\</xunittest_spu_LibraryDir>
 				<xunittest_IncludeDir>$(SolutionDir)source\main\include\</xunittest_IncludeDir>
 			</PropertyGroup>
 		</Properties>
@@ -75,9 +75,10 @@
 	
 		<Properties DependencyType="Source" Platform="*">
 			<PropertyGroup Label="xunittest_TargetDirs">
+				<PackageSignature>$(Configuration)_$(Platform)_$(PlatformToolset)</PackageSignature>
 				<xunittest_RootDir>$(SolutionDir)target\xunittest\</xunittest_RootDir> 
-				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_$(Configuration)_$(Platform)\</xunittest_LibraryDir>
-				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_spu_$(Configuration)_$(Platform)\</xunittest_spu_LibraryDir>
+				<xunittest_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_$(PackageSignature)\</xunittest_LibraryDir>
+				<xunittest_spu_LibraryDir>$(SolutionDir)target\xunittest\target\xunittest\outdir\xunittest_spu_$(PackageSignature)\</xunittest_spu_LibraryDir>
 				<xunittest_IncludeDir>$(SolutionDir)target\xunittest\source\main\include\</xunittest_IncludeDir>
 			</PropertyGroup>
 		</Properties>
@@ -98,7 +99,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(PackageSignature).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -108,7 +109,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);$(${Name}_RootDir)\source\spu_bootloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(Configuration)_$(Platform).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;-lsysutil_stub;#xunittest_$(PackageSignature).lib;"$(SN_PS3_PATH)\ppu\lib\sn\libsn.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libm.a";"$(SCE_PS3_ROOT)\target\ppu\lib\libio_stub.a";-llv2dbg_stub;-lsysmodule_stub;-lfs_stub</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -150,7 +151,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)\</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -160,7 +161,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -170,7 +171,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)\</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -180,7 +181,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -190,7 +191,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -200,7 +201,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>libsysmodule_stub.a;#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -210,7 +211,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -220,7 +221,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -230,7 +231,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -240,7 +241,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -250,7 +251,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -260,7 +261,7 @@
 						<AdditionalIncludeDirectories>$(xunittest_IncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -293,7 +294,7 @@
 						<StackCheck>true</StackCheck>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(PackageSignature).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -306,7 +307,7 @@
 						<StackCheck>false</StackCheck>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>#$(xunittest_spu_LibraryDir)xunittest_spu_$(PackageSignature).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
@@ -381,7 +382,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -391,7 +392,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -401,7 +402,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -411,7 +412,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -421,7 +422,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -432,7 +433,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -442,7 +443,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -452,7 +453,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -462,7 +463,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -472,7 +473,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -482,7 +483,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -492,7 +493,7 @@
 						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>xunittest_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>xunittest_$(PackageSignature).lib</AdditionalDependencies>
 						<AdditionalLibraryDirectories>$(xunittest_LibraryDir)</AdditionalLibraryDirectories>
 					</Link>
 				</ItemDefinitionGroup>
@@ -530,7 +531,7 @@
 						<StackCheck>true</StackCheck>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(PackageSignature).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
@@ -541,7 +542,7 @@
 						<StackCheck>false</StackCheck>
 					</ClCompile>
 					<Link>
-						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+						<AdditionalDependencies>$(xunittest_spu_LibraryDir)xunittest_spu_$(PackageSignature).lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
 				<ItemGroup>
