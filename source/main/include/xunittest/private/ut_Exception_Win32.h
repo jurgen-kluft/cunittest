@@ -1,7 +1,6 @@
 #ifndef __XUNITTEST_ASSERTEXCEPTION_WIN32_H__
 #define __XUNITTEST_ASSERTEXCEPTION_WIN32_H__
 
-#include "xunittest\private\ut_Exception.h"
 #include <exception>
 
 namespace UnitTest
