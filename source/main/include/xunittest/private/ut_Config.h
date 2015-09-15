@@ -3,6 +3,8 @@
 
 namespace UnitTest
 {
+	typedef unsigned long int		size_t;
+
 	class Allocator
 	{
 	public:

@@ -1,4 +1,4 @@
-#include "xunittest\private\ut_TestReporter.h"
+#include "xunittest/private/ut_TestReporter.h"
 
 namespace UnitTest
 {

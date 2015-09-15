@@ -1,7 +1,7 @@
 #ifndef __XUNITTEST_UTILS_H__
 #define __XUNITTEST_UTILS_H__
 
-#include "xunittest\private\ut_Config.h"
+#include "xunittest/private/ut_Config.h"
 #include <stdio.h>
 
 namespace UnitTest

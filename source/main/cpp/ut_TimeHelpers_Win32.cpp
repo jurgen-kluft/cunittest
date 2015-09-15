@@ -1,6 +1,6 @@
 #ifdef TARGET_PC
 
-#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest/private/ut_TimeHelpers.h"
 
 #include <windows.h>
 #include <cassert>

@@ -1,4 +1,4 @@
-#include "xunittest\private\ut_TestState.h"
+#include "xunittest/private/ut_TestState.h"
 
 UnitTest::TestState* UnitTest::TestState::sInstance = 0;
 

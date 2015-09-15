@@ -1,5 +1,5 @@
-#include "xunittest\private\ut_TestReporterStdout.h"
-#include "xunittest\private\ut_Stdout.h"
+#include "xunittest/private/ut_TestReporterStdout.h"
+#include "xunittest/private/ut_Stdout.h"
 
 namespace UnitTest
 {
@@ -37,7 +37,11 @@ namespace UnitTest
 
 	void TestReporterStdout::reportFailure(char const* file, int const line, char const* testName, char const* failure)
 	{
+#ifdef TARGET_OSX
+		StringFormat("%s:%d: error: Failure in %s:%s.\n", file, line, testName, failure);
+#else
 		StringFormat("%s(%d): error: Failure in %s:%s.\n", file, line, testName, failure);
+#endif
 		Trace(mMessage);
 	}
 

@@ -1,7 +1,7 @@
 #ifndef __XUNITTEST_TESTREPORTER_TEAMCITY_H__
 #define __XUNITTEST_TESTREPORTER_TEAMCITY_H__
 
-#include "xunittest\private\ut_TestReporter.h"
+#include "xunittest/private/ut_TestReporter.h"
 
 namespace UnitTest
 {

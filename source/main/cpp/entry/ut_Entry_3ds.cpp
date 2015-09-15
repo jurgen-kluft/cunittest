@@ -3,9 +3,9 @@
 #include <nn.h>
 #include <nn\os.h>
 
-#include "xunittest\xunittest.h"
-#include "xunittest\private\ut_TestReporterStdout.h"
-#include "xunittest\private\ut_TestReporterTeamCity.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/private/ut_TestReporterStdout.h"
+#include "xunittest/private/ut_TestReporterTeamCity.h"
 
 
 class UnitTestObserver : public UnitTest::Observer

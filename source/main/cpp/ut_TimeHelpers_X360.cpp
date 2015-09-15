@@ -1,6 +1,6 @@
 #ifdef TARGET_360
 
-#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest/private/ut_TimeHelpers.h"
 
 #include <xtl.h>
 #include <cassert>

@@ -1,4 +1,4 @@
-#include "xunittest\private\ut_Thread_Base.h"
+#include "xunittest/private/ut_Thread_Base.h"
 
 
 namespace UnitTest

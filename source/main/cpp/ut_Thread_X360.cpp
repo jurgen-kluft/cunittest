@@ -1,4 +1,4 @@
-#include "xunittest\private\ut_Thread_X360.h"
+#include "xunittest/private/ut_Thread_X360.h"
 
 #if defined(TARGET_360)
 

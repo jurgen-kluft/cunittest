@@ -1,8 +1,8 @@
 #ifdef TARGET_PS3_SPU
 
-#include "xunittest\private\ut_TestResults.h"
-#include "xunittest\private\ut_TestReporter.h"
-#include "xunittest\private\ut_TestState.h"
+#include "xunittest/private/ut_TestResults.h"
+#include "xunittest/private/ut_TestReporter.h"
+#include "xunittest/private/ut_TestState.h"
 
 #include <spu_printf.h>
 

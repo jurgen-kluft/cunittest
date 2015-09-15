@@ -2,10 +2,10 @@
 #include <new>
 #include <stdlib.h>
 
-#include "xunittest\xunittest.h"
-#include "xunittest\private\ut_TestState.h"
-#include "xunittest\private\ut_TestReporterStdout.h"
-#include "xunittest\private\ut_TestReporterTeamCity.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/private/ut_TestState.h"
+#include "xunittest/private/ut_TestReporterStdout.h"
+#include "xunittest/private/ut_TestReporterTeamCity.h"
 
 #include <spu_printf.h>
 

@@ -4,7 +4,7 @@
 #include <sys/timer.h>
 #include <sys/sys_time.h>
 
-#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest/private/ut_TimeHelpers.h"
 
 namespace UnitTest
 {

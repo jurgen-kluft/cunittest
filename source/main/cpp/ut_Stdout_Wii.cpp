@@ -1,6 +1,6 @@
 #ifdef TARGET_WII
 
-#include "xunittest\private\ut_Stdout.h"
+#include "xunittest/private/ut_Stdout.h"
 
 #include <stdio.h>
 #include <cstdio>

@@ -13,7 +13,7 @@ namespace UnitTest
 
 		virtual void		run(TestResults& testResults, int const maxTestTimeInMs);
 
-		inline void			addTest(Test* inTest)								{ if (mNext!=0) mNext->addTest(inTest); else mNext=inTest; }
+		inline void			addTest(Test* inTest)	{ if (mNext!=0) mNext->addTest(inTest); else mNext=inTest; }
 
 		Test*				mNext;
 		char const* const	mTestName;
@@ -43,7 +43,7 @@ namespace UnitTest
 
 		virtual void		run(TestResults& testResults, int const maxTestTimeInMs);
 
-		void				addTest(Test* inTest)								{ if (mTests!=0) mTests->addTest(inTest); else mTests=inTest; }
+		void				addFixtureTest(Test* inTest)						{ if (mTests!=0) mTests->addTest(inTest); else mTests=inTest; }
 		void				addFixture(TestFixture* fixture)					{ if (mNextFixture!=0) mNextFixture->addFixture(fixture); else mNextFixture=fixture; }
 		TestFixture*		getNext()											{ return mNextFixture; }
 
@@ -62,7 +62,7 @@ namespace UnitTest
 	class AddTestToFixture
 	{
 	public:
-		AddTestToFixture(TestFixture* fixture, Test* test) { fixture->addTest(test); }
+		AddTestToFixture(TestFixture* fixture, Test* test) { fixture->addFixtureTest(test); }
 	};
 
 }

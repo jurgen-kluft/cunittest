@@ -2,7 +2,7 @@
 
 #include <revolution/os.h>
 
-#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest/private/ut_TimeHelpers.h"
 
 namespace UnitTest
 {
