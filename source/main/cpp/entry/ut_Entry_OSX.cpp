@@ -1,5 +1,5 @@
-#ifdef TARGET_PC
-#include <windows.h>
+#ifdef TARGET_OSX
+#include <stdlib.h>
 
 #include "xunittest/xunittest.h"
 #include "xunittest/private/ut_TestReporterStdout.h"
@@ -31,17 +31,19 @@ int main(int argc, char** argv)
 	return result ? 0 : -1;
 }
 
+#define _MAX_PATH 1024
+
 struct x_WinCmdLine
 {
-	int			mArgC;
-	char**		mArgV;
-	char		mFilename[_MAX_PATH];
+	int					mArgC;
+	const char *		mArgV[128];
+	char				mFilename[_MAX_PATH];
 
-	void		Parse(LPSTR lpCmdLine);
-	void		Destroy();
+	void				Parse(char* lpCmdLine);
+	void				Destroy();
 };
 
-void x_WinCmdLine::Parse(LPSTR lpCmdLine)
+void x_WinCmdLine::Parse(char* lpCmdLine)
 {
 	// count the arguments
 	int argc = 1;
@@ -61,7 +63,6 @@ void x_WinCmdLine::Parse(LPSTR lpCmdLine)
 	}    
 
 	// parse the arguments
-	char** argv = (char**)malloc(argc * sizeof(char*));
 
 	arg = lpCmdLine;
 	int index = 1;
@@ -73,7 +74,7 @@ void x_WinCmdLine::Parse(LPSTR lpCmdLine)
 
 		if (arg[0] != 0)
 		{
-			argv[index] = arg;
+			mArgV[index] = arg;
 			index++;
 
 			while (arg[0] != 0 && arg[0] != ' ')
@@ -88,11 +89,9 @@ void x_WinCmdLine::Parse(LPSTR lpCmdLine)
 	}
 
 	mArgC = argc;
-	mArgV = argv;
 
 	// put the program name into argv[0]
-	GetModuleFileName(NULL, mFilename, _MAX_PATH);
-	argv[0] = mFilename;
+	mArgV[0] = mFilename;
 }
 
 void x_WinCmdLine::Destroy()
@@ -100,13 +99,5 @@ void x_WinCmdLine::Destroy()
 	free(mArgV);
 }
 
-INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-	x_WinCmdLine arg;
-	arg.Parse(lpCmdLine);
-	int r = main(arg.mArgC, arg.mArgV);
-	arg.Destroy();
-	return r;
-}
 
 #endif

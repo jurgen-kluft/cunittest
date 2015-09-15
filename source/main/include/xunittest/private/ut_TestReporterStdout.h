@@ -1,7 +1,7 @@
 #ifndef __XUNITTEST_TESTREPORTERSTDOUT_H__
 #define __XUNITTEST_TESTREPORTERSTDOUT_H__
 
-#include "xunittest\private\ut_TestReporter.h"
+#include "xunittest/private/ut_TestReporter.h"
 
 namespace UnitTest
 {

@@ -1,4 +1,4 @@
-#include "xunittest\private\ut_Thread_Win32.h"
+#include "xunittest/private/ut_Thread_Win32.h"
 
 #if defined(TARGET_PC) || defined(TARGET_360)
 

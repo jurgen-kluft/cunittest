@@ -1,6 +1,6 @@
 #ifdef TARGET_N3DS
 
-#include "xunittest\private\ut_Utils.h"
+#include "xunittest/private/ut_Utils.h"
 
 #include <stdio.h>
 #include <cstdio>

@@ -1,6 +1,6 @@
-#include "xunittest\private\ut_Config.h"
-#include "xunittest\private\ut_StringBuilder.h"
-#include "xunittest\private\ut_Utils.h"
+#include "xunittest/private/ut_Config.h"
+#include "xunittest/private/ut_StringBuilder.h"
+#include "xunittest/private/ut_Utils.h"
 
 namespace UnitTest
 {
@@ -48,7 +48,7 @@ namespace UnitTest
 	StringBuilder& StringBuilder::operator << (const void* p)
 	{
 		char dest[256];
-		gStringPrint(dest, sizeof(dest), "%0X", (int)p);
+		gStringPrint(dest, sizeof(dest), "%0X", (size_t)p);
 		*this << dest;
 		return *this;    
 	}

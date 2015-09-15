@@ -1,5 +1,5 @@
-#include "xunittest\private\ut_TestReporterTeamCity.h"
-#include "xunittest\private\ut_Stdout.h"
+#include "xunittest/private/ut_TestReporterTeamCity.h"
+#include "xunittest/private/ut_Stdout.h"
 
 namespace UnitTest
 {

@@ -1,6 +1,6 @@
 #if defined(TARGET_WII)
-#include "xunittest\private\ut_Thread_Wii.h"
-#include "xunittest\private\ut_Config.h"
+#include "xunittest/private/ut_Thread_Wii.h"
+#include "xunittest/private/ut_Config.h"
 
 namespace UnitTest
 {

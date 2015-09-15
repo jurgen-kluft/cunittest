@@ -1,6 +1,6 @@
-#include "xunittest\private\ut_TimeConstraint.h"
-#include "xunittest\private\ut_TestResults.h"
-#include "xunittest\private\ut_StringBuilder.h"
+#include "xunittest/private/ut_TimeConstraint.h"
+#include "xunittest/private/ut_TestResults.h"
+#include "xunittest/private/ut_StringBuilder.h"
 
 namespace UnitTest
 {

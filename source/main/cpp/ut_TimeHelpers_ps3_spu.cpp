@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <spu_mfcio_gcc.h>
 //#include <spu_printf.h>
-#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest/private/ut_TimeHelpers.h"
 
 namespace UnitTest
 {

@@ -1,6 +1,6 @@
 #ifdef TARGET_N3DS
 
-#include "xunittest\private\ut_Stdout.h"
+#include "xunittest/private/ut_Stdout.h"
 
 #include <stdio.h>
 #include <nn/dbg.h>

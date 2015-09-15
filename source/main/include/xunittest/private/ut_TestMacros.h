@@ -87,7 +87,7 @@ namespace UnitTest																				\
     class Test##Name : public UnitTest::Test                               							\
     {                                                                      							\
     public:                                                                							\
-        Test##Name(UnitTest::TestFixture* fixture) : UnitTest::Test(#Name, __FILE__, __LINE__) { fixture->addTest(this); }	\
+        Test##Name(UnitTest::TestFixture* fixture) : UnitTest::Test(#Name, __FILE__, __LINE__) { fixture->addFixtureTest(this); }	\
     protected:                                                             							\
         virtual void runImpl(UnitTest::TestResults& testResults_) const;   							\
     };						                                                						\

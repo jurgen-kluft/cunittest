@@ -1,7 +1,7 @@
 #ifndef __X_CORE_UNITTEST_TIMECONSTRAINT_H__
 #define __X_CORE_UNITTEST_TIMECONSTRAINT_H__
 
-#include "xunittest\private\ut_TimeHelpers.h"
+#include "xunittest/private/ut_TimeHelpers.h"
 
 namespace UnitTest
 {

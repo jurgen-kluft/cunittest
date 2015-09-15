@@ -1,7 +1,7 @@
 #ifndef __XUNITTEST_ASSERTEXCEPTION_H__
 #define __XUNITTEST_ASSERTEXCEPTION_H__
 
-#include "xunittest\private\ut_Exception.h"
+#include "xunittest/private/ut_Exception.h"
 
 namespace UnitTest
 {

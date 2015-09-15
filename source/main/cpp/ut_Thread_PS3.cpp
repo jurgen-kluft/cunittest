@@ -1,5 +1,5 @@
 #if defined(TARGET_PS3)
-#include "xunittest\private\ut_Thread_PS3.h"
+#include "xunittest/private/ut_Thread_PS3.h"
 #include <stdio.h>
 
 namespace UnitTest

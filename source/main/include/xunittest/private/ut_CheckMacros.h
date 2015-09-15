@@ -1,9 +1,9 @@
 #ifndef __XUNITTEST_CHECKMACROS_H__
 #define __XUNITTEST_CHECKMACROS_H__
 
-#include "xunittest\private\ut_Checks.h"
-#include "xunittest\private\ut_AssertException.h"
-#include "xunittest\private\ut_StringBuilder.h"
+#include "xunittest/private/ut_Checks.h"
+#include "xunittest/private/ut_AssertException.h"
+#include "xunittest/private/ut_StringBuilder.h"
 
 
 #ifdef CHECK

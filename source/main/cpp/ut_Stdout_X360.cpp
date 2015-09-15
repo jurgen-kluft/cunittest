@@ -1,6 +1,6 @@
 #if 0
 
-#include "xunittest\private\ut_Stdout.h"
+#include "xunittest/private/ut_Stdout.h"
 
 #define NOGDI
 #define NOMB
