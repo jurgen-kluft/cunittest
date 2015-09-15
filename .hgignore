@@ -17,8 +17,8 @@ syntax: glob
 *.sdf
 
 ; target
-*target\
-*ipch\
+*target/
+*ipch/
 
 ; HG files
 *.orig
