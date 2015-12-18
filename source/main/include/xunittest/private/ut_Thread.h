@@ -7,11 +7,12 @@
 #define MAX_THREAD_NUMBER 10
 #include "ut_Config.h"
 
-#define CLASS_NEW_DELETE_OVERLOAD																					\
-	void*	operator new(size_t num_bytes, void* mem)			{ return mem; }										\
-	void	operator delete(void* mem, void* )					{ }													\
-	void*	operator new(size_t num_bytes)						{ return __private::GetAllocator()->Allocate(num_bytes); }		\
-	void	operator delete(void* mem)							{ __private::GetAllocator()->Deallocate(mem); }	
+
+#define CLASS_NEW_DELETE_OVERLOAD																										\
+	void*	operator new(UnitTest::size_t num_bytes, void* mem)			{ return mem; }													\
+	void	operator delete(void* mem, void* )							{ }																\
+	void*	operator new(UnitTest::size_t num_bytes)					{ return __private::GetAllocator()->Allocate(num_bytes); }		\
+	void	operator delete(void* mem)									{ __private::GetAllocator()->Deallocate(mem); }	
 
 namespace UnitTest
 {
@@ -81,8 +82,7 @@ namespace UnitTest
 		ScopeLock() {}
 	};
 
-	Thread * gCreateThread(Runnable * inRunnable,
-		const char * inName = 0);
+	Thread * gCreateThread(Runnable * inRunnable, const char * inName = 0);
 
   	Mutex * gCreateMutex();
   	Event * gCreateEvent();
