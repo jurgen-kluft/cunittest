@@ -56,7 +56,7 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 		UNITTEST_TEST(StreamingSizeTWritesCorrectCharacters)
 		{
 			StringBuilder stream;
-			size_t s = 53124;
+			int s = 53124;
 			stream << s;
 			CHECK_EQUAL ("53124", stream.getText());
 		}
@@ -117,7 +117,7 @@ UNITTEST_SUITE_BEGIN(TestStringBuilder)
 		UNITTEST_TEST(WritingSizeTLongerThanCapacityFitsInNewBuffer)
 		{
 			StringBuilder stream(8);
-			stream << "aaaa" << size_t(32145);
+			stream << "aaaa" << int(32145);
 			CHECK_EQUAL ("aaaa32145", stream.getText());
 		}
 	}
