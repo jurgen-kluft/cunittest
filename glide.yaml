@@ -1,0 +1,5 @@
+package: bitbucket.org/jurgen_kluft/xunittest
+
+import:
+  - package: bitbucket.org/jurgen_kluft/sdk_win64
+    vcs: hg
