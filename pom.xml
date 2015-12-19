@@ -1,4 +1,4 @@
-<Package Name="xunittest" DependsOn="${WorkingDir}xcode\pom.base.xml" Group="com.virtuos.tnt">
+<Package Name="xunittest" DependsOn="${XCodeDir}pom.base.xml" Group="com.virtuos.tnt">
 	<Versions>
 		<Version>1.0.2</Version>
 	</Versions>
