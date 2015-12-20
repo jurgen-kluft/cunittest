@@ -3,6 +3,13 @@
 		<Version>1.0.2</Version>
 	</Versions>
 
+	<Variables>
+		<Name>xunittest</Name>
+		<Language>C++</Language>
+		<GUID_Main>72fba357-33fd-44b4-8a56-07b03163220b</GUID_Main>
+		<GUID_UnitTest>d51ff1f6-06b5-498d-a2dd-c56ec96e33c1</GUID_UnitTest>
+	</Variables>
+
 	<Dependency Package="sdk_win32" Platform="Win32">
 		<Group>com.virtuos.sdk</Group>
 		<Version>[300.0.01,)</Version>
