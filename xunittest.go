@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/jurgen-kluft/xcode"
-	"github.com/jurgen-kluft/xhash/package"
+	"github.com/jurgen-kluft/xunittest/package"
 )
 
 func main() {
-	xcode.Generate(xhash.GetProject())
+	xcode.Generate(xunittest.GetProject())
 }
