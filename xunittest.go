@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	xcode.Generate(xunittest.GetProject())
+	xcode.Generate(xunittest.GetPackage())
 }
