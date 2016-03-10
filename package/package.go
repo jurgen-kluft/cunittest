@@ -4,8 +4,17 @@ import (
 	"github.com/jurgen-kluft/xcode/denv"
 )
 
-// GetProject returns the Project information of 'xunittest'
-func GetProject() *denv.Project {
-	project := denv.SetupDefaultCppProject("xunittest", "github.com\\jurgen-kluft")
-	return project
+// GetPackage returns the package object of 'xbase'
+func GetPackage() *denv.Package {
+
+	// 'xunittest' library
+	mainlib := denv.SetupDefaultCppLibProject("xunittest", "github.com\\jurgen-kluft\\xunittest")
+
+	// 'xunittest' test project
+	maintest := denv.SetupDefaultCppTestProject("xunittest_test", "github.com\\jurgen-kluft\\xunittest")
+
+	mainpkg := denv.NewPackage("xunittest")
+	mainpkg.AddMainLib(mainlib)
+	mainpkg.AddUnittest(maintest)
+	return mainpkg
 }
