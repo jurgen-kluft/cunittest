@@ -9,10 +9,10 @@
 
 
 #define CLASS_NEW_DELETE_OVERLOAD																										\
-	void*	operator new(UnitTest::size_t num_bytes, void* mem)			{ return mem; }													\
-	void	operator delete(void* mem, void* )							{ }																\
-	void*	operator new(UnitTest::size_t num_bytes)					{ return __private::GetAllocator()->Allocate(num_bytes); }		\
-	void	operator delete(void* mem)									{ __private::GetAllocator()->Deallocate(mem); }	
+	void*	operator new(size_t num_bytes, void* mem)			{ return mem; }													\
+	void	operator delete(void* mem, void* )					{ }																\
+	void*	operator new(size_t num_bytes)						{ return __private::GetAllocator()->Allocate(num_bytes); }		\
+	void	operator delete(void* mem)							{ __private::GetAllocator()->Deallocate(mem); }	
 
 namespace UnitTest
 {
