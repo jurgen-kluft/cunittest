@@ -1,40 +1,37 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+#ignore all files
+*.*
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# CTags
-tags
-
-# XCode
-target/
-
-# Meson
+#except the following folders
+vendor/
 source/main/builddir/
 
-# MACOS
-.DS_Store
+#except the following files
+!*.go
+!*.cpp
+!*.hpp
+!*.c
+!*.h
+!*.inl
+
+!*.sln
+!*.vcproj
+!*.vcxproj
+
+!*.pl
+
+!*.cs
+!*.csproj
+!*.resx
+
+!*.hlsl
+!*.fragment
+
+!*.mold
+!*.sc
+!*.diagram
+
+!*.ini
+!*.bat
+
+!*.build
+
