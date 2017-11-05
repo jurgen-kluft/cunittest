@@ -3,8 +3,15 @@
 
 namespace UnitTest
 {
-	typedef unsigned __int64		size_t;
-
+#ifdef TARGET_64BIT
+	#ifdef TARGET_MACOS
+		typedef unsigned long long		size_t;
+	#else
+		typedef unsigned __int64		size_t;
+	#endif
+#else
+	typedef unsigned int			size_t;
+#endif
 	class Allocator
 	{
 	public:

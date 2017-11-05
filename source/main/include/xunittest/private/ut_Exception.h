@@ -3,27 +3,8 @@
 
 #if defined(TARGET_PC)
 	#include "xunittest/private/ut_Exception_Win32.h"
-#elif defined(TARGET_OSX)
+#elif defined(TARGET_MACOS)
 	#include "xunittest/private/ut_Exception_OSX.h"
-#elif defined(TARGET_WII)
-	#include "xunittest/private/ut_Exception_Wii.h"
-#elif defined(TARGET_N3DS)
-	#include "xunittest/private/ut_Exception_3ds.h"
-#elif defined(TARGET_PS3)
-	#ifdef SPU	
-		#include "xunittest/private/ut_Exception_Ps3_Spu.h"
-		#define _NO_EXCEPTIONS
-	#else
-		#include "xunittest/private/ut_Exception_Ps3.h"
-	#endif
-
-#elif defined(TARGET_PS3_SPU)
-	#include "xunittest/private/ut_Exception_Ps3_Spu.h"
-	#define _NO_EXCEPTIONS
-#elif defined(TARGET_PSP)
-	#include "xunittest/private/ut_Exception_psp.h"
-#elif defined(TARGET_360)
-	#include "xunittest/private/ut_Exception_x360.h"
 #endif
 
 #ifdef _NO_EXCEPTIONS

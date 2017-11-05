@@ -31,4 +31,10 @@
 tags
 
 # XCode
-target\
+target/
+
+# Meson
+source/main/builddir/
+
+# MACOS
+.DS_Store
