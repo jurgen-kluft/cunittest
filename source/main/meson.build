@@ -30,17 +30,19 @@ if host_machine.system() == 'windows'
     ]
 
     add_global_arguments('-DTARGET_PC', language : 'cpp')
+    add_global_arguments('-DTARGET_64BIT', language : 'cpp')
 
 elif host_machine.system() == 'darwin'
     sources += [
             'cpp/ut_Utils_OSX.cpp', 
             'cpp/ut_TimeHelpers_OSX.cpp', 
-            'cpp/ut_Thread_PS3.cpp', 
+            'cpp/ut_Thread_OSX.cpp', 
             'cpp/ut_Stdout_OSX.cpp', 
             'cpp/ut_Test_OSX.cpp', 
     ]
 
     add_global_arguments('-DTARGET_MACOS', language : 'cpp')
+    add_global_arguments('-DTARGET_64BIT', language : 'cpp')
 else
 
     error('Unknown host machine "' + host_machine.system() + '".')

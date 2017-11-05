@@ -1,5 +1,5 @@
-#if defined(TARGET_PS3)
-#include "xunittest/private/ut_Thread_PS3.h"
+#if defined(TARGET_MACOS)
+#include "xunittest/private/ut_Thread_OSX.h"
 #include <stdio.h>
 
 namespace UnitTest
@@ -14,21 +14,15 @@ namespace UnitTest
 			return NULL;
 		}
 
-		ThreadPS3 * threadIns = new ThreadPS3;
+		ThreadOSX * threadIns = new ThreadOSX;
 		threadIns->mRunnable = inRunnable;
 
-		int ret;
-		threadIns->m_tid = SYS_PPU_THREAD_ID_INVALID;
+		int ret = 0;
+		threadIns->m_tid = 0;
 
-		ret = sys_ppu_thread_create(
-			&threadIns->m_tid,
-			threadIns->_dispatch,
-			(uint64_t)(uintptr_t)threadIns,
-			1002, 0x10000,
-			SYS_PPU_THREAD_CREATE_JOINABLE,
-			inName
-		);
-
+		ret = pthread_create(&threadIns->m_tid, NULL, threadIns->_dispatch, info);
+		pthread_detach(threadIns->m_tid);
+	
 		if (ret < 0)
 		{
 			// @TODO: CREATE ERROR
@@ -44,42 +38,52 @@ namespace UnitTest
 
 	Mutex * gCreateMutex()
 	{
-		return new MutexPS3();
+		return new MutexOSX();
 	}
 
 	Event * gCreateEvent()
 	{
-		return new EventPS3();
+		return new EventOSX();
 	}
 
 	bool gWaitForEvent(Event * inEvent, int inTimeOut /* = 0 */ )
 	{
-		usecond_t timeout = inTimeOut * 1000;
-		EventPS3 * evt = static_cast<EventPS3 *>(inEvent);
-		int ret = sys_semaphore_wait(evt->m_sem, timeout);
-		return ret == CELL_OK;
+		EventOSX * e = static_cast<EventOSX *>(inEvent);
+
+		pthread_mutex_lock(&e->m);
+		if (e->state == 1) {
+			e->state = 0;
+			pthread_mutex_unlock(&e->m);
+			return true;
+		}
+		const struct timespec *restrict abstime = NULL;
+		pthread_cond_timedwait(&e->c, &e->m, abstime);
+		e->state = 0;
+		pthread_mutex_unlock(&e->m);
+
+		return true;
 	}
 
-	void gSleep(int inMiniSecond)
+	void gSleep(int inMilliSeconds)
 	{
-		sys_timer_usleep(inMiniSecond * 1000);
+		sleep(inMiniSecond);
 	}
 
 
 	//---------------------------------------------------------
 	// @@Thread
 	//---------------------------------------------------------
-	bool ThreadPS3::isTerminated()
+	bool ThreadOSX::isTerminated()
 	{
 		return !m_thread_running;
 	}
 
-	bool ThreadPS3::waitForExit()
+	bool ThreadOSX::waitForExit()
 	{
 		int ret;
 		uint64_t tstat;
 
-		ret = sys_ppu_thread_join(this->m_tid, &tstat);
+		ret = pthread_join(this->m_tid, &tstat);
 		if (ret != CELL_OK) 
 		{
 			printf("ERROR: sys_ppu_thread_join() failed. (%d)\n", ret);
@@ -90,7 +94,7 @@ namespace UnitTest
 		return true;
 	}
 
-	void ThreadPS3::release()
+	void ThreadOSX::release()
 	{
 		if (!this->m_thread_running) 
 		{
@@ -101,7 +105,7 @@ namespace UnitTest
 		}
 	}
 
-	void ThreadPS3::run()
+	void ThreadOSX::run()
 	{
 		if (mRunnable->init())
 		{
@@ -113,12 +117,11 @@ namespace UnitTest
 		mRunnable = NULL;
 	}
 
-	void ThreadPS3::_dispatch(uint64_t arg)
+	void ThreadOSX::_dispatch(void* arg)
 	{
-		ThreadPS3 * threadIns = (ThreadPS3*)(uintptr_t)arg;
+		ThreadOSX * threadIns = (ThreadOSX*)arg;
 		threadIns->run();
-		sys_ppu_thread_exit(0);
-
+		pthread_exit();
 		return;
 	}
 
@@ -127,29 +130,28 @@ namespace UnitTest
 	//---------------------------------------------------------
 	// @@Mutex
 	//---------------------------------------------------------
-	MutexPS3::MutexPS3()
+	MutexOSX::MutexOSX()
 	{
-		sys_mutex_attribute_t mutex_attr;
-		sys_mutex_attribute_initialize(mutex_attr);
-		if(CELL_OK != sys_mutex_create(&m_mutex, &mutex_attr))
-		{
-			printf( "MutexPS3> sys_mutex_create failed.\n" );
-		}
+		pthread_mutexattr_t attr;
+		pthread_mutexattr_init(&attr);
+		pthread_mutexattr_settype(&attr, RECURSIVE_MUTEX);
+		pthread_mutex_init(&m, &attr);
+		pthread_mutexattr_destroy(&attr);
 	}
 
-	void MutexPS3::lock()
+	void MutexOSX::lock()
 	{
-		sys_mutex_lock(m_mutex, 0);
+		pthread_mutex_lock(m, 0);
 	}
 
-	void MutexPS3::unlock()
+	void MutexOSX::unlock()
 	{
-		sys_mutex_unlock(m_mutex);
+		pthread_mutex_unlock(m);
 	}
 
-	void MutexPS3::release()
+	void MutexOSX::release()
 	{
-		sys_mutex_destroy(m_mutex);
+		pthread_mutex_destroy(m);
 		delete this;
 	}
 
@@ -157,27 +159,32 @@ namespace UnitTest
 	//-------------------------------------------------------------
 	// @@EventWin32
 	//-------------------------------------------------------------
-	EventPS3::EventPS3()
+	EventOSX::EventOSX()
 	{
-		sys_semaphore_attribute_t attr;
-		sys_semaphore_attribute_initialize(attr);
-		sys_semaphore_create(&m_sem, &attr, 0, MAX_THREAD_NUMBER);
+		pthread_mutex_init(&m, NULL);
+		pthread_cond_init(&c, NULL);
+		state = 0;
 	}
 
-	bool EventPS3::release()
+	bool EventOSX::release()
 	{
-		int ret = sys_semaphore_destroy(this->m_sem);
+		pthread_cond_destroy(&c);
+		pthread_mutex_destroy(&m);
+
 		delete this;
-		return ret == CELL_OK;
+		return true;
 	}
 
-	bool EventPS3::signal()
+	bool EventOSX::signal()
 	{
-		int ret = sys_semaphore_post(this->m_sem, MAX_THREAD_NUMBER);
-		return ret == CELL_OK;
+		pthread_mutex_lock(&m);
+		state = 1;
+		pthread_mutex_unlock(&m);
+		pthread_cond_signal(&c);
+		return true;			
 	}
 
-	void EventPS3::reset()
+	void EventOSX::reset()
 	{
 
 	}
