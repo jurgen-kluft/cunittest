@@ -4,7 +4,7 @@
 namespace UnitTest
 {
 #if defined(TARGET_64BIT)
-	#if defined(TARGET_MACOS)
+	#if defined(TARGET_OSX)
 		typedef unsigned long long		size_t;
 	#elif defined(TARGET_PC)
 		typedef unsigned __int64		size_t;
