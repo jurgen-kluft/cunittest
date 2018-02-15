@@ -1,4 +1,4 @@
-#ifdef TARGET_OSX
+#ifdef TARGET_MAC
 
 #include "xunittest/private/ut_Config.h"
 #include "xunittest/private/ut_Test.h"

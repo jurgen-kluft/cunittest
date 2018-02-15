@@ -1,5 +1,5 @@
-#include "xunittest\xunittest.h"
-#include "xunittest\private\ut_StringBuilder.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/private/ut_StringBuilder.h"
 
 using namespace UnitTest;
 

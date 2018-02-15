@@ -1,4 +1,4 @@
-#if defined(TARGET_OSX)
+#if defined(TARGET_MAC)
 
 #include "xunittest/private/ut_Stdout.h"
 

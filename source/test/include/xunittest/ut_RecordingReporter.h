@@ -1,8 +1,8 @@
 #ifndef __X_CORE_UNITTEST_RECORDINGREPORTER_H__
 #define __X_CORE_UNITTEST_RECORDINGREPORTER_H__
 
-#include "xunittest\private\ut_TestReporter.h"
-#include "xunittest\private\ut_Utils.h"
+#include "xunittest/private/ut_TestReporter.h"
+#include "xunittest/private/ut_Utils.h"
 
 namespace UnitTest
 {

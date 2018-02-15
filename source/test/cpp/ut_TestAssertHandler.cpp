@@ -1,6 +1,6 @@
-#include "xunittest\xunittest.h"
-#include "xunittest\private\ut_AssertException.h"
-#include "xunittest\private\ut_ReportAssert.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/private/ut_AssertException.h"
+#include "xunittest/private/ut_ReportAssert.h"
 
 using namespace UnitTest;
 

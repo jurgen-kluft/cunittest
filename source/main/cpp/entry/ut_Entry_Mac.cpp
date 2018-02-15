@@ -1,4 +1,4 @@
-#ifdef TARGET_OSX
+#ifdef TARGET_MAC
 #include <stdlib.h>
 
 #include "xunittest/xunittest.h"

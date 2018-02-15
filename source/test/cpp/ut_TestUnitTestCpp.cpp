@@ -1,7 +1,7 @@
-#include "xunittest\xunittest.h"
-#include "xunittest\private\ut_TestReporter.h"
-#include "xunittest\private\ut_ReportAssert.h"
-#include "xunittest\private\ut_Config.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/private/ut_TestReporter.h"
+#include "xunittest/private/ut_ReportAssert.h"
+#include "xunittest/private/ut_Config.h"
 
 UNITTEST_SUITE_BEGIN(TestCpp)
 {

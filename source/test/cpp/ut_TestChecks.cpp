@@ -1,5 +1,5 @@
-#include "xunittest\xunittest.h"
-#include "xunittest\ut_RecordingReporter.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/ut_RecordingReporter.h"
 
 using namespace UnitTest;
 

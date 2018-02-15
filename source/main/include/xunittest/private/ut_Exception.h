@@ -3,8 +3,8 @@
 
 #if defined(TARGET_PC)
 	#include "xunittest/private/ut_Exception_Win32.h"
-#elif defined(TARGET_OSX)
-	#include "xunittest/private/ut_Exception_OSX.h"
+#elif defined(TARGET_MAC)
+	#include "xunittest/private/ut_Exception_Mac.h"
 #endif
 
 #ifdef _NO_EXCEPTIONS

@@ -3,9 +3,13 @@
 
 namespace UnitTest
 {
+#if defined(PLATFORM_64BIT) && !defined(TARGET_64BIT)
+	#define TARGET_64BIT
+#endif
+
 #if defined(TARGET_64BIT)
-	#if defined(TARGET_OSX)
-		typedef unsigned long long		size_t;
+	#if defined(TARGET_MAC)
+		typedef unsigned long 			size_t;
 	#elif defined(TARGET_PC)
 		typedef unsigned __int64		size_t;
 	#endif

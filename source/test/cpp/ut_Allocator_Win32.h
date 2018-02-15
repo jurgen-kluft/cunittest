@@ -1,6 +1,6 @@
 #ifdef TARGET_PC
 
-#include "xunittest\xunittest.h"
+#include "xunittest/xunittest.h"
 
 class UnitTestAllocator : public UnitTest::Allocator
 {

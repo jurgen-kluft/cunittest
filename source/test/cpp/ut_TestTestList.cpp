@@ -1,5 +1,5 @@
-#include "xunittest\xunittest.h"
-#include "xunittest\private\ut_TestList.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/private/ut_TestList.h"
 
 using namespace UnitTest;
 

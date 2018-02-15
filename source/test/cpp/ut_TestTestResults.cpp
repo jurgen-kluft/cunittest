@@ -1,6 +1,6 @@
-#include "xunittest\xunittest.h"
-#include "xunittest\private\ut_TestResults.h"
-#include "xunittest\ut_RecordingReporter.h"
+#include "xunittest/xunittest.h"
+#include "xunittest/private/ut_TestResults.h"
+#include "xunittest/ut_RecordingReporter.h"
 
 using namespace UnitTest;
 
