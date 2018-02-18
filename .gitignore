@@ -1,8 +1,8 @@
 #ignore all files
 *.*
-
-#except the following folders
 vendor/
+target/
+t2-output/
 source/main/builddir/
 
 #except the following files
