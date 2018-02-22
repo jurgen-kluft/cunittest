@@ -18,6 +18,7 @@ source/main/builddir/
 !*.vcxproj
 
 !*.pl
+!*.lua
 
 !*.cs
 !*.csproj
