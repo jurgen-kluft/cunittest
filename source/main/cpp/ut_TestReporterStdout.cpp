@@ -37,7 +37,7 @@ namespace UnitTest
 
 	void TestReporterStdout::reportFailure(char const* file, int const line, char const* testName, char const* failure)
 	{
-#ifdef TARGET_OSX
+#ifdef TARGET_MAC
 		StringFormat("%s:%d: error: Failure in %s:%s.\n", file, line, testName, failure);
 #else
 		StringFormat("%s(%d): error: Failure in %s:%s.\n", file, line, testName, failure);
