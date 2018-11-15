@@ -12,6 +12,7 @@ func GetPackage() *denv.Package {
 
 	// 'xunittest' test project
 	maintest := denv.SetupDefaultCppTestProject("xunittest_test", "github.com\\jurgen-kluft\\xunittest")
+	maintest.Dependencies = append(maintest.Dependencies, mainlib)
 
 	mainpkg := denv.NewPackage("xunittest")
 	mainpkg.AddMainLib(mainlib)
