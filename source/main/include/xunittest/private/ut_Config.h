@@ -20,10 +20,10 @@ namespace UnitTest
 	class Allocator
 	{
 	public:
-		virtual				~Allocator() {}
+		virtual			~Allocator() {}
 
-		virtual void*		Allocate(size_t size) = 0;
-		virtual void		Deallocate(void* ptr) = 0;
+		virtual void*	Allocate(size_t size) = 0;
+		virtual size_t	Deallocate(void* ptr) = 0;
 	};
 
 	extern void			SetAllocator(Allocator* allocator);
@@ -52,7 +52,7 @@ namespace UnitTest
 							NullAllocator() { }
 
 		virtual void*		Allocate(size_t size) { return 0; }
-		virtual void		Deallocate(void* ptr) {}
+		virtual size_t		Deallocate(void* ptr) { return 0; }
 		void				Release()		{}
 	};
 	
