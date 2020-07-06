@@ -46,7 +46,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
     xcore::TestAllocator testAllocator(systemAllocator);
     gTestAllocator = &testAllocator;
 
-    int r = UNITTEST_SUITE_RUN(reporter, xVMemUnitTest);
+    int r = UNITTEST_SUITE_RUN(reporter, xYourUnitTest);
     if (UnitTest::GetNumAllocations() != 0)
     {
         reporter.reportFailure(__FILE__, __LINE__, "xunittest", "memory leaks detected!");
