@@ -25,7 +25,12 @@ UNITTEST_SUITE_DECLARE(xYourUnitTest, doubly_linked_list);
 
 ## Main Entry
 
-This is an example of a test application main entry:
+This is an example of a test application main entry where you can see 2 main points that need to be initialized by the user:
+
+- xasserthandler::sRegisterHandler (to make sure that asserts are catched by the unittest framework)
+- UnitTest::SetAllocator           (the unittest framework needs an allocator to allocate memory)
+
+After that you need to call ``UNITTEST_SUITE_RUN(reporter, xYourUnitTest);``
 
 ```c++
 bool gRunUnitTest(UnitTest::TestReporter& reporter)
