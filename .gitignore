@@ -1,23 +1,23 @@
 #ignore all files
-*.*
+*
+!*/
+
 vendor/
-target/
 t2-output/
-source/main/builddir/
+target/
+tags
 
 #except the following files
-!*.go
+!.gitignore
 !*.cpp
 !*.hpp
 !*.c
 !*.h
 !*.inl
 
-!*.sln
-!*.vcproj
-!*.vcxproj
+!*.build
 
-!*.pl
+!*.go
 !*.lua
 
 !*.cs
@@ -27,12 +27,12 @@ source/main/builddir/
 !*.hlsl
 !*.fragment
 
-!*.mold
-!*.sc
-!*.diagram
+!*.md
+!*.jpg
+!*.txt
+!*.html
 
 !*.ini
 !*.bat
 
-!*.build
-
+#except the following folders
