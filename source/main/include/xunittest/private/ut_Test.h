@@ -37,9 +37,10 @@ namespace UnitTest
 	{
 	public:
 							TestFixture(char const* testName, char const* filename = "", int lineNumber = 0)
-								:Test(testName, filename, lineNumber)
-								,mTests(0)
-								,mNextFixture(0) {}
+								: Test(testName, filename, lineNumber)
+								, mStep(FIXTURE_SETUP)
+								, mTests(0)
+								, mNextFixture(0) {}
 
 		virtual void		run(TestResults& testResults, int const maxTestTimeInMs);
 
