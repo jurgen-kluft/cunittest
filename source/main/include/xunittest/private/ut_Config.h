@@ -3,7 +3,7 @@
 
 namespace UnitTest
 {
-#if defined(PLATFORM_64BIT) && !defined(TARGET_64BIT)
+#if !defined(TARGET_64BIT)
 	#define TARGET_64BIT
 #endif
 
