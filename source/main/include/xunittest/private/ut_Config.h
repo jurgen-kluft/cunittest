@@ -12,6 +12,8 @@ namespace UnitTest
 		typedef unsigned long 			size_t;
 	#elif defined(TARGET_PC)
 		typedef unsigned __int64		size_t;
+	#else
+		typedef unsigned long 			size_t;
 	#endif
 #elif defined(TARGET_32BIT)
 	typedef unsigned int			size_t;
