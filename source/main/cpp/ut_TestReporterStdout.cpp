@@ -1,5 +1,5 @@
-#include "xunittest/private/ut_TestReporterStdout.h"
-#include "xunittest/private/ut_Stdout.h"
+#include "cunittest/private/ut_TestReporterStdout.h"
+#include "cunittest/private/ut_Stdout.h"
 
 namespace UnitTest
 {

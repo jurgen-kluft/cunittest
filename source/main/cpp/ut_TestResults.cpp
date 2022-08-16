@@ -1,7 +1,7 @@
 #ifndef TARGET_PS3_SPU
 
-#include "xunittest/private/ut_TestResults.h"
-#include "xunittest/private/ut_TestReporter.h"
+#include "cunittest/private/ut_TestResults.h"
+#include "cunittest/private/ut_TestReporter.h"
 
 namespace UnitTest
 {

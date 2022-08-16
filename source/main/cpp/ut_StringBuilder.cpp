@@ -1,6 +1,6 @@
-#include "xunittest/private/ut_Config.h"
-#include "xunittest/private/ut_StringBuilder.h"
-#include "xunittest/private/ut_Utils.h"
+#include "cunittest/private/ut_Config.h"
+#include "cunittest/private/ut_StringBuilder.h"
+#include "cunittest/private/ut_Utils.h"
 
 namespace UnitTest
 {

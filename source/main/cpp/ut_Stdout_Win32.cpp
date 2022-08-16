@@ -1,6 +1,6 @@
 #if defined(TARGET_PC) || defined(TARGET_360)
 
-#include "xunittest/private/ut_Stdout.h"
+#include "cunittest/private/ut_Stdout.h"
 
 #define WIN32_LEAN_AND_MEAN
 #define NOGDI

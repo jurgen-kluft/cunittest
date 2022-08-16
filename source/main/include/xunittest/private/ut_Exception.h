@@ -2,9 +2,9 @@
 #define __XUNITTEST_EXCEPTION_H__
 
 #if defined(TARGET_PC)
-	#include "xunittest/private/ut_Exception_Win32.h"
+	#include "cunittest/private/ut_Exception_Win32.h"
 #elif defined(TARGET_MAC)
-	#include "xunittest/private/ut_Exception_Mac.h"
+	#include "cunittest/private/ut_Exception_Mac.h"
 #endif
 
 #ifdef _NO_EXCEPTIONS

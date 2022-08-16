@@ -1,9 +1,9 @@
 #ifndef __XUNITTEST_CHECKS_H__
 #define __XUNITTEST_CHECKS_H__
 
-#include "xunittest/private/ut_Config.h"
-#include "xunittest/private/ut_TestResults.h"
-#include "xunittest/private/ut_StringBuilder.h"
+#include "cunittest/private/ut_Config.h"
+#include "cunittest/private/ut_TestResults.h"
+#include "cunittest/private/ut_StringBuilder.h"
 
 namespace UnitTest
 {

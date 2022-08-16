@@ -1,6 +1,6 @@
 #if defined(TARGET_MAC)
 
-#include "xunittest/private/ut_Stdout.h"
+#include "cunittest/private/ut_Stdout.h"
 
 #include <time.h>
 #include <stdio.h>

@@ -1,4 +1,4 @@
-#include "xunittest/private/ut_AssertException.h"
+#include "cunittest/private/ut_AssertException.h"
 
 namespace UnitTest
 {

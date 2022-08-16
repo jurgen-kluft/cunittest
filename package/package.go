@@ -1,7 +1,7 @@
 package xunittest
 
 import (
-	"github.com/jurgen-kluft/xcode/denv"
+	"github.com/jurgen-kluft/ccode/denv"
 )
 
 // GetPackage returns the package object of 'xbase'

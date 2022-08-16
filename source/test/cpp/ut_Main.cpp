@@ -1,7 +1,7 @@
-#include "xunittest/xunittest.h"
-#include "xunittest/private/ut_TestReporter.h"
-#include "xunittest/private/ut_Stdout.h"
-#include "xunittest/private/ut_Config.h"
+#include "cunittest/xunittest.h"
+#include "cunittest/private/ut_TestReporter.h"
+#include "cunittest/private/ut_Stdout.h"
+#include "cunittest/private/ut_Config.h"
 
 UNITTEST_SUITE_LIST(xUnitTestUnitTest);
 
