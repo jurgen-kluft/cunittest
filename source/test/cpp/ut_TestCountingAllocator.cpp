@@ -7,9 +7,9 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 {
 	UNITTEST_FIXTURE(fixture1)
 	{
-		int*	a = NULL;
-		int*	c = NULL;
-		int*	d = NULL;
+		int*	a = nullptr;
+		int*	c = nullptr;
+		int*	d = nullptr;
 
 		UNITTEST_FIXTURE_SETUP() 
 		{

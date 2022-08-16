@@ -38,17 +38,17 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
     xbase::x_Init();
 
 #ifdef TARGET_DEBUG
-    xcore::xasserthandler::sRegisterHandler(&gAssertHandler);
+    ncore::xasserthandler::sRegisterHandler(&gAssertHandler);
 #endif
 
-    xcore::xalloc*           systemAllocator = xcore::xalloc::get_system();
-    xcore::UnitTestAllocator unittestAllocator(systemAllocator);
+    ncore::xalloc*           systemAllocator = ncore::xalloc::get_system();
+    ncore::UnitTestAllocator unittestAllocator(systemAllocator);
     UnitTest::SetAllocator(&unittestAllocator);
 
-    xcore::console->write("Configuration: ");
-    xcore::console->writeLine(TARGET_FULL_DESCR_STR);
+    ncore::console->write("Configuration: ");
+    ncore::console->writeLine(TARGET_FULL_DESCR_STR);
 
-    xcore::TestAllocator testAllocator(systemAllocator);
+    ncore::TestAllocator testAllocator(systemAllocator);
     gTestAllocator = &testAllocator;
 
     int r = UNITTEST_SUITE_RUN(reporter, xYourUnitTest);
@@ -60,7 +60,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
 
     gTestAllocator->release();
 
-    UnitTest::SetAllocator(NULL);
+    UnitTest::SetAllocator(nullptr);
 
     xbase::x_Exit();
     return r == 0;

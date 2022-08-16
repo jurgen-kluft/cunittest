@@ -14,7 +14,7 @@ namespace UnitTest
 	//     Copy a string from source to destination limited to a maximum length.
 	// Arguments:
 	//      dst     - The destination string where you want to string to be copied to.
-	//                You should never pass as a <B>NULL</B>.
+	//                You should never pass as a <B>nullptr</B>.
 	//      src     - The source string to copy.
 	//      max     - The maximum string length to copy (excluding the '\0' character).
 	// Returns:
@@ -35,7 +35,7 @@ namespace UnitTest
 	//     Copy a string from source to destination limited to a maximum length.
 	// Arguments:
 	//      dst     - The destination string where you want to string to be copied to.
-	//                You should never pass as a <B>NULL</B>.
+	//                You should never pass as a <B>nullptr</B>.
 	//      src     - The source string to copy.
 	//      max     - The maximum string length to copy (excluding the '\0' character).
 	// Returns:
@@ -75,7 +75,7 @@ namespace UnitTest
 	//     Specialized 'sprintf' like functions
 	// Arguments:
 	//      dst     - The destination string where you want to formatted string to be written to.
-	//                You should never pass as a <B>NULL</B>.
+	//                You should never pass as a <B>nullptr</B>.
 	//      n       - The maximum size of the destination string.
 	//      format  - The formatting string to use together with the additional parameter.
 	//      @param  - The parameter to format at the %0 position
@@ -110,9 +110,9 @@ namespace UnitTest
 	//     Test if two strings are equal, case sensitive.
 	// Arguments:
 	//      expected - The string you expect the 'actual' string to be identical to
-	//                 You should never pass as a <B>NULL</B>.
+	//                 You should never pass as a <B>nullptr</B>.
 	//      actual   - The string you would want to compare to the 'expected' string.
-	//                 You should never pass as a <B>NULL</B>.
+	//                 You should never pass as a <B>nullptr</B>.
 	// Returns:
 	//     none
 	// Description:

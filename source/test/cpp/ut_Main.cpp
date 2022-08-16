@@ -69,7 +69,7 @@ bool	gRunUnitTest(UnitTest::TestReporter& reporter)
 	int r = UNITTEST_SUITE_RUN(reporter, xUnitTestUnitTest);
 
 	unittestAllocator.Release();
-	UnitTest::SetAllocator(NULL);
+	UnitTest::SetAllocator(nullptr);
 
 	return r == 0;
 

@@ -20,16 +20,16 @@
 
 #define CHECK_NULL(value) \
 	UT_TRY_BEGIN \
-		if (value != NULL) \
-			testResults_.onTestFailure(__FILE__, __LINE__, mTestName, "Expected NULL, but actually "#value" != NULL"); \
+		if (value != nullptr) \
+			testResults_.onTestFailure(__FILE__, __LINE__, mTestName, "Expected nullptr, but actually "#value" != nullptr"); \
     UT_CATCH_ALL \
 		testResults_.onTestFailure(__FILE__, __LINE__, mTestName, "Unhandled exception in CHECK(" #value ")"); \
 	UT_CATCH_END
 
 #define CHECK_NOT_NULL(value) \
 	UT_TRY_BEGIN \
-		if (value == NULL) \
-			testResults_.onTestFailure(__FILE__, __LINE__, mTestName,"Expected NOT NULL, but actually " #value" == NULL"); \
+		if (value == nullptr) \
+			testResults_.onTestFailure(__FILE__, __LINE__, mTestName,"Expected NOT nullptr, but actually " #value" == nullptr"); \
     UT_CATCH_ALL \
 		testResults_.onTestFailure(__FILE__, __LINE__, mTestName, "Unhandled exception in CHECK(" #value ")"); \
 	UT_CATCH_END
