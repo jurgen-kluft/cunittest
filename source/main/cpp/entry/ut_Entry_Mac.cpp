@@ -1,7 +1,7 @@
 #ifdef TARGET_MAC
 #include <stdlib.h>
 
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 #include "cunittest/private/ut_TestReporterStdout.h"
 #include "cunittest/private/ut_TestReporterTeamCity.h"
 

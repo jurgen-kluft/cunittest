@@ -1,20 +1,20 @@
-package xunittest
+package cunittest
 
 import (
 	"github.com/jurgen-kluft/ccode/denv"
 )
 
-// GetPackage returns the package object of 'xbase'
+// GetPackage returns the package object of 'cbase'
 func GetPackage() *denv.Package {
 
-	// 'xunittest' library
-	mainlib := denv.SetupDefaultCppLibProject("xunittest", "github.com\\jurgen-kluft\\xunittest")
+	// 'cunittest' library
+	mainlib := denv.SetupDefaultCppLibProject("cunittest", "github.com\\jurgen-kluft\\cunittest")
 
-	// 'xunittest' test project
-	maintest := denv.SetupDefaultCppTestProject("xunittest_test", "github.com\\jurgen-kluft\\xunittest")
+	// 'cunittest' test project
+	maintest := denv.SetupDefaultCppTestProject("cunittest_test", "github.com\\jurgen-kluft\\cunittest")
 	maintest.Dependencies = append(maintest.Dependencies, mainlib)
 
-	mainpkg := denv.NewPackage("xunittest")
+	mainpkg := denv.NewPackage("cunittest")
 	mainpkg.AddMainLib(mainlib)
 	mainpkg.AddUnittest(maintest)
 	return mainpkg

@@ -1,8 +1,8 @@
-# xunittest
+# cunittest
 
 Cross platform unittest library
 
-- xunittest
+- cunittest
   - CHECK_EQUAL(expected, actual)
   - CHECK_NOT_EQUAL(expected, actual)
   - CHECK_TRUE(actual)
@@ -35,7 +35,7 @@ After that you need to call ``UNITTEST_SUITE_RUN(reporter, xYourUnitTest);``
 ```c++
 bool gRunUnitTest(UnitTest::TestReporter& reporter)
 {
-    xbase::x_Init();
+    cbase::x_Init();
 
 #ifdef TARGET_DEBUG
     ncore::xasserthandler::sRegisterHandler(&gAssertHandler);
@@ -54,7 +54,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
     int r = UNITTEST_SUITE_RUN(reporter, xYourUnitTest);
     if (UnitTest::GetNumAllocations() != 0)
     {
-        reporter.reportFailure(__FILE__, __LINE__, "xunittest", "memory leaks detected!");
+        reporter.reportFailure(__FILE__, __LINE__, "cunittest", "memory leaks detected!");
         r = -1;
     }
 
@@ -62,7 +62,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
 
     UnitTest::SetAllocator(nullptr);
 
-    xbase::x_Exit();
+    cbase::x_Exit();
     return r == 0;
 }
 ```

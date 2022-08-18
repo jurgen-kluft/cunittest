@@ -1,4 +1,4 @@
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 #include "cunittest/private/ut_TestReporter.h"
 #include "cunittest/private/ut_ReportAssert.h"
 #include "cunittest/private/ut_Config.h"

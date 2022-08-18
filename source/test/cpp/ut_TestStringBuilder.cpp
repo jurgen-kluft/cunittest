@@ -1,4 +1,4 @@
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 #include "cunittest/private/ut_StringBuilder.h"
 
 using namespace UnitTest;

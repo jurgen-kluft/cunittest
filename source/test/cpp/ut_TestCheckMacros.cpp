@@ -1,4 +1,4 @@
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 #include "cunittest/ut_RecordingReporter.h"
 
 using namespace UnitTest;
@@ -103,8 +103,8 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckEqualSuceedsWithStrings)
 		{
-			char string1[] = "xunittest";
-			char string2[] = "xunittest";
+			char string1[] = "cunittest";
+			char string2[] = "cunittest";
 
 			bool failure = true;
 			{
