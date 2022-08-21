@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_MEMORYOUTSTREAM_H__
-#define __XUNITTEST_MEMORYOUTSTREAM_H__
+#ifndef __CUNITTEST_MEMORYOUTSTREAM_H__
+#define __CUNITTEST_MEMORYOUTSTREAM_H__
 
 namespace UnitTest
 {
@@ -42,4 +42,4 @@ namespace UnitTest
 }
 
 
-#endif	///< __XUNITTEST_MEMORYOUTSTREAM_H__
+#endif	///< __CUNITTEST_MEMORYOUTSTREAM_H__

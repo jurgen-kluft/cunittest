@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_UTILS_H__
-#define __XUNITTEST_UTILS_H__
+#ifndef __CUNITTEST_UTILS_H__
+#define __CUNITTEST_UTILS_H__
 
 #include "cunittest/private/ut_Config.h"
 
@@ -143,4 +143,4 @@ namespace UnitTest
 	}
 }
 
-#endif	///< __XUNITTEST_UTILS_H__
+#endif	///< __CUNITTEST_UTILS_H__

@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_TESTRUNNER_H__
-#define __XUNITTEST_TESTRUNNER_H__
+#ifndef __CUNITTEST_TESTRUNNER_H__
+#define __CUNITTEST_TESTRUNNER_H__
 
 namespace UnitTest
 {
@@ -9,4 +9,4 @@ namespace UnitTest
 	int		runAllTests(TestReporter& reporter, SuiteNode* inSuiteList, int maxTestTimeInMs = 0);
 }
 
-#endif	///< __XUNITTEST_TESTRUNNER_H__
+#endif	///< __CUNITTEST_TESTRUNNER_H__

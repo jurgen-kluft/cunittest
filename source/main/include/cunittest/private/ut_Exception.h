@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_EXCEPTION_H__
-#define __XUNITTEST_EXCEPTION_H__
+#ifndef __CUNITTEST_EXCEPTION_H__
+#define __CUNITTEST_EXCEPTION_H__
 
 #if defined(TARGET_PC)
 	#include "cunittest/private/ut_Exception_Win32.h"
@@ -33,4 +33,4 @@
 
 
 
-#endif	///< __XUNITTEST_EXCEPTIONH__
+#endif	///< __CUNITTEST_EXCEPTIONH__

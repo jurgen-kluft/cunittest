@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNITTEST_RECORDINGREPORTER_H__
-#define __X_CORE_UNITTEST_RECORDINGREPORTER_H__
+#ifndef __C_CORE_UNITTEST_RECORDINGREPORTER_H__
+#define __C_CORE_UNITTEST_RECORDINGREPORTER_H__
 
 #include "cunittest/private/ut_TestReporter.h"
 #include "cunittest/private/ut_Utils.h"
@@ -96,4 +96,4 @@ namespace UnitTest
 
 }
 
-#endif	///< __X_CORE_UNITTEST_RECORDINGREPORTER_H__
+#endif	///< __C_CORE_UNITTEST_RECORDINGREPORTER_H__

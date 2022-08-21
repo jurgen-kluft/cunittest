@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_TESTSTATE_H__
-#define __XUNITTEST_TESTSTATE_H__
+#ifndef __CUNITTEST_TESTSTATE_H__
+#define __CUNITTEST_TESTSTATE_H__
 
 namespace UnitTest
 {

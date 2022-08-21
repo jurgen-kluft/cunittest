@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_ASSERTEXCEPTION_H__
-#define __XUNITTEST_ASSERTEXCEPTION_H__
+#ifndef __CUNITTEST_ASSERTEXCEPTION_H__
+#define __CUNITTEST_ASSERTEXCEPTION_H__
 
 #include "cunittest/private/ut_Exception.h"
 

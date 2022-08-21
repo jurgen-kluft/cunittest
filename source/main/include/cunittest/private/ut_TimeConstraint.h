@@ -1,5 +1,5 @@
-#ifndef __X_CORE_UNITTEST_TIMECONSTRAINT_H__
-#define __X_CORE_UNITTEST_TIMECONSTRAINT_H__
+#ifndef __C_CORE_UNITTEST_TIMECONSTRAINT_H__
+#define __C_CORE_UNITTEST_TIMECONSTRAINT_H__
 
 #include "cunittest/private/ut_TimeHelpers.h"
 
@@ -28,4 +28,4 @@ namespace UnitTest
 	#define UNITTEST_TIME_CONSTRAINT_EXEMPT()	mTimeConstraintExempt = true
 }
 
-#endif	/// __X_CORE_UNITTEST_TIMECONSTRAINT_H__
+#endif	/// __C_CORE_UNITTEST_TIMECONSTRAINT_H__

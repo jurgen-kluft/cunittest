@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_CONFIG_H__
-#define __XUNITTEST_CONFIG_H__
+#ifndef __CUNITTEST_CONFIG_H__
+#define __CUNITTEST_CONFIG_H__
 
 namespace UnitTest
 {
@@ -78,4 +78,4 @@ namespace UnitTest
 }
 
 
-#endif	///< __XUNITTEST_CONFIG_H__
+#endif	///< __CUNITTEST_CONFIG_H__

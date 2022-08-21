@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_CHECKMACROS_H__
-#define __XUNITTEST_CHECKMACROS_H__
+#ifndef __CUNITTEST_CHECKMACROS_H__
+#define __CUNITTEST_CHECKMACROS_H__
 
 #include "cunittest/private/ut_Checks.h"
 #include "cunittest/private/ut_AssertException.h"
@@ -102,4 +102,4 @@
 
 
 
-#endif	///< __XUNITTEST_CHECKMACROS_H__
+#endif	///< __CUNITTEST_CHECKMACROS_H__

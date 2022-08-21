@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_SUITE_H__
-#define __XUNITTEST_SUITE_H__
+#ifndef __CUNITTEST_SUITE_H__
+#define __CUNITTEST_SUITE_H__
 
 #include "cunittest/private/ut_Config.h"
 #include "cunittest/private/ut_Utils.h"
@@ -16,4 +16,4 @@
 void getProgramAndStackSizeForSPU(int* programSize, int* stackSize);
 #endif
 
-#endif	///< __XUNITTEST_SUITE_H__
+#endif	///< __CUNITTEST_SUITE_H__

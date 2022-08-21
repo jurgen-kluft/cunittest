@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_TEST_H__
-#define __XUNITTEST_TEST_H__
+#ifndef __CUNITTEST_TEST_H__
+#define __CUNITTEST_TEST_H__
 
 namespace UnitTest
 {
@@ -68,4 +68,4 @@ namespace UnitTest
 
 }
 
-#endif	///< __XUNITTEST_TEST_H__
+#endif	///< __CUNITTEST_TEST_H__

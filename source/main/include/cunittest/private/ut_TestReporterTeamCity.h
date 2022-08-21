@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_TESTREPORTER_TEAMCITY_H__
-#define __XUNITTEST_TESTREPORTER_TEAMCITY_H__
+#ifndef __CUNITTEST_TESTREPORTER_TEAMCITY_H__
+#define __CUNITTEST_TESTREPORTER_TEAMCITY_H__
 
 #include "cunittest/private/ut_TestReporter.h"
 
@@ -37,4 +37,4 @@ namespace UnitTest
 }
 
 
-#endif	///< __XUNITTEST_TESTREPORTER_TEAMCITY_H__
+#endif	///< __CUNITTEST_TESTREPORTER_TEAMCITY_H__

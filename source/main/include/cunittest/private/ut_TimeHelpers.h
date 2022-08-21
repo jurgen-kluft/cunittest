@@ -1,5 +1,5 @@
-#ifndef __XUNITTEST_TIMEHELPERS_H__
-#define __XUNITTEST_TIMEHELPERS_H__
+#ifndef __CUNITTEST_TIMEHELPERS_H__
+#define __CUNITTEST_TIMEHELPERS_H__
 
 namespace UnitTest
 {
@@ -57,4 +57,4 @@ namespace UnitTest
 }
 
 
-#endif	///< __XUNITTEST_TIMEHELPERS_H__
+#endif	///< __CUNITTEST_TIMEHELPERS_H__
