@@ -12,8 +12,4 @@
 #include "cunittest/private/ut_TestReporterStdout.h"
 #include "cunittest/private/ut_TestReporterTeamCity.h"
 
-#ifdef SPU
-void getProgramAndStackSizeForSPU(int* programSize, int* stackSize);
-#endif
-
 #endif	///< __CUNITTEST_SUITE_H__
