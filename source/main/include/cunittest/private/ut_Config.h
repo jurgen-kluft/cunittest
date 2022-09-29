@@ -10,10 +10,10 @@ namespace UnitTest
 #if defined(TARGET_64BIT)
 	#if defined(TARGET_MAC)
 		typedef unsigned long 			size_t;
-	#elif defined(TARGET_PC)
+	#elif defined(TARGET_PC) && defined(COMPILER_MSVC)
 		typedef unsigned __int64		size_t;
 	#else
-		typedef unsigned long 			size_t;
+		typedef unsigned long long		size_t;
 	#endif
 #elif defined(TARGET_32BIT)
 	typedef unsigned int			size_t;
