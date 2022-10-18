@@ -7,7 +7,7 @@ namespace UnitTest
      *------------------------------------------------------------------------------
      *
      * Author:
-	 *     Jurgen Kluft
+	 *     Jurgen
 	 * Module:
 	 *     UnitTest
 	 * Summary:
@@ -40,7 +40,7 @@ namespace UnitTest
 		/**
          *------------------------------------------------------------------------------
 		 * Author:
-		 *     Jurgen Kluft
+		 *     Jurgen
 		 * Module:
 		 *     UnitTest
 		 * Summary:
