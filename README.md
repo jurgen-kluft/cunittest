@@ -17,9 +17,9 @@ This library also detects memory leaks on a UNITTEST_TEST() scope as well as a F
 You do need to register your suite to be part of the list of unittests to run.
 
 ```c++
-UNITTEST_SUITE_LIST(xYourUnitTest);
+UNITTEST_SUITE_LIST(cYourUnitTest);
 
-UNITTEST_SUITE_DECLARE(xYourUnitTest, doubly_linked_list);
+UNITTEST_SUITE_DECLARE(cYourUnitTest, doubly_linked_list);
 
 ```
 
@@ -27,21 +27,21 @@ UNITTEST_SUITE_DECLARE(xYourUnitTest, doubly_linked_list);
 
 This is an example of a test application main entry where you can see 2 main points that need to be initialized by the user:
 
-- xasserthandler::sRegisterHandler (to make sure that asserts are catched by the unittest framework)
+- context_t::set_assert_handler    (to make sure that asserts are catched by the unittest framework)
 - UnitTest::SetAllocator           (the unittest framework needs an allocator to allocate memory)
 
-After that you need to call ``UNITTEST_SUITE_RUN(reporter, xYourUnitTest);``
+After that you need to call ``UNITTEST_SUITE_RUN(reporter, cYourUnitTest);``
 
 ```c++
 bool gRunUnitTest(UnitTest::TestReporter& reporter)
 {
-    cbase::x_Init();
+    cbase::init();
 
 #ifdef TARGET_DEBUG
-    ncore::xasserthandler::sRegisterHandler(&gAssertHandler);
+    ncore::context_t::set_assert_handler(&gAssertHandler);
 #endif
 
-    ncore::xalloc*           systemAllocator = ncore::xalloc::get_system();
+    ncore::alloc_t* systemAllocator = ncore::context_t::system_alloc();
     ncore::UnitTestAllocator unittestAllocator(systemAllocator);
     UnitTest::SetAllocator(&unittestAllocator);
 
@@ -51,7 +51,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
     ncore::TestAllocator testAllocator(systemAllocator);
     gTestAllocator = &testAllocator;
 
-    int r = UNITTEST_SUITE_RUN(reporter, xYourUnitTest);
+    int r = UNITTEST_SUITE_RUN(reporter, cYourUnitTest);
     if (UnitTest::GetNumAllocations() != 0)
     {
         reporter.reportFailure(__FILE__, __LINE__, "cunittest", "memory leaks detected!");
@@ -62,7 +62,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
 
     UnitTest::SetAllocator(nullptr);
 
-    cbase::x_Exit();
+    cbase::exit();
     return r == 0;
 }
 ```
