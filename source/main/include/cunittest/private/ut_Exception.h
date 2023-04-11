@@ -5,6 +5,8 @@
 	#include "cunittest/private/ut_Exception_Win32.h"
 #elif defined(TARGET_MAC)
 	#include "cunittest/private/ut_Exception_Mac.h"
+#else
+    #error unknown platform
 #endif
 
 #ifdef _NO_EXCEPTIONS
