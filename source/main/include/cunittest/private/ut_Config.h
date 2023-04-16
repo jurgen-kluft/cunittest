@@ -24,8 +24,8 @@ namespace UnitTest
     public:
         virtual ~TestAllocator() {}
 
-        virtual void*        Allocate(unsigned int size, unsigned int alignment) = 0;
-        virtual unsigned int Deallocate(void* ptr)                               = 0;
+        virtual void*        Allocate(unsigned int size, unsigned int alignment = sizeof(void*)) = 0;
+        virtual unsigned int Deallocate(void* ptr)                                               = 0;
     };
 
     class TestAllocatorEx : public TestAllocator
@@ -44,7 +44,7 @@ namespace UnitTest
             IncNumAllocations();
             return mAllocator->Allocate(size, alignment);
         }
-        
+
         virtual unsigned int Deallocate(void* ptr)
         {
             DecNumAllocations();
@@ -52,7 +52,7 @@ namespace UnitTest
         }
 
         void ResetNumAllocations() { mNumAllocations = 0; }
-        void IncNumAllocations()  { ++mNumAllocations; }
+        void IncNumAllocations() { ++mNumAllocations; }
         void DecNumAllocations() { --mNumAllocations; }
         int  GetNumAllocations() const { return mNumAllocations; }
         int  mNumAllocations;
@@ -70,7 +70,7 @@ namespace UnitTest
         virtual void EndFixture()                                                                         = 0;
 
         virtual void BeginTest(const char* filename, const char* suite_name, const char* fixture_name, const char* test_name) = 0;
-        virtual void EndTest() = 0;
+        virtual void EndTest()                                                                                                = 0;
     };
 
     class TestContext
