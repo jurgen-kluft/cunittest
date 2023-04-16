@@ -5,7 +5,8 @@ namespace UnitTest
 {
 	class TestContext;
 	class TestReporter;
-	class TestSuiteList;
+
+	struct TestSuite;
 
 	int		runAllTests(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, int maxTestTimeInMs = 0);
 }

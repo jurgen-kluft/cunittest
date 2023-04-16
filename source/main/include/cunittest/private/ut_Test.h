@@ -6,7 +6,10 @@ namespace UnitTest
     class TestResults;
     class TestContext;
     class TestAllocator;
+    
+    struct Test;
     struct TestFixture;
+    struct TestSuite;
 
     typedef void (*TestSetup)(TestResults& testResults_);
     typedef void (*TestTeardown)(TestResults& testResults_);

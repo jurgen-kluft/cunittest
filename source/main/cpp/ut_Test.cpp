@@ -61,12 +61,6 @@ namespace UnitTest
         inSuite->mFixtureListTail = this;
     }
 
-    char const* const mName;
-    char const* const mFilename;
-    TestFixture*      mFixtureListHead;
-    TestFixture*      mFixtureListTail;
-    TestSuite*        mSuiteNext;
-
     TestSuite::TestSuite(const char* inName, const char* inFilename)
         : mName(inName)
         , mFilename(inFilename)
