@@ -2,7 +2,22 @@
 
 Cross platform unittest library
 
-- cunittest
+- Windows
+- Mac OS
+
+## Extending to other platforms
+
+To extend for an additional platform, e.g. Linux, add:
+
+- `source/main/cpp/entry/ut_Entry_Linux.cpp`
+- `source/main/cpp/ut_Stdout_Linux.cpp`
+- `source/main/cpp/ut_Test_Linux.cpp`
+- `source/main/cpp/ut_TimeHelpers_Linux.cpp`
+- `source/main/cpp/ut_Utils_Linux.cpp`
+- `source/main/include/cunittest/private/ut_Exception_Linux.h`
+
+## Unittest MACROs
+
   - CHECK_EQUAL(expected, actual)
   - CHECK_NOT_EQUAL(expected, actual)
   - CHECK_TRUE(actual)
@@ -17,9 +32,9 @@ This library also detects memory leaks on a UNITTEST_TEST() scope as well as a F
 You do need to register your suite to be part of the list of unittests to run.
 
 ```c++
-UNITTEST_SUITE_LIST(cYourUnitTest);
+UNITTEST_SUITE_LIST(cUnitTest);
 
-UNITTEST_SUITE_DECLARE(cYourUnitTest, doubly_linked_list);
+UNITTEST_SUITE_DECLARE(cUnitTest, doubly_linked_list);
 
 ```
 
@@ -30,7 +45,7 @@ This is an example of a test application main entry where you can see 2 main poi
 - context_t::set_assert_handler    (to make sure that asserts are catched by the unittest framework)
 - UnitTest::SetAllocator           (the unittest framework needs an allocator to allocate memory)
 
-After that you need to call ``UNITTEST_SUITE_RUN(reporter, cYourUnitTest);``
+After that you need to call ``UNITTEST_SUITE_RUN(context, reporter, cYourUnitTest);``
 
 ```c++
 bool gRunUnitTest(UnitTest::TestReporter& reporter, UnitTest::TestContext& context)
@@ -38,29 +53,29 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter, UnitTest::TestContext& conte
     cbase::init();
 
 #ifdef TARGET_DEBUG
-    ncore::context_t::set_assert_handler(&gAssertHandler);
+    ncore::UnitTestAssertHandler assertHandler;
+    ncore::context_t::set_assert_handler(&assertHandler);
 #endif
-
-    ncore::alloc_t* systemAllocator = ncore::context_t::system_alloc();
-    ncore::UnitTestAllocator unittestAllocator(systemAllocator);
-    UnitTest::SetAllocator(&unittestAllocator);
-
     ncore::console->write("Configuration: ");
+    ncore::console->setColor(ncore::console_t::YELLOW);
     ncore::console->writeLine(TARGET_FULL_DESCR_STR);
+    ncore::console->setColor(ncore::console_t::NORMAL);
 
-    ncore::TestAllocator testAllocator(systemAllocator);
-    gTestAllocator = &testAllocator;
+    ncore::alloc_t*          systemAllocator = ncore::context_t::system_alloc();
+    ncore::UnitTestAllocator unittestAllocator(systemAllocator);
+    context.mAllocator = &unittestAllocator;
 
-    int r = UNITTEST_SUITE_RUN(reporter, cYourUnitTest);
-    if (UnitTest::GetNumAllocations() != 0)
+    ncore::TestAllocator testAllocator(&unittestAllocator);
+    ncore::context_t::set_system_alloc(&testAllocator);
+
+    int r = UNITTEST_SUITE_RUN(context, reporter, cUnitTest);
+    if (unittestAllocator.mNumAllocations != 0)
     {
         reporter.reportFailure(__FILE__, __LINE__, "cunittest", "memory leaks detected!");
         r = -1;
     }
 
-    gTestAllocator->release();
-
-    UnitTest::SetAllocator(nullptr);
+    ncore::context_t::set_system_alloc(systemAllocator);
 
     cbase::exit();
     return r == 0;
