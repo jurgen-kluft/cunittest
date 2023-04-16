@@ -33,7 +33,7 @@ This is an example of a test application main entry where you can see 2 main poi
 After that you need to call ``UNITTEST_SUITE_RUN(reporter, cYourUnitTest);``
 
 ```c++
-bool gRunUnitTest(UnitTest::TestReporter& reporter)
+bool gRunUnitTest(UnitTest::TestReporter& reporter, UnitTest::TestContext& context)
 {
     cbase::init();
 

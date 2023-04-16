@@ -13,45 +13,33 @@
 
 namespace UnitTest
 {
-	struct the_timer
-	{
-		uint64_t last; ///< last observation on the counter
-		uint64_t rate; ///< counts per second
-	};
+	static uint64_t s_numer;
+	static uint64_t s_denom;
+	static uint64_t s_base;
 
-	Timer::Timer()
+	void g_InitTimer()
 	{
-		the_timer* t = reinterpret_cast< the_timer* >(&mData[0]);
 		mach_timebase_info_data_t rate_nsec;
 		mach_timebase_info(&rate_nsec);
-		t->rate = 1000000000LL * rate_nsec.numer / rate_nsec.denom;
-		t->last = mach_absolute_time();
+		s_numer = rate_nsec.numer;
+		s_denom = rate_nsec.denom;
+		s_base = mach_absolute_time();
 	}
 
-	void Timer::start()
+	unsigned int g_TimeStart()
 	{
-		the_timer* t = reinterpret_cast< the_timer* >(&mData[0]);
-		t->last = mach_absolute_time();
+		return mach_absolute_time() - s_base;
 	}
 
-	void Timer::update()
+	double g_GetElapsedTimeInMs(unsigned int stamp)
 	{
-		the_timer* start = reinterpret_cast< the_timer* >(&mData[0]);
-
+		uint64_t const last = s_base + stamp;
 		uint64_t const current = mach_absolute_time();
-		double const delta = (current - start->last) / (double)start->rate;
-
-		int* timems = reinterpret_cast< int* >(&mData[4]);
-		*timems = (int)(delta * 1000.0);
+		double const ms = (double)((current - last) * s_denom) / (s_numer * 1000000);
+		return ms;
 	}
 
-	int Timer::getTimeInMs() const
-	{
-		int const* timems = reinterpret_cast< int const* >(&mData[4]);
-		return *timems;
-	}
-
-	void TimeHelpers::sleepMs(int const ms)
+	void g_SleepMs(int const ms)
 	{
 		usleep(ms * 1000);
 	}

@@ -2,7 +2,6 @@
 
 #include "cunittest/private/ut_Config.h"
 #include "cunittest/private/ut_Test.h"
-#include "cunittest/private/ut_TestList.h"
 #include "cunittest/private/ut_TestResults.h"
 #include "cunittest/private/ut_TimeHelpers.h"
 #include "cunittest/private/ut_AssertException.h"
@@ -12,173 +11,189 @@
 
 namespace UnitTest
 {
-	void Test::run(TestResults& testResults, int const maxTestTimeInMs)
-	{
-		Timer testTimer;
-		testTimer.start();
-		testResults.onTestStart(mTestName);
+    void TestTestRun(Test* test, TestContext& context, TestResults& results, int const maxTestTimeInMs)
+    {
+        unsigned int testTime = g_TimeStart();
 
-		try
-		{
-			runImpl(testResults);
-		}
-		catch (AssertException const& e)
-		{
-			testResults.onTestFailure(e.filename(), e.lineNumber(), mTestName, e.what());
-		}
-		catch (std::exception const& e)
-		{
-			StringBuilder stringBuilder;
-			stringBuilder << "Unhandled exception: " << e.what();
-			testResults.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
-		catch (...)
-		{
-			testResults.onTestFailure(mFilename, mLineNumber, mTestName, "Unhandled exception: Crash!");
-		}
-		const int testTimeInMs = testTimer.getTimeInMs();
-		if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !mTimeConstraintExempt)
-		{
-			StringBuilder stringBuilder;
-			stringBuilder << "Global time constraint failed. Expected under ";
-			stringBuilder << maxTestTimeInMs;
-			stringBuilder << "ms but took ";
-			stringBuilder << testTimeInMs;
-			stringBuilder << "ms.";
+        results.onTestStart(test->mName);
 
-			testResults.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
-		testResults.onTestEnd(mTestName, testTimeInMs/1000.0f);
-	}
+        try
+        {
+            test->mTestRun(test->mName, results, maxTestTimeInMs);
+        }
+        catch (AssertException const& e)
+        {
+            results.onTestFailure(e.filename(), e.lineNumber(), test->mName, e.what());
+        }
+        catch (std::exception const& e)
+        {
+            StringBuilder stringBuilder(context.mAllocator);
+            stringBuilder << "Unhandled exception: " << e.what();
+            results.onTestFailure(test->mFilename, test->mLineNumber, test->mName, stringBuilder.getText());
+        }
+        catch (...)
+        {
+            results.onTestFailure(test->mFilename, test->mLineNumber, test->mName, "Unhandled exception: Crash!");
+        }
+        const int testTimeInMs = (int)((float)g_GetElapsedTimeInMs(testTime) / 1000.0f);
+        if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !test->mTimeConstraintExempt)
+        {
+            StringBuilder stringBuilder(context.mAllocator);
+            stringBuilder << "Global time constraint failed. Expected under ";
+            stringBuilder << maxTestTimeInMs;
+            stringBuilder << "ms but took ";
+            stringBuilder << testTimeInMs;
+            stringBuilder << "ms.";
 
-	void		TestFixture::run(TestResults& testResults_, int const maxTestTimeInMs)
-	{
-		Timer testTimer;
-		testTimer.start();
+            results.onTestFailure(test->mFilename, test->mLineNumber, test->mName, stringBuilder.getText());
+        }
+        results.onTestEnd(test->mName, testTimeInMs / 1000.0f);
+    }
 
-		int numTests = 0;
-		if (mTests != 0)
-		{
-			Test* curTest = mTests;
-			while (curTest != 0)
-			{
-				numTests++;
-				curTest = curTest->mNext;
-			}
-			testResults_.onTestFixtureStart(mTestName, numTests);
-		}
+    void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, int maxTestTimeInMs)
+    {
+        enum EStep
+        {
+            FIXTURE_SETUP,
+            FIXTURE_UNITTESTS,
+            FIXTURE_TEARDOWN,
+        };
 
-		mStep = FIXTURE_SETUP;
-		try
-		{
-			// Remember allocation count X
-			int iAllocCntX = GetNumAllocations();
-			int iMemLeakCnt = 0;
-			int iExtraDeallocCnt = 0;
-			setup(testResults_);
+        // The fixture allocator will track the number of allocations and deallocations
+        TestAllocatorEx fixtureAllocator(context.mAllocator);
+        *fixture->mAllocator = &fixtureAllocator;
 
-			if (mTests != 0)
-			{
-				mStep = FIXTURE_UNITTESTS;
-				Test* curTest = mTests;
-				while (curTest != 0)
-				{
-					// Remember allocation count Y
-					int iAllocCntY = GetNumAllocations();
-					curTest->run(testResults_, maxTestTimeInMs);
-					// Compare allocation count with Y
-					// If different => memory leak error
-					if (iAllocCntY != GetNumAllocations())
-					{
-						int iAllocCountDifference = (GetNumAllocations() - iAllocCntY);
-						
-						StringBuilder str;
-						if(iAllocCountDifference > 0)
-						{
-							iMemLeakCnt += iAllocCountDifference;
-							str << "memory leak detected, leaked memory allocations: ";
-							str << iAllocCountDifference;
-						}
-						else
-						{
-							iExtraDeallocCnt += -1*iAllocCountDifference;
-							str << "extra memory deallocations detected, unmatching deallocations: ";
-							str << -1*iAllocCountDifference;
-						}
+        int numTests = 0;
+        if (fixture->mTestListHead != 0)
+        {
+            Test* curTest = fixture->mTestListHead;
+            while (curTest != 0)
+            {
+                numTests++;
+                curTest = curTest->mTestNext;
+            }
+        }
 
-						testResults_.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mTestName, str.getText());
-					}
-					curTest = curTest->mNext;
-				}
-			}
+        unsigned int testTime = g_TimeStart();
 
-			mStep = FIXTURE_TEARDOWN;
-			teardown(testResults_);
-			// Compare allocation count with X
-			// If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
-			if (iAllocCntX != (GetNumAllocations() - iMemLeakCnt))
-			{
-				StringBuilder str;
+        results.onTestFixtureStart(fixture->mName, numTests);
 
-				str << "memory leak detected in setup()/teardown(), leaked memory allocations: ";
-				str << iMemLeakCnt;
-				
+        EStep step = FIXTURE_SETUP;
+        try
+        {
+            // Remember allocation count X
+            int iAllocCntX       = fixtureAllocator.GetNumAllocations();
+            int iMemLeakCnt      = 0;
+            int iExtraDeallocCnt = 0;
 
-				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, str.getText());
-			}
+            if (fixture->mSetup != 0)
+            {
+                fixture->mSetup(results);
+            }
 
-			if( iAllocCntX != (GetNumAllocations() - iExtraDeallocCnt))
-			{
-				StringBuilder str;
+            if (fixture->mTestListHead != 0)
+            {
+                step          = FIXTURE_UNITTESTS;
+                Test* curTest = fixture->mTestListHead;
+                while (curTest != 0)
+                {
+                    // Remember allocation count Y
+                    int iAllocCntY = fixtureAllocator.GetNumAllocations();
 
-				str << "extra deallocations detected in setup()/teardown(), extra deallocations: ";
-				str << iExtraDeallocCnt;
-				
+                    curTest->mTestRun(curTest->mName, results, maxTestTimeInMs);
 
-				testResults_.onTestFailure(mFilename, mLineNumber, mTestName, str.getText());
-			}
+                    // Compare allocation count with Y
+                    // If different => memory leak error
+                    if (iAllocCntY != fixtureAllocator.GetNumAllocations())
+                    {
+                        int iAllocCountDifference = (fixtureAllocator.GetNumAllocations() - iAllocCntY);
 
-		}
-		catch (std::exception const& e)
-		{
-			StringBuilder stringBuilder;
-			if (mStep == FIXTURE_SETUP)
-				stringBuilder << "Unhandled exception in setup of fixture " << mTestName;
-			else if (mStep == FIXTURE_TEARDOWN)
-				stringBuilder << "Unhandled exception in teardown of fixture " << mTestName;
-			else
-				stringBuilder << "Unhandled exception in fixture " << mTestName;
+                        StringBuilder str(context.mAllocator);
+                        if (iAllocCountDifference > 0)
+                        {
+                            iMemLeakCnt += iAllocCountDifference;
+                            str << "memory leak detected, leaked memory allocations: ";
+                            str << iAllocCountDifference;
+                        }
+                        else
+                        {
+                            iExtraDeallocCnt += -1 * iAllocCountDifference;
+                            str << "extra memory deallocations detected, unmatching deallocations: ";
+                            str << -1 * iAllocCountDifference;
+                        }
 
-			stringBuilder << " : " << e.what();
-			testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
-		catch (...)
-		{
-			StringBuilder stringBuilder;
-			if (mStep == FIXTURE_SETUP)
-				stringBuilder << "Unhandled exception in setup of fixture " << mTestName;
-			else if (mStep == FIXTURE_TEARDOWN)
-				stringBuilder << "Unhandled exception in teardown of fixture " << mTestName;
-			else
-				stringBuilder << "Unhandled exception in fixture " << mTestName;
+                        results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
+                    }
+                    curTest = curTest->mTestNext;
+                }
+            }
 
-			testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
+            step = FIXTURE_TEARDOWN;
+            if (fixture->mTeardown != 0)
+                fixture->mTeardown(results);
 
-		const int testTimeInMs = testTimer.getTimeInMs();
-		if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !mTimeConstraintExempt)
-		{
-			StringBuilder stringBuilder;
-			stringBuilder << "Fixture time constraint failed. Expected under ";
-			stringBuilder << maxTestTimeInMs;
-			stringBuilder << "ms but took ";
-			stringBuilder << testTimeInMs;
-			stringBuilder << "ms.";
+            // Compare allocation count with X
+            // If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
+            if (iAllocCntX != (fixtureAllocator.GetNumAllocations() - iMemLeakCnt))
+            {
+                StringBuilder str(context.mAllocator);
 
-			testResults_.onTestFailure(mFilename, mLineNumber, mTestName, stringBuilder.getText());
-		}
-		testResults_.onTestEnd(mTestName, testTimeInMs/1000.0f);
-	}
-}
+                str << "memory leak detected in setup()/teardown(), leaked memory allocations: ";
+                str << iMemLeakCnt;
+
+                results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, str.getText());
+            }
+
+            if (iAllocCntX != (fixtureAllocator.GetNumAllocations() - iExtraDeallocCnt))
+            {
+                StringBuilder str(context.mAllocator);
+
+                str << "extra deallocations detected in setup()/teardown(), extra deallocations: ";
+                str << iExtraDeallocCnt;
+
+                results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, str.getText());
+            }
+        }
+        catch (std::exception const& e)
+        {
+            StringBuilder stringBuilder(context.mAllocator);
+            if (step == FIXTURE_SETUP)
+                stringBuilder << "Unhandled exception in setup of fixture " << fixture->mName;
+            else if (step == FIXTURE_TEARDOWN)
+                stringBuilder << "Unhandled exception in teardown of fixture " << fixture->mName;
+            else
+                stringBuilder << "Unhandled exception in fixture " << fixture->mName;
+
+            stringBuilder << " : " << e.what();
+            results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
+        }
+        catch (...)
+        {
+            StringBuilder stringBuilder(context.mAllocator);
+            if (step == FIXTURE_SETUP)
+                stringBuilder << "Unhandled exception in setup of fixture " << fixture->mName;
+            else if (step == FIXTURE_TEARDOWN)
+                stringBuilder << "Unhandled exception in teardown of fixture " << fixture->mName;
+            else
+                stringBuilder << "Unhandled exception in fixture " << fixture->mName;
+
+            results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
+        }
+
+        const int testTimeInMs = (int)((float)g_GetElapsedTimeInMs(testTime) / 1000.0f);
+        if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !fixture->mTimeConstraintExempt)
+        {
+            StringBuilder stringBuilder(context.mAllocator);
+            stringBuilder << "Fixture time constraint failed. Expected under ";
+            stringBuilder << maxTestTimeInMs;
+            stringBuilder << "ms but took ";
+            stringBuilder << testTimeInMs;
+            stringBuilder << "ms.";
+
+            results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
+        }
+        results.onTestFixtureEnd(fixture->mName, testTimeInMs / 1000.0f);
+    }
+} // namespace UnitTest
 
 #endif

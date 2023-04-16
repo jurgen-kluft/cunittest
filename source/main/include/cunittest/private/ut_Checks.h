@@ -12,13 +12,14 @@ namespace UnitTest
 		return value == expected;
 	}
 
+	class TestAllocator;
 
 	template< typename Expected, typename Actual >
-	void checkEqual(TestResults& results, Expected const& expected, Actual const& actual, char const* const testName, char const* const filename, int const line)
+	void checkEqual(TestResults& results, Expected const& expected, Actual const& actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		if (!(expected == actual))
 		{
-			UnitTest::StringBuilder stringBuilder;
+			UnitTest::StringBuilder stringBuilder(allocator);
 			stringBuilder << "Expected ";
 			stringBuilder << expected;
 			stringBuilder << " but was ";
@@ -28,11 +29,11 @@ namespace UnitTest
 	}
 
 	template< typename Expected, typename Actual >
-	void checkNotEqual(TestResults& results, Expected const& expected, Actual const& actual, char const* const testName, char const* const filename, int const line)
+	void checkNotEqual(TestResults& results, Expected const& expected, Actual const& actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		if (expected == actual)
 		{
-			UnitTest::StringBuilder stringBuilder;
+			UnitTest::StringBuilder stringBuilder(allocator);
 			stringBuilder << "Expected ";
 			stringBuilder << expected;
 			stringBuilder << " but was ";
@@ -41,10 +42,10 @@ namespace UnitTest
 		}
 	}
 
-	void checkEqual(TestResults& results, char const* expected, char const* actual, char const* testName, char const* filename, int line);
-	void checkEqual(TestResults& results, char* expected, char* actual, char const* testName, char const* filename, int line);
-	void checkEqual(TestResults& results, char* expected, char const* actual, char const* testName, char const* filename, int line);
-	void checkEqual(TestResults& results, char const* expected, char* actual, char const* testName, char const* filename, int line);
+	void checkEqual(TestResults& results, char const* expected, char const* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);
+	void checkEqual(TestResults& results, char* expected, char* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);
+	void checkEqual(TestResults& results, char* expected, char const* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);
+	void checkEqual(TestResults& results, char const* expected, char* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);
 
 	template< typename Expected, typename Actual, typename Tolerance >
 	bool areClose(Expected const& expected, Actual const& actual, Tolerance const tolerance)
@@ -53,19 +54,18 @@ namespace UnitTest
 	}
 
 	template< typename Expected, typename Actual, typename Tolerance >
-	void checkClose(TestResults& results, Expected const& expected, Actual const& actual, Tolerance const& tolerance, char const* const testName, char const* const filename, int const line)
+	void checkClose(TestResults& results, Expected const& expected, Actual const& actual, Tolerance const& tolerance, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		if (!areClose(expected, actual, tolerance))
 		{ 
-			UnitTest::StringBuilder stringBuilder;
+			UnitTest::StringBuilder stringBuilder(allocator);
 			stringBuilder << "Expected " << expected << " +/- " << tolerance << " but was " << actual;
 			results.onTestFailure(filename, line, testName, stringBuilder.getText());
 		}
 	}
 
-
 	template< typename Expected, typename Actual >
-	void checkArrayEqual(TestResults& results, Expected const& expected, Actual const& actual, int const count, char const* const testName, char const* const filename, int const line)
+	void checkArrayEqual(TestResults& results, Expected const& expected, Actual const& actual, int const count, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		bool equal = true;
 		for (int i = 0; i < count; ++i)
@@ -73,7 +73,7 @@ namespace UnitTest
 
 		if (!equal)
 		{
-			UnitTest::StringBuilder stringBuilder;
+			UnitTest::StringBuilder stringBuilder(allocator);
 			stringBuilder << "Expected [ ";
 			for (int i = 0; i < count; ++i)
 				stringBuilder << expected[i] << " ";
@@ -92,7 +92,7 @@ namespace UnitTest
 	}
 
 	template< typename Expected, typename Actual, typename Tolerance >
-	void checkArrayClose(TestResults& results, Expected const& expected, Actual const& actual, int const count, Tolerance const& tolerance, char const* const testName, char const* const filename, int const line)
+	void checkArrayClose(TestResults& results, Expected const& expected, Actual const& actual, int const count, Tolerance const& tolerance, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		bool equal = true;
 		for (int i = 0; i < count; ++i)
@@ -100,7 +100,7 @@ namespace UnitTest
 
 		if (!equal)
 		{
-			UnitTest::StringBuilder stringBuilder;
+			UnitTest::StringBuilder stringBuilder(allocator);
 			stringBuilder << "Expected [ ";    
 			for (int i = 0; i < count; ++i)
 				stringBuilder << expected[i] << " ";

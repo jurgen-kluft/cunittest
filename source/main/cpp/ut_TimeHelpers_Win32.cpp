@@ -7,46 +7,45 @@
 
 namespace UnitTest
 {
-	Timer::Timer()
+	static LARGE_INTEGER s_frequency;
+	static LARGE_INTEGER s_base;
+
+	void g_InitTimer()
 	{
-		LARGE_INTEGER* frequency = reinterpret_cast< LARGE_INTEGER* >(&mData);
-		BOOL const success = ::QueryPerformanceFrequency(frequency);
+		BOOL success = ::QueryPerformanceFrequency(&s_frequency);
 		assert(success);
+		success = ::QueryPerformanceCounter(&s_base);
+		assert(success);
+		s_frequency.QuadPart = s_frequency.QuadPart;
 		(void) success;
 	}
 
-	void Timer::start()
+	unsigned int g_TimeStart()
 	{
-		LARGE_INTEGER* startTime = reinterpret_cast< LARGE_INTEGER* >(&mData[2]);
-		BOOL const success = ::QueryPerformanceCounter(startTime);
+		LARGE_INTEGER current;
+		BOOL const success = ::QueryPerformanceCounter(&current);
 		assert(success);
 		(void) success;
+		return current - s_base;
 	}
 
-	void Timer::update()
+	double g_GetElapsedTimeInMs(unsigned int stamp)
 	{
-	}
+		LARGE_INTEGER baseTime = s_base.QuadPart + stamp;
 
-	int Timer::getTimeInMs() const
-	{
 		LARGE_INTEGER curTime;
 		BOOL const success = ::QueryPerformanceCounter(&curTime);
 		assert(success);
 		(void) success;
 
-		const LARGE_INTEGER* startTime = reinterpret_cast< const LARGE_INTEGER* >(&mData[2]);
-
 		LARGE_INTEGER elapsedTime;
-		elapsedTime.QuadPart = curTime.QuadPart - startTime->QuadPart;
+		elapsedTime.QuadPart = curTime.QuadPart - baseTime.QuadPart;
 
-		const LARGE_INTEGER* frequency = reinterpret_cast< const LARGE_INTEGER* >(&mData);
-		double const seconds = double(elapsedTime.QuadPart) / (double)frequency->QuadPart;
-
-		return int(seconds * 1000.0f);
+		double const ms = double(elapsedTime.QuadPart) * 1000.0 / (double)frequency->QuadPart;
+		return ms;
 	}
 
-
-	void TimeHelpers::sleepMs(int const ms)
+	void g_SleepMs(int const ms)
 	{
 		::Sleep(ms);
 	}

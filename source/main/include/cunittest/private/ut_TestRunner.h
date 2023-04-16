@@ -3,10 +3,11 @@
 
 namespace UnitTest
 {
+	class TestContext;
 	class TestReporter;
-	class SuiteNode;
+	class TestSuiteList;
 
-	int		runAllTests(TestReporter& reporter, SuiteNode* inSuiteList, int maxTestTimeInMs = 0);
+	int		runAllTests(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, int maxTestTimeInMs = 0);
 }
 
 #endif	///< __CUNITTEST_TESTRUNNER_H__

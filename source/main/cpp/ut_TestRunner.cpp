@@ -4,57 +4,55 @@
 #include "cunittest/private/ut_Test.h"
 #include "cunittest/private/ut_TestState.h"
 #include "cunittest/private/ut_TestMacros.h"
-#include "cunittest/private/ut_TestList.h"
 #include "cunittest/private/ut_TestReporter.h"
 #include "cunittest/private/ut_TestReporterStdout.h"
 #include "cunittest/private/ut_TimeHelpers.h"
 #include "cunittest/private/ut_StringBuilder.h"
 #include "cunittest/private/ut_Stdout.h"
 
-
 namespace UnitTest
 {
-	int runAllTests(TestReporter& reporter, SuiteNode* inSuiteList, int maxTestTimeInMs)
-	{
-		TestResults result(&reporter, TestState::sGetInstance());
+    int runAllTests(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, int maxTestTimeInMs)
+    {
+        TestResults result(&reporter, TestState::sGetInstance());
 
-		Timer overallTimer;
-		overallTimer.start();
+        unsigned int overallTime = g_TimeStart();
 
-		SuiteNode* suiteList = inSuiteList;
-		while (suiteList!=0)
-		{
-			int numTests = 0;
-			TestSuite* curTestSuite = suiteList->mTestSuite;
-			TestFixture* curTestFixture = curTestSuite->getFixtures();
-			while (curTestFixture != 0)
-			{
-				++numTests;
-				curTestFixture = curTestFixture->getNext();
-			}
+        TestSuite* suiteList = inSuiteList;
+        while (suiteList != 0)
+        {
+            int        numTests     = 0;
+            TestSuite* curTestSuite = suiteList;
 
-			float suiteSecondsElapsed = overallTimer.getTimeInMs() / 1000.0f;
-			result.onTestSuiteStart(curTestSuite->getName(), numTests);
+            TestFixture* curTestFixture = curTestSuite->mFixtureListHead;
+            while (curTestFixture != 0)
+            {
+                ++numTests;
+                curTestFixture = curTestFixture->mFixtureNext;
+            }
 
-			curTestFixture = curTestSuite->getFixtures();
-			while (curTestFixture != 0)
-			{
-				overallTimer.update();
-				GetObserver()->BeginFixture(curTestFixture->mFilename, curTestSuite->getName(), curTestFixture->mTestName);
-				int iAllocCnt = GetNumAllocations();
-				curTestFixture->run(result, maxTestTimeInMs);
-				GetObserver()->EndFixture();
-				curTestFixture = curTestFixture->getNext();
-			}
+            context.mObserver->BeginSuite(curTestSuite->mFilename, curTestSuite->mName);
+            {
+                unsigned int suiteStartTime = g_TimeStart();
+                result.onTestSuiteStart(curTestSuite->mName, numTests);
 
-			suiteSecondsElapsed = (overallTimer.getTimeInMs() / 1000.0f) - suiteSecondsElapsed;
-			result.onTestSuiteEnd(curTestSuite->getName(), suiteSecondsElapsed);
+                curTestFixture = curTestSuite->mFixtureListHead;
+                while (curTestFixture != 0)
+                {
+                    TestFixtureRun(curTestSuite, curTestFixture, context, result, maxTestTimeInMs);
+                    curTestFixture = curTestFixture->mFixtureNext;
+                }
 
-			suiteList = suiteList->mNext;
-		}
-		float const secondsElapsed = overallTimer.getTimeInMs() / 1000.0f;
-		reporter.reportSummary(secondsElapsed, result.getFailureCount(), result.getTestCount());
+                result.onTestSuiteEnd(curTestSuite->mName, (float)g_GetElapsedTimeInMs(suiteStartTime) / 1000.0f);
+            }
+            context.mObserver->EndSuite();
 
-		return result.getFailureCount();
-	}
-}
+            suiteList = suiteList->mSuiteNext;
+        }
+
+        float const secondsElapsed = (float)g_GetElapsedTimeInMs(overallTime) / 1000.0f;
+        reporter.reportSummary(secondsElapsed, result.getFailureCount(), result.getTestCount());
+
+        return result.getFailureCount();
+    }
+} // namespace UnitTest

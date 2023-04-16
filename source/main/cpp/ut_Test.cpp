@@ -1,94 +1,80 @@
 #include "cunittest/private/ut_Config.h"
 #include "cunittest/private/ut_Test.h"
-#include "cunittest/private/ut_TestList.h"
 #include "cunittest/private/ut_TestResults.h"
 #include "cunittest/private/ut_TimeHelpers.h"
 #include "cunittest/private/ut_AssertException.h"
 #include "cunittest/private/ut_StringBuilder.h"
 #include "cunittest/private/ut_Stdout.h"
-
+#include "cunittest/private/ut_Utils.h"
 
 namespace UnitTest
 {
+    static NullObserver  sNullObserver;
+    static NullAllocator sNullAllocator;
 
-	static NullObserver		sNullObserver;
-	static Observer*		sObserver = &sNullObserver;
+    TestContext::TestContext()
+        : mAllocator(&sNullAllocator)
+        , mObserver(&sNullObserver)
+    {
+    }
 
-	void			SetObserver(Observer* observer)
-	{
-		sObserver = observer;
-		if (sObserver == 0)
-			sObserver = &sNullObserver;
-	}
+    Test::Test(char const* testName, char const* filename, const int lineNumber, TestRun run, TestFixture* fixture)
+        : mName(testName)
+        , mFilename(filename)
+        , mLineNumber(lineNumber)
+        , mTimeConstraintExempt(false)
+        , mTestRun(run)
+        , mTestNext(0)
+    {
+        if (fixture != 0)
+        {
+            // add this test to the fixture's list
+            if (fixture->mTestListHead == 0)
+            {
+                fixture->mTestListHead = this;
+            }
+            else
+            {
+                fixture->mTestListTail->mTestNext = this;
+            }
+            fixture->mTestListTail = this;
+        }
+    }
 
-	Observer*		GetObserver()
-	{
-		return sObserver;
-	}
-	
-	static int				sNumAllocations = 0;
+    TestFixture::TestFixture(const char* inName, const char* inFilename, const int inLineNumber, TestAllocator** inAllocator, TestSuite* inSuite)
+        : mTestListHead(0)
+        , mTestListTail(0)
+        , mName(inName)
+        , mFilename(inFilename)
+        , mLineNumber(inLineNumber)
+        , mTimeConstraintExempt(false)
+        , mSetup(0)
+        , mTeardown(0)
+        , mAllocator(inAllocator)
+        , mFixtureNext(0)
+    {
+        if (inSuite->mFixtureListHead == nullptr)
+            inSuite->mFixtureListHead = this;
+        else
+            inSuite->mFixtureListTail->mFixtureNext = this;
 
-	void			ResetNumAllocations()
-	{
-		sNumAllocations = 0;
-	}
-	
-	void			IncNumAllocations()
-	{
-		sNumAllocations++;
-	}
-	void			DecNumAllocations()
-	{
-		sNumAllocations--;
-	}
-	int				GetNumAllocations()
-	{
-		return sNumAllocations;
-	}
+        inSuite->mFixtureListTail = this;
+    }
 
-	static NullAllocator	sNullAllocator;
-	Allocator*				sAllocator = &sNullAllocator;
+    char const* const mName;
+    char const* const mFilename;
+    TestFixture*      mFixtureListHead;
+    TestFixture*      mFixtureListTail;
+    TestSuite*        mSuiteNext;
 
-	void			SetAllocator(Allocator* allocator)
-	{
-		if (allocator == 0)
-			sAllocator = &sNullAllocator;
-		else
-			sAllocator = allocator;
-	}
+    TestSuite::TestSuite(const char* inName, const char* inFilename)
+        : mName(inName)
+        , mFilename(inFilename)
+        , mFixtureListHead(0)
+        , mFixtureListTail(0)
+        , mSuiteNext(0)
+    {
 
-	namespace __private
-	{
-		Allocator*		GetAllocator()
-		{
-			return sAllocator;
-		}
-	}
+    }
 
-
-	Test::Test(char const* testName, char const* filename, const int lineNumber)
-		:mNext(0)
-		,mTestName(testName)
-		,mFilename(filename)
-		,mLineNumber(lineNumber)
-		,mTimeConstraintExempt(false)
-	{
-	}
-
-	Test::~Test()
-	{
-	}
-
-	void		Test::setup(TestResults& )
-	{
-	}
-
-	void		Test::teardown(TestResults& )
-	{
-	}
-
-	void		Test::runImpl(TestResults& ) const
-	{
-	}
-
-}
+} // namespace UnitTest

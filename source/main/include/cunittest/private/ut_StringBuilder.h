@@ -3,43 +3,49 @@
 
 namespace UnitTest
 {
-	class StringBuilder
-	{
-	public:
-								StringBuilder(const int capacity=256);
-								~StringBuilder();
+    class TestAllocator;
 
-		char const*				getText() const;
+    class StringBuilder
+    {
+    public:
+        StringBuilder(TestAllocator* allocator, const int capacity = 256);
+        ~StringBuilder();
 
-		StringBuilder&			operator << (const char* txt);
-		StringBuilder&			operator << (const void* p);
-		StringBuilder&			operator << (char const n);
-		StringBuilder&			operator << (short const n);
-		StringBuilder&			operator << (int const n);
-		StringBuilder&			operator << (long long const n);
-		StringBuilder&			operator << (long const n);
-		StringBuilder&			operator << (unsigned char const n);
-		StringBuilder&			operator << (unsigned short const n);
-		StringBuilder&			operator << (unsigned int const n);
-		StringBuilder&			operator << (unsigned long long const n);
-		StringBuilder&			operator << (unsigned long const n);
-		StringBuilder&			operator << (float const f);
-		StringBuilder&			operator << (double const f);
+        char const* getText() const;
 
-		enum ESettings			{ STATIC_CHUNK_SIZE=2048, GROW_CHUNK_SIZE = 32 };
-		int						getCapacity() const;
+        StringBuilder& operator<<(const char* txt);
+        StringBuilder& operator<<(const void* p);
+        StringBuilder& operator<<(char const n);
+        StringBuilder& operator<<(short const n);
+        StringBuilder& operator<<(int const n);
+        StringBuilder& operator<<(long long const n);
+        StringBuilder& operator<<(long const n);
+        StringBuilder& operator<<(unsigned char const n);
+        StringBuilder& operator<<(unsigned short const n);
+        StringBuilder& operator<<(unsigned int const n);
+        StringBuilder& operator<<(unsigned long long const n);
+        StringBuilder& operator<<(unsigned long const n);
+        StringBuilder& operator<<(float const f);
+        StringBuilder& operator<<(double const f);
 
-	private:
-		void					operator= (StringBuilder const&);
-		void					growBuffer(int capacity);
+        enum ESettings
+        {
+            STATIC_CHUNK_SIZE = 2048,
+            GROW_CHUNK_SIZE   = 32
+        };
+        int getCapacity() const;
 
-		int						mDefaultSize;
-		char					mDefaultBuffer[STATIC_CHUNK_SIZE];
+    private:
+        void operator=(StringBuilder const&);
+        void growBuffer(int capacity);
 
-		int						mCapacity;
-		char*					mBuffer;
-	};
-}
+        TestAllocator* mAllocator;
+        int            mDefaultSize;
+        char           mDefaultBuffer[STATIC_CHUNK_SIZE];
 
+        int   mCapacity;
+        char* mBuffer;
+    };
+} // namespace UnitTest
 
-#endif	///< __CUNITTEST_MEMORYOUTSTREAM_H__
+#endif ///< __CUNITTEST_MEMORYOUTSTREAM_H__

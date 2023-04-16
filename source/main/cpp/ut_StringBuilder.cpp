@@ -4,8 +4,9 @@
 
 namespace UnitTest
 {
-	StringBuilder::StringBuilder(const int capacity)
-		: mDefaultSize(STATIC_CHUNK_SIZE)
+	StringBuilder::StringBuilder(TestAllocator* allocator, const int capacity)
+		: mAllocator(allocator)
+		, mDefaultSize(STATIC_CHUNK_SIZE)
 		, mCapacity(0)
 		, mBuffer(0)
 	{
@@ -16,7 +17,7 @@ namespace UnitTest
 	StringBuilder::~StringBuilder()
 	{
 		if (mBuffer != mDefaultBuffer)
-			__private::GetAllocator()->Deallocate(mBuffer);
+			mAllocator->Deallocate(mBuffer);
 	}
 
 	char const* StringBuilder::getText() const
@@ -162,7 +163,7 @@ namespace UnitTest
 
 			if (mBuffer != mDefaultBuffer && mBuffer!=0)
 			{
-				__private::GetAllocator()->Deallocate(mBuffer);
+				mAllocator->Deallocate(mBuffer);
 			}
 
 			mBuffer = buffer;
@@ -170,7 +171,7 @@ namespace UnitTest
 			return;
 		}
 
-		char* buffer = (char*)__private::GetAllocator()->Allocate(newCapacity);
+		char* buffer = (char*)mAllocator->Allocate(newCapacity, 4);
 		if (mBuffer)
 			gStringCopy(buffer, mBuffer, mCapacity);
 		else
@@ -179,7 +180,7 @@ namespace UnitTest
 		if (mBuffer != mDefaultBuffer)
 		{
 			if (mBuffer!=0)
-				__private::GetAllocator()->Deallocate(mBuffer);
+				mAllocator->Deallocate(mBuffer);
 		}
 
 		mBuffer = buffer;
