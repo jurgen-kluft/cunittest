@@ -30,20 +30,23 @@ namespace UnitTest
 
         enum ESettings
         {
-            STATIC_CHUNK_SIZE = 2048,
+            STATIC_CHUNK_SIZE = 512 - 4,
             GROW_CHUNK_SIZE   = 32
         };
         int getCapacity() const;
 
     private:
         void operator=(StringBuilder const&);
-        void growBuffer(int capacity);
+
+        char* getWriteBuffer(int bytesRequired);
+        void  growBuffer(int capacity);
 
         TestAllocator* mAllocator;
         int            mDefaultSize;
         char           mDefaultBuffer[STATIC_CHUNK_SIZE];
 
         int   mCapacity;
+        int   mCursor;
         char* mBuffer;
     };
 } // namespace UnitTest

@@ -6,7 +6,7 @@
 #include "cunittest/private/ut_TestReporterStdout.h"
 #include "cunittest/private/ut_TestReporterTeamCity.h"
 
-class UnitTestObserver : public UnitTest::TestObserver
+class UnitTestNullObserver : public UnitTest::TestObserver
 {
 public:
     virtual void BeginSuite(const char* filename, const char* suite_name) {}
@@ -19,10 +19,10 @@ public:
     virtual void EndTest() {}
 };
 
-class UnitTestDummyAllocator : public UnitTest::TestAllocator
+class UnitTestNullAllocator : public UnitTest::TestAllocator
 {
 public:
-	UnitTestDummyAllocator() {}
+	UnitTestNullAllocator() {}
 
 	virtual void*  Allocate(unsigned int size, unsigned int alignment) { return nullptr; }
 	virtual unsigned int Deallocate(void* ptr) { return 0; }
@@ -32,8 +32,8 @@ public:
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter, UnitTest::TestContext& context);
 int         main(int argc, char** argv)
 {
-    UnitTestObserver observer;
-	UnitTestDummyAllocator dummy_allocator;
+    UnitTestNullObserver observer;
+	UnitTestNullAllocator dummy_allocator;
 
     UnitTest::TestReporterStdout stdout_reporter;
     UnitTest::TestReporter&      reporter = stdout_reporter;
