@@ -19,23 +19,13 @@ namespace UnitTest
 		void			onTestFailure(char const* file, int line, char const* testName, char const* failure);
 		void			onTestEnd(char const* testName, float secondsElapsed);
 
-		int				getTestCount() const;
-		int				getFailureCount() const;
-
-		TestState*		getTestState() const;
-
-	private:
 		TestReporter*	mTestReporter;
 		TestState*		mTestState;
 		int				mTestSuiteCount;
 		int				mTestFixtureCount;
 		int				mTestCount;
 		int				mFailureCount;
-
-		// Copy Constructor & Assignment operator are private
-						TestResults(TestResults const&);
-		TestResults&	operator =(TestResults const&);
 	};
 }
 
-#endif	///< __CUNITTEST_TESTRESULTS_H__
+#endif	// __CUNITTEST_TESTRESULTS_H__

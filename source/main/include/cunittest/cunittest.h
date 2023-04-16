@@ -7,6 +7,7 @@
 #include "cunittest/private/ut_TestResults.h"
 #include "cunittest/private/ut_TestMacros.h"
 #include "cunittest/private/ut_CheckMacros.h"
+#include "cunittest/private/ut_ReportAssert.h"
 #include "cunittest/private/ut_TestRunner.h"
 #include "cunittest/private/ut_TestReporterStdout.h"
 #include "cunittest/private/ut_TestReporterTeamCity.h"

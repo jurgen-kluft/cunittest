@@ -60,21 +60,6 @@ namespace UnitTest
 		if (mTestReporter)
 			mTestReporter->reportTestEnd(testName, secondsElapsed);
 	}
-
-	TestState* TestResults::getTestState() const
-	{
-		return mTestState;
-	}
-
-	int TestResults::getTestCount() const
-	{
-		return mTestCount;
-	}
-
-	int TestResults::getFailureCount() const
-	{
-		return mFailureCount;
-	}
 }
 
 #endif //TARGET_PS3_SPU

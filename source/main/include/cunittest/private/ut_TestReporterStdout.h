@@ -1,7 +1,6 @@
 #ifndef __CUNITTEST_TESTREPORTERSTDOUT_H__
 #define __CUNITTEST_TESTREPORTERSTDOUT_H__
 
-#include "cunittest/private/ut_ReportAssert.h"
 #include "cunittest/private/ut_TestReporter.h"
 
 namespace UnitTest

@@ -14,7 +14,8 @@ namespace UnitTest
 {
     int runAllTests(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, int maxTestTimeInMs)
     {
-        TestResults result(&reporter, TestState::sGetInstance());
+        TestState testState;
+        TestResults result(&reporter, &testState);
 
         unsigned int overallTime = g_TimeStart();
 
@@ -51,8 +52,8 @@ namespace UnitTest
         }
 
         float const secondsElapsed = (float)g_GetElapsedTimeInMs(overallTime) / 1000.0f;
-        reporter.reportSummary(secondsElapsed, result.getFailureCount(), result.getTestCount());
+        reporter.reportSummary(secondsElapsed, result.mFailureCount, result.mTestCount);
 
-        return result.getFailureCount();
+        return result.mFailureCount;
     }
 } // namespace UnitTest

@@ -12,9 +12,6 @@ namespace UnitTest
         TimeConstraint(int ms, TestResults& result, char const* filename, int lineNumber, char const* testName, TestAllocator* allocator);
         ~TimeConstraint();
 
-    private:
-        void operator=(const TimeConstraint&);
-
         TestResults&      mResult;
         int const         mMaxMs;
         char const* const mFilename;
