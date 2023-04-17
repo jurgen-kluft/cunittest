@@ -24,8 +24,6 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 			CHECK (true == caught);
 		}
 		
-#ifndef TARGET_PS3_SPU
-
 		UNITTEST_TEST(ReportAssertSetsCorrectInfoInException)
 		{
 			const int lineNumber = 12345;
@@ -40,7 +38,6 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 				CHECK_EQUAL(lineNumber, e.lineNumber());
 			UT_CATCH_END
 		}
-#endif //TARGET_PS3_SPU		
 	}
 }
 UNITTEST_SUITE_END
