@@ -3,10 +3,15 @@
 
 namespace UnitTest
 {
-    void         g_InitTimer();
-    unsigned int g_TimeStart();
-    double       g_GetElapsedTimeInMs(unsigned int start);
-    void         g_SleepMs(int ms);
+    struct time_t
+    {
+        unsigned int m_time[2];
+    };
+
+    void   g_InitTimer();
+    time_t g_TimeStart();
+    double g_GetElapsedTimeInMs(time_t start);
+    void   g_SleepMs(int ms);
 
 } // namespace UnitTest
 

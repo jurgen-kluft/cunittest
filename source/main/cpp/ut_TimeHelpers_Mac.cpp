@@ -26,14 +26,15 @@ namespace UnitTest
 		s_base = mach_absolute_time();
 	}
 
-	unsigned int g_TimeStart()
-	{
-		return mach_absolute_time() - s_base;
+	time_t g_TimeStart()
+    {
+        uint64_t start = mach_absolute_time() - s_base;
+        return *(time_t*)(&start);
 	}
 
-	double g_GetElapsedTimeInMs(unsigned int stamp)
+	double g_GetElapsedTimeInMs(time_t stamp)
 	{
-		uint64_t const last = s_base + stamp;
+		uint64_t const last = s_base + *(uint64_t*)(&stamp);
 		uint64_t const current = mach_absolute_time();
 		double const ms = (double)((current - last) * s_denom) / (s_numer * 1000000);
 		return ms;

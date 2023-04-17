@@ -18,7 +18,7 @@ namespace UnitTest
 
     TimeConstraint::~TimeConstraint()
     {
-        const int totalTimeInMs = (int)(g_GetElapsedTimeInMs(mStartTime));
+        int totalTimeInMs = (int)(g_GetElapsedTimeInMs(mStartTime));
         if (totalTimeInMs > mMaxMs)
         {
             StringBuilder strBuilder(mAllocator);

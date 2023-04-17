@@ -66,7 +66,6 @@ namespace UnitTest
         , mFilename(inFilename)
         , mFixtureListHead(0)
         , mFixtureListTail(0)
-        , mSuiteNext(0)
     {
 
     }

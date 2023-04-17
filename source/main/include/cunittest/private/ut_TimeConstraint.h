@@ -1,6 +1,8 @@
 #ifndef __C_CORE_UNITTEST_TIMECONSTRAINT_H__
 #define __C_CORE_UNITTEST_TIMECONSTRAINT_H__
 
+#include "cunittest/private/ut_TimeHelpers.h"
+
 namespace UnitTest
 {
     class TestResults;
@@ -17,7 +19,7 @@ namespace UnitTest
         char const* const mFilename;
         int const         mLineNumber;
         char const* const mTestName;
-        unsigned int      mStartTime;
+        time_t            mStartTime;
         TestAllocator*    mAllocator;
     };
 

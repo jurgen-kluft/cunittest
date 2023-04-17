@@ -20,18 +20,20 @@ namespace UnitTest
 		(void) success;
 	}
 
-	unsigned int g_TimeStart()
+	time_t g_TimeStart()
 	{
 		LARGE_INTEGER current;
 		BOOL const success = ::QueryPerformanceCounter(&current);
 		assert(success);
 		(void) success;
-		return current - s_base;
+        current.QuadPart -= s_base.QuadPart;
+        return *(time_t*)(&current.QuadPart);
 	}
 
-	double g_GetElapsedTimeInMs(unsigned int stamp)
+	double g_GetElapsedTimeInMs(time_t stamp)
 	{
-		LARGE_INTEGER baseTime = s_base.QuadPart + stamp;
+        LARGE_INTEGER baseTime = s_base;
+        baseTime.QuadPart      = baseTime.QuadPart + ((LARGE_INTEGER&)(stamp)).QuadPart;
 
 		LARGE_INTEGER curTime;
 		BOOL const success = ::QueryPerformanceCounter(&curTime);
@@ -41,7 +43,7 @@ namespace UnitTest
 		LARGE_INTEGER elapsedTime;
 		elapsedTime.QuadPart = curTime.QuadPart - baseTime.QuadPart;
 
-		double const ms = double(elapsedTime.QuadPart) * 1000.0 / (double)frequency->QuadPart;
+		double const ms = double(elapsedTime.QuadPart) * 1000.0 / (double)s_frequency.QuadPart;
 		return ms;
 	}
 

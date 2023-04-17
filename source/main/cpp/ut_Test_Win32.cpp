@@ -13,7 +13,7 @@ namespace UnitTest
 {
     void TestTestRun(Test* test, TestContext& context, TestResults& results, int const maxTestTimeInMs)
     {
-        unsigned int testTime = g_TimeStart();
+        time_t testTime = g_TimeStart();
 
         results.onTestStart(test->mName);
 
@@ -74,7 +74,7 @@ namespace UnitTest
             }
         }
 
-        unsigned int testTime = g_TimeStart();
+        time_t testTime = g_TimeStart();
 
         results.onTestFixtureStart(fixture->mName, numTests);
 
@@ -100,7 +100,8 @@ namespace UnitTest
                     // Remember allocation count Y
                     int iAllocCntY = fixtureAllocator.GetNumAllocations();
 
-                    curTest->mTestRun(curTest->mName, results, maxTestTimeInMs);
+                    // Run the test
+                    TestTestRun(curTest, context, results, maxTestTimeInMs);
 
                     // Compare allocation count with Y
                     // If different => memory leak error

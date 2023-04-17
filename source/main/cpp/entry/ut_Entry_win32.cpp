@@ -6,7 +6,7 @@
 #include "cunittest/private/ut_TestReporterStdout.h"
 #include "cunittest/private/ut_TestReporterTeamCity.h"
 
-class UnitTestObserver : public UnitTest::TestObserver
+class UnitTestNullObserver : public UnitTest::TestObserver
 {
 public:
     virtual void BeginSuite(const char* filename, const char* suite_name) {}
@@ -19,27 +19,27 @@ public:
     virtual void EndTest() {}
 };
 
-class UnitTestDummyAllocator : public UnitTest::TestAllocator
+class UnitTestNullAllocator : public UnitTest::TestAllocator
 {
 public:
-	UnitTestDummyAllocator() {}
+    UnitTestNullAllocator() {}
 
-	virtual void*  Allocate(unsigned int size, unsigned int alignment) { return nullptr; }
-	virtual unsigned int Deallocate(void* ptr) { return 0; }
+    virtual void*        Allocate(unsigned int size, unsigned int alignment) { return nullptr; }
+    virtual unsigned int Deallocate(void* ptr) { return 0; }
 };
 
 extern bool gRunUnitTest(UnitTest::TestReporter& reporter, UnitTest::TestContext& context);
-
-int main(int argc, char** argv)
+int         main(int argc, char** argv)
 {
-    UnitTestObserver observer;
+    UnitTestNullObserver  observer;
+    UnitTestNullAllocator dummy_allocator;
 
     UnitTest::TestReporterStdout stdout_reporter;
     UnitTest::TestReporter&      reporter = stdout_reporter;
 
     UnitTest::TestContext context;
-	context.mAllocator = &dummy_allocator;
-	context.mObserver = &observer;
+    context.mAllocator = &dummy_allocator;
+    context.mObserver  = &observer;
 
     UnitTest::g_InitTimer();
 
@@ -47,6 +47,5 @@ int main(int argc, char** argv)
 
     return result ? 0 : -1;
 }
-
 
 #endif

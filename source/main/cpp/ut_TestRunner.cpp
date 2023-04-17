@@ -17,7 +17,7 @@ namespace UnitTest
         TestState testState;
         TestResults result(&reporter, &testState);
 
-        unsigned int overallTime = g_TimeStart();
+        time_t overallTime = g_TimeStart();
 
         TestSuite* suiteList = inSuiteList;
         while (suiteList != 0)
@@ -34,7 +34,7 @@ namespace UnitTest
 
             context.mObserver->BeginSuite(curTestSuite->mFilename, curTestSuite->mName);
             {
-                unsigned int suiteStartTime = g_TimeStart();
+                time_t suiteStartTime = g_TimeStart();
                 result.onTestSuiteStart(curTestSuite->mName, numTests);
 
                 curTestFixture = curTestSuite->mFixtureListHead;
