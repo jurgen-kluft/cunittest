@@ -7,7 +7,6 @@
 #define NOMB
 #define NOKANJI
 
-
 #ifdef TARGET_PC
 #include <windows.h>
 #endif

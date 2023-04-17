@@ -1,5 +1,5 @@
-#ifndef __CUNITTEST_MEMORYOUTSTREAM_H__
-#define __CUNITTEST_MEMORYOUTSTREAM_H__
+#ifndef __CUNITTEST_STRINGBUILDER_H__
+#define __CUNITTEST_STRINGBUILDER_H__
 
 namespace UnitTest
 {
@@ -8,7 +8,7 @@ namespace UnitTest
     class StringBuilder
     {
     public:
-        StringBuilder(TestAllocator* allocator, const int capacity = 256);
+        StringBuilder(TestAllocator* allocator, const int capacity = 480);
         ~StringBuilder();
 
         char const* getText() const;
@@ -30,25 +30,21 @@ namespace UnitTest
 
         enum ESettings
         {
-            STATIC_CHUNK_SIZE = 512 - 4,
+            STATIC_CHUNK_SIZE = 512 - 24,
             GROW_CHUNK_SIZE   = 32
         };
         int getCapacity() const;
 
     private:
-        void operator=(StringBuilder const&);
-
         char* getWriteBuffer(int bytesRequired);
         void  growBuffer(int capacity);
 
-        TestAllocator* mAllocator;
-        int            mDefaultSize;
         char           mDefaultBuffer[STATIC_CHUNK_SIZE];
-
-        int   mCapacity;
-        int   mCursor;
-        char* mBuffer;
+        TestAllocator* mAllocator;
+        int            mCapacity;
+        int            mCursor;
+        char*          mBuffer;
     };
 } // namespace UnitTest
 
-#endif ///< __CUNITTEST_MEMORYOUTSTREAM_H__
+#endif ///< __CUNITTEST_STRINGBUILDER_H__

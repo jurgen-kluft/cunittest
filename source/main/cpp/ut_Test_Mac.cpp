@@ -4,13 +4,40 @@
 #include "cunittest/private/ut_Test.h"
 #include "cunittest/private/ut_TestResults.h"
 #include "cunittest/private/ut_TimeHelpers.h"
-#include "cunittest/private/ut_AssertException.h"
+#include "cunittest/private/ut_Exception.h"
 #include "cunittest/private/ut_StringBuilder.h"
 #include "cunittest/private/ut_Stdout.h"
+#include "cunittest/private/ut_Utils.h"
+
 #include <exception>
 
 namespace UnitTest
 {
+    class AssertException : public std::exception
+    {
+        enum ESettings
+        {
+            DESCRIPTION_MAX_STR_LENGTH = 512,
+            FILENAME_MAX_STR_LENGTH    = 256
+        };
+
+    public:
+        AssertException(char const* description, char const* filename, const int lineNumber);
+
+        char mDescription[DESCRIPTION_MAX_STR_LENGTH];
+        char mFilename[FILENAME_MAX_STR_LENGTH];
+        int  mLineNumber;
+    };
+
+    AssertException::AssertException(char const* description, char const* filename, const int lineNumber)
+        : mLineNumber(lineNumber)
+    {
+        gStringCopy(mDescription, description, FILENAME_MAX_STR_LENGTH);
+        gStringCopy(mFilename, filename, DESCRIPTION_MAX_STR_LENGTH);
+    }
+
+    void ReportAssert(char const* description, char const* filename, int const lineNumber) { UT_THROW1(AssertException(description, filename, lineNumber)); }
+
     void TestTestRun(Test* test, TestContext& context, TestResults& results, int const maxTestTimeInMs)
     {
         unsigned int testTime = g_TimeStart();

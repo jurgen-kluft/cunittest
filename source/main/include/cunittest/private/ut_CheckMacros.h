@@ -2,7 +2,7 @@
 #define __CUNITTEST_CHECKMACROS_H__
 
 #include "cunittest/private/ut_Checks.h"
-#include "cunittest/private/ut_AssertException.h"
+#include "cunittest/private/ut_Exception.h"
 #include "cunittest/private/ut_StringBuilder.h"
 
 
@@ -98,8 +98,6 @@
     }
 
 #define CHECK_ASSERT(expression) \
-    CHECK_THROW(expression, UnitTest::AssertException);
-
-
+    if (!expression) { UnitTest::ReportAssert(__FILE__, __LINE__, #expression); }
 
 #endif	///< __CUNITTEST_CHECKMACROS_H__

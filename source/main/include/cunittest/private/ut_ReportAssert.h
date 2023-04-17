@@ -4,7 +4,7 @@
 
 namespace UnitTest
 {
-	void		reportAssert(char const* description, char const* filename, int lineNumber);
+    void ReportAssert(char const* description, char const* filename, int lineNumber);
 }
 
-#endif	///< __CUNITTEST_ASSERT_H__
+#endif ///< __CUNITTEST_ASSERT_H__

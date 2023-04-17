@@ -6,7 +6,6 @@ namespace UnitTest
 {
 	StringBuilder::StringBuilder(TestAllocator* allocator, const int capacity)
 		: mAllocator(allocator)
-		, mDefaultSize(STATIC_CHUNK_SIZE)
 		, mCapacity(0)
 		, mCursor(0)
 		, mBuffer(0)
@@ -151,9 +150,11 @@ namespace UnitTest
 	void StringBuilder::growBuffer(int desiredCapacity)
 	{
 		int const newCapacity = gRoundUpToMultipleOfPow2Number(desiredCapacity, 32);
-		if (newCapacity <= mDefaultSize)
+
+        char*     buffer      = nullptr;
+        if (newCapacity <= STATIC_CHUNK_SIZE)
 		{
-			char* buffer = mDefaultBuffer;
+			buffer = mDefaultBuffer;
 			if (mBuffer)
 			{
 				if (mDefaultBuffer != mBuffer)
@@ -163,22 +164,15 @@ namespace UnitTest
 			{
 				gStringCopy(buffer, "", mCapacity);
 			}
-
-			if (mBuffer != mDefaultBuffer && mBuffer!=0)
-			{
-				mAllocator->Deallocate(mBuffer);
-			}
-
-			mBuffer = buffer;
-			mCapacity = newCapacity;
-			return;
 		}
-
-		char* buffer = (char*)mAllocator->Allocate(newCapacity, 4);
-		if (mBuffer)
-			gStringCopy(buffer, mBuffer, mCursor+1);
-		else
-			gStringCopy(buffer, "", mCapacity);
+		else 
+		{
+            buffer = (char*)mAllocator->Allocate(newCapacity, 4);
+            if (mBuffer)
+                gStringCopy(buffer, mBuffer, mCursor + 1);
+            else
+                gStringCopy(buffer, "", mCapacity);
+        }
 
 		if (mBuffer != mDefaultBuffer && mBuffer!=0)
 		{
