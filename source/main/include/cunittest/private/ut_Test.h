@@ -5,6 +5,7 @@ namespace UnitTest
 {
     class TestResults;
     class TestContext;
+    class TestReporter;
     class TestAllocator;
     
     struct Test;
@@ -59,6 +60,7 @@ namespace UnitTest
     };
 
     void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, int maxTestTimeInMs);
+	int	 TestAllRun(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, int maxTestTimeInMs = 0);
 
     class AddTestToFixture
     {

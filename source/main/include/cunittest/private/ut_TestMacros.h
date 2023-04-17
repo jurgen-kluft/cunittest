@@ -19,7 +19,7 @@
         UnitTest::AddSuiteToSuiteList gTestSuiteAddToList(UnitTest::NameOfList, UnitTest::NameOfList##Tail, &gSuiteObject); \
     }
 
-#define UNITTEST_SUITE_RUN(Context, Reporter, NameOfList) UnitTest::runAllTests(Context, Reporter, UnitTest::NameOfList);
+#define UNITTEST_SUITE_RUN(Context, Reporter, NameOfList) UnitTest::TestAllRun(Context, Reporter, UnitTest::NameOfList);
 
 #define UNITTEST_SUITE_BEGIN(NameOfSuite)                                  \
     namespace Suite##NameOfSuite                                           \

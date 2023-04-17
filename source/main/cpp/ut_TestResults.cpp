@@ -5,9 +5,8 @@
 
 namespace UnitTest
 {
-	TestResults::TestResults(TestReporter* testReporter, TestState* testState)
+	TestResults::TestResults(TestReporter* testReporter)
 		:mTestReporter(testReporter)
-		,mTestState(testState)
 		,mTestSuiteCount(0)
 		,mTestFixtureCount(0)
 		,mTestCount(0)
