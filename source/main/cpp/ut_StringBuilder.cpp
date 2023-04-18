@@ -1,6 +1,7 @@
 #include "cunittest/private/ut_Config.h"
 #include "cunittest/private/ut_StringBuilder.h"
 #include "cunittest/private/ut_Utils.h"
+#include "cunittest/private/ut_Types.h"
 
 namespace UnitTest
 {
@@ -64,7 +65,7 @@ namespace UnitTest
 	StringBuilder& StringBuilder::operator << (const void* p)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%0X", (size_t)p);
+		gStringPrint(dest, sizeof(dest), "%0X", (u64)p);
 		return *this;    
 	}
 	StringBuilder& StringBuilder::operator << (char const n)

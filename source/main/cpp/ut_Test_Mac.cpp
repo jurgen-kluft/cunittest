@@ -50,7 +50,7 @@ namespace UnitTest
         }
         catch (AssertException const& e)
         {
-            results.onTestFailure(e.filename(), e.lineNumber(), test->mName, e.what());
+            results.onTestFailure(e.mFilename, e.mLineNumber, test->mName, e.mDescription);
         }
         catch (std::exception const& e)
         {
