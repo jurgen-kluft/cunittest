@@ -1,12 +1,11 @@
 #ifndef __CUNITTEST_TIMEHELPERS_H__
 #define __CUNITTEST_TIMEHELPERS_H__
 
+#include "cunittest/private/ut_Types.h"
+
 namespace UnitTest
 {
-    struct time_t
-    {
-        unsigned int m_time[2];
-    };
+    typedef s64 time_t;
 
     void   g_InitTimer();
     time_t g_TimeStart();

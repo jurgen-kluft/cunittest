@@ -7,16 +7,17 @@
 
 namespace UnitTest
 {
-	static LARGE_INTEGER s_frequency;
+	static double s_multiplier;
 	static LARGE_INTEGER s_base;
 
 	void g_InitTimer()
 	{
-		BOOL success = ::QueryPerformanceFrequency(&s_frequency);
+        LARGE_INTEGER frequency;
+		BOOL success = ::QueryPerformanceFrequency(&frequency);
 		assert(success);
 		success = ::QueryPerformanceCounter(&s_base);
 		assert(success);
-		s_frequency.QuadPart = s_frequency.QuadPart;
+        s_multiplier = 1000.0 / (double)frequency.QuadPart;
 		(void) success;
 	}
 
@@ -32,19 +33,12 @@ namespace UnitTest
 
 	double g_GetElapsedTimeInMs(time_t stamp)
 	{
-        LARGE_INTEGER baseTime = s_base;
-        baseTime.QuadPart      = baseTime.QuadPart + ((LARGE_INTEGER&)(stamp)).QuadPart;
-
 		LARGE_INTEGER curTime;
 		BOOL const success = ::QueryPerformanceCounter(&curTime);
 		assert(success);
 		(void) success;
 
-		LARGE_INTEGER elapsedTime;
-		elapsedTime.QuadPart = curTime.QuadPart - baseTime.QuadPart;
-
-		double const ms = double(elapsedTime.QuadPart) * 1000.0 / (double)s_frequency.QuadPart;
-		return ms;
+        return double(curTime.QuadPart - s_base.QuadPart + (LONGLONG)(stamp)) * s_multiplier;
 	}
 
 	void g_SleepMs(int const ms)
