@@ -2,30 +2,34 @@
 #define __CUNITTEST_TESTMACROS_H__
 
 #ifdef UNITTEST
-#error UnitTest redefines UNITTEST
+#    error UnitTest redefines UNITTEST
 #endif
 
-#define UNITTEST_SUITE_LIST(NameOfList)  \
-    namespace UnitTest                   \
-    {                                    \
-        TestSuite* NameOfList       = 0; \
-        TestSuite* NameOfList##Tail = 0; \
+#define UNITTEST_SUITE_LIST           \
+    namespace UnitTest                \
+    {                                 \
+        TestSuite* cUnitTest     = 0; \
+        TestSuite* cUnitTestTail = 0; \
     }
 
-#define UNITTEST_SUITE_DECLARE(NameOfList, NameOfSuite)                                                                     \
-    namespace Suite##NameOfSuite                                                                                            \
-    {                                                                                                                       \
-        extern UnitTest::TestSuite    gSuiteObject;                                                                         \
-        UnitTest::AddSuiteToSuiteList gTestSuiteAddToList(UnitTest::NameOfList, UnitTest::NameOfList##Tail, &gSuiteObject); \
+#define UNITTEST_SUITE_DECLARE(NameOfList, NameOfSuite) \
+    namespace Suite##NameOfSuite                        \
+    {                                                   \
     }
 
 #define UNITTEST_SUITE_RUN(Context, Reporter, NameOfList) UnitTest::TestAllRun(Context, Reporter, UnitTest::NameOfList);
 
-#define UNITTEST_SUITE_BEGIN(NameOfSuite)                                  \
-    namespace Suite##NameOfSuite                                           \
-    {                                                                      \
-        UnitTest::TestSuite gSuiteObject("Suite_" #NameOfSuite, __FILE__); \
-    }                                                                      \
+#define UNITTEST_SUITE_BEGIN(NameOfSuite)                                                                               \
+    namespace UnitTest                                                                                                  \
+    {                                                                                                                   \
+        extern TestSuite* cUnitTest;                                                                                    \
+        extern TestSuite* cUnitTestTail;                                                                                \
+    }                                                                                                                   \
+    namespace Suite##NameOfSuite                                                                                        \
+    {                                                                                                                   \
+        UnitTest::TestSuite           gSuiteObject("Suite_" #NameOfSuite, __FILE__);                                    \
+        UnitTest::AddSuiteToSuiteList gTestSuiteAddToList(UnitTest::cUnitTest, UnitTest::cUnitTestTail, &gSuiteObject); \
+    }                                                                                                                   \
     namespace Suite##NameOfSuite
 
 #define UNITTEST_SUITE_END
