@@ -5,6 +5,15 @@ Cross platform unittest library
 - Windows
 - Mac OS
 
+## Memory Leaks
+
+Each fixture and test in a fixture is guarded against allocation/deallocation and the user will be informed if a test or a fixture is leaking memory.
+
+## Assert Handler
+
+If your library has the ability to internally handle asserts you can let the UnitTest library be aware of this.
+This allows you to have a test fail if asserts are triggered within the code you are testing.
+
 ## Extending to other platforms
 
 To extend for an additional platform, e.g. Linux, add:
@@ -14,7 +23,6 @@ To extend for an additional platform, e.g. Linux, add:
 - `source/main/cpp/ut_Test_Linux.cpp`
 - `source/main/cpp/ut_TimeHelpers_Linux.cpp`
 - `source/main/cpp/ut_Utils_Linux.cpp`
-- `source/main/include/cunittest/private/ut_Exception_Linux.h`
 
 ## Unittest MACROs
 
