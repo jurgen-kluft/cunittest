@@ -138,8 +138,7 @@ namespace UnitTest
 	StringBuilder& StringBuilder::operator << (double const d)
 	{
 		char* dest = getWriteBuffer(64);
-		float f = (float)d;
-		gStringPrint(dest, 64, "%f", f);
+		gStringPrint(dest, sizeof(dest), "%f", d);
 		return *this;    
 	}
 
