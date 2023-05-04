@@ -10,6 +10,11 @@
 
 namespace UnitTest
 {
+	void Stdout::StringFormat(char* inMessage, int inMaxMessageLength, const char* inFormatStr, double inValue)
+	{
+		STRINGFORMAT(MESSAGE_S(inMessage, inMaxMessageLength), inFormatStr, inValue);
+	}
+
 	void Stdout::StringFormat(char* inMessage, int inMaxMessageLength, const char* inFormatStr, float inValue)
 	{
 		STRINGFORMAT(MESSAGE_S(inMessage, inMaxMessageLength), inFormatStr, inValue);

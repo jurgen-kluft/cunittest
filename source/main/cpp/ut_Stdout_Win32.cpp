@@ -19,6 +19,11 @@
 
 namespace UnitTest
 {
+	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, double inValue)
+	{
+		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inValue);
+	}
+
 	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, float inValue)
 	{
 		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inValue);

@@ -6,7 +6,8 @@ namespace UnitTest
 	class Stdout
 	{
 	public:
-		static void			StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, float inValue);
+        static void         StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, double inValue);
+        static void         StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, float inValue);
 		static void			StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue);
 		static void			StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, int inValue2);
 		static void			StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, const char* inName);

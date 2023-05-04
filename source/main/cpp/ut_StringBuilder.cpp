@@ -65,81 +65,81 @@ namespace UnitTest
 	StringBuilder& StringBuilder::operator << (const void* p)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%0X", (u64)p);
+		gStringPrint(dest, 32, "%0X", (u64)p);
 		return *this;    
 	}
 	StringBuilder& StringBuilder::operator << (char const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 
 	StringBuilder& StringBuilder::operator << (short const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (int const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (long long const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (long const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (unsigned char const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (unsigned short const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (unsigned int const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (unsigned long long const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (unsigned long const n)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%i", n);
+		gStringPrint(dest, 32, "%i", n);
 		return *this;
 	}
 	StringBuilder& StringBuilder::operator << (float const f)
 	{
 		char* dest = getWriteBuffer(32);
-		gStringPrint(dest, sizeof(dest), "%f", f);
+		gStringPrint(dest, 32, "%f", f);
 		return *this;    
 	}
 	StringBuilder& StringBuilder::operator << (double const d)
 	{
 		char* dest = getWriteBuffer(64);
 		float f = (float)d;
-		gStringPrint(dest, sizeof(dest), "%f", f);
+		gStringPrint(dest, 64, "%f", f);
 		return *this;    
 	}
 

@@ -67,6 +67,10 @@ namespace UnitTest
 		sprintf_s(dest, n, format, f);
 	}
 
+	void	gStringPrint(char* dest, int n, const char* format, double const f)
+	{
+		sprintf_s(dest, n, format, f);
+	}
 }
 
 #endif
