@@ -9,7 +9,14 @@ namespace UnitTest
         virtual ~TestAllocator() {}
 
         virtual void*        Allocate(unsigned int size, unsigned int alignment = sizeof(void*)) = 0;
-        virtual unsigned int Deallocate(void* ptr)                                               = 0;
+        virtual unsigned int Deallocate(void* ptr, int* status = nullptr)                         = 0;
+    };
+
+    class MemCheckAllocator : public TestAllocator
+    {
+    public:
+        virtual void*        Allocate(unsigned int size, unsigned int alignment = sizeof(void*));
+        virtual unsigned int Deallocate(void* ptr, int* status = nullptr);
     };
 
     class TestAllocatorEx : public TestAllocator
@@ -20,6 +27,7 @@ namespace UnitTest
         TestAllocatorEx(TestAllocator* allocator)
             : mAllocator(allocator)
             , mNumAllocations(0)
+            , mNumAllocationCorruptions(0)
         {
         }
 
@@ -29,17 +37,34 @@ namespace UnitTest
             return mAllocator->Allocate(size, alignment);
         }
 
-        virtual unsigned int Deallocate(void* ptr)
+        virtual unsigned int Deallocate(void* ptr, int* _status = nullptr)
         {
             DecNumAllocations();
-            return mAllocator->Deallocate(ptr);
+            
+            int status = 0;
+            unsigned int size = mAllocator->Deallocate(ptr, &status);
+            if (_status)
+            {
+                *_status = status;
+            }
+            if (status == 0)
+            {
+                return size;
+            }
+            IncNumAllocationCorruptions();
+            return size;
         }
 
-        void ResetNumAllocations() { mNumAllocations = 0; }
+        void ResetEx() { mNumAllocations = 0; mNumAllocationCorruptions = 0; }
         void IncNumAllocations() { ++mNumAllocations; }
         void DecNumAllocations() { --mNumAllocations; }
         int  GetNumAllocations() const { return mNumAllocations; }
+
+        void IncNumAllocationCorruptions() { ++mNumAllocationCorruptions; }
+        int GetNumAllocationCorruptions() const { return mNumAllocationCorruptions; }
+
         int  mNumAllocations;
+        int  mNumAllocationCorruptions;
     };
 
     class TestObserver
@@ -72,7 +97,7 @@ namespace UnitTest
         NullAllocator() {}
 
         virtual void*        Allocate(unsigned int size, unsigned int alignment) { return 0; }
-        virtual unsigned int Deallocate(void* ptr) { return 0; }
+        virtual unsigned int Deallocate(void* ptr, int* status) { return 0; }
         void                 Release() {}
     };
 

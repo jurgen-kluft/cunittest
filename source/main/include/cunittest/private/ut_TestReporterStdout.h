@@ -2,6 +2,7 @@
 #define __CUNITTEST_TESTREPORTERSTDOUT_H__
 
 #include "cunittest/private/ut_TestReporter.h"
+#include "cunittest/private/ut_Stdout.h"
 
 namespace UnitTest
 {
