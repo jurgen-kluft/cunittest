@@ -12,11 +12,6 @@
         TestSuite* cUnitTestTail = 0; \
     }
 
-#define UNITTEST_SUITE_DECLARE(NameOfList, NameOfSuite) \
-    namespace Suite##NameOfSuite                        \
-    {                                                   \
-    }
-
 #define UNITTEST_SUITE_RUN(Context, Reporter, NameOfList) UnitTest::TestAllRun(Context, Reporter, UnitTest::NameOfList);
 
 #define UNITTEST_SUITE_BEGIN(NameOfSuite)                                                                               \
@@ -52,12 +47,9 @@
     UnitTest::SetTeardownForFixture gSetFixtureTeardown(&gFixtureInstance, &FixtureTeardown); \
     void                            FixtureTeardown(UnitTest::TestResults& testResults)
 
-#define UNITTEST_TEST(Name)                                                                                    \
-    namespace nsTest##Name                                                                                     \
-    {                                                                                                          \
-        void           TestRun(const char* testName, UnitTest::TestResults& testResults, int maxTestTimeInMs); \
-        UnitTest::Test gTestInstance(#Name, __FILE__, __LINE__, &TestRun, &gFixtureInstance);                  \
-    }                                                                                                          \
-    void nsTest##Name::TestRun(const char* testName, UnitTest::TestResults& testResults, int maxTestTimeInMs)
+#define UNITTEST_TEST(Name)                                                                                       \
+    void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, int maxTestTimeInMs); \
+    UnitTest::Test gTestInstance##Name(#Name, __FILE__, __LINE__, &TestRun_##Name, &gFixtureInstance);            \
+    void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, int maxTestTimeInMs)
 
 #endif ///< __CUNITTEST_TESTMACROS_H__
