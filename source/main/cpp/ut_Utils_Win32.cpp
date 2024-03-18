@@ -7,69 +7,69 @@
 
 namespace UnitTest
 {
-	void	gStringPrint(char* dest, int n, const char* format, const void* p)
+	int gStringPrint(char* dest, int n, const char* format, const void* p)
 	{
-		sprintf_s(dest, n, format, p);
+		return sprintf_s(dest, n, format, p);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, char c)
+	int gStringPrint(char* dest, int n, const char* format, char c)
 	{
-		sprintf_s(dest, n, format, c);
+		return sprintf_s(dest, n, format, c);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, short s)
+	int gStringPrint(char* dest, int n, const char* format, short s)
 	{
-		sprintf_s(dest, n, format, s);
+		return sprintf_s(dest, n, format, s);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, int i)
+	int gStringPrint(char* dest, int n, const char* format, int i)
 	{
-		sprintf_s(dest, n, format, i);
+		return sprintf_s(dest, n, format, i);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, long l)
+	int gStringPrint(char* dest, int n, const char* format, long l)
 	{
-		sprintf_s(dest, n, format, l);
+		return sprintf_s(dest, n, format, l);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, long long l)
+	int gStringPrint(char* dest, int n, const char* format, long long l)
 	{
-		sprintf_s(dest, n, format, l);
+		return sprintf_s(dest, n, format, l);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, unsigned char c)
+	int gStringPrint(char* dest, int n, const char* format, unsigned char c)
 	{
-		sprintf_s(dest, n, format, c);
+		return sprintf_s(dest, n, format, c);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, unsigned short s)
+	int gStringPrint(char* dest, int n, const char* format, unsigned short s)
 	{
-		sprintf_s(dest, n, format, s);
+		return sprintf_s(dest, n, format, s);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, unsigned int i)
+	int gStringPrint(char* dest, int n, const char* format, unsigned int i)
 	{
-		sprintf_s(dest, n, format, i);
+		return sprintf_s(dest, n, format, i);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, unsigned long l)
+	int gStringPrint(char* dest, int n, const char* format, unsigned long l)
 	{
-		sprintf_s(dest, n, format, l);
+		return sprintf_s(dest, n, format, l);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, unsigned long long l)
+	int gStringPrint(char* dest, int n, const char* format, unsigned long long l)
 	{
-		sprintf_s(dest, n, format, l);
+		return sprintf_s(dest, n, format, l);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, float const f)
+	int gStringPrint(char* dest, int n, const char* format, float const f)
 	{
-		sprintf_s(dest, n, format, f);
+		return sprintf_s(dest, n, format, f);
 	}
 
-	void	gStringPrint(char* dest, int n, const char* format, double const f)
+	int gStringPrint(char* dest, int n, const char* format, double const f)
 	{
-		sprintf_s(dest, n, format, f);
+		return sprintf_s(dest, n, format, f);
 	}
 }
 
