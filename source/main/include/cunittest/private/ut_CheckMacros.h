@@ -53,21 +53,21 @@
 
 #define CHECK_EQUAL(expected, actual) \
     UT_TRY_BEGIN \
-        UnitTest::checkEqual(testResults, expected, actual, testName, __FILE__, __LINE__, TestAllocator); \
+        UnitTest::checkEqual(testResults, expected, actual, testName, __FILE__, __LINE__, FixtureAllocator); \
     UT_CATCH_ALL \
         testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_EQUAL(" #expected ", " #actual ")"); \
     UT_CATCH_END
 
 #define CHECK_NOT_EQUAL(expected, actual) \
 	UT_TRY_BEGIN \
-		UnitTest::checkNotEqual(testResults, expected, actual, testName, __FILE__, __LINE__, TestAllocator); \
+		UnitTest::checkNotEqual(testResults, expected, actual, testName, __FILE__, __LINE__, FixtureAllocator); \
     UT_CATCH_ALL \
 		testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_EQUAL(" #expected ", " #actual ")"); \
 	UT_CATCH_END
 
 #define CHECK_EQUAL_T(expected, actual, msg) \
 	UT_TRY_BEGIN \
-		UnitTest::checkEqual(testResults, expected, actual, testName, __FILE__, __LINE__, TestAllocator); \
+		UnitTest::checkEqual(testResults, expected, actual, testName, __FILE__, __LINE__, FixtureAllocator); \
     UT_CATCH_ALL \
 		testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
 	UT_CATCH_END
@@ -75,14 +75,14 @@
 
 #define CHECK_CLOSE(expected, actual, tolerance) \
     UT_TRY_BEGIN \
-        UnitTest::checkClose(testResults, expected, actual, tolerance, testName, __FILE__, __LINE__, TestAllocator); \
+        UnitTest::checkClose(testResults, expected, actual, tolerance, testName, __FILE__, __LINE__, FixtureAllocator); \
     UT_CATCH_ALL \
         testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_CLOSE(" #expected ", " #actual ")"); \
     UT_CATCH_END
 
 #define CHECK_ARRAY_CLOSE(expected, actual, count, tolerance) \
     UT_TRY_BEGIN \
-        UnitTest::checkArrayClose(testResults, expected, actual, count, tolerance, testName, __FILE__, __LINE__, TestAllocator); \
+        UnitTest::checkArrayClose(testResults, expected, actual, count, tolerance, testName, __FILE__, __LINE__, FixtureAllocator); \
     UT_CATCH_ALL \
         testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_ARRAY_CLOSE(" #expected ", " #actual ")"); \
     UT_CATCH_END

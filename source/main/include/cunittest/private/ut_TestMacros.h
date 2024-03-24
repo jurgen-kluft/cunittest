@@ -29,12 +29,12 @@
 
 #define UNITTEST_SUITE_END
 
-#define UNITTEST_FIXTURE(Name)                                                                                      \
-    namespace nsTestFixture##Name                                                                                   \
-    {                                                                                                               \
-        static UnitTest::TestAllocator* TestAllocator = 0;                                                          \
-        UnitTest::TestFixture           gFixtureInstance(#Name, __FILE__, __LINE__, &TestAllocator, &gSuiteObject); \
-    }                                                                                                               \
+#define UNITTEST_FIXTURE(Name)                                                                                  \
+    namespace nsTestFixture##Name                                                                               \
+    {                                                                                                           \
+        UnitTest::TestAllocator* FixtureAllocator = 0;                                                          \
+        UnitTest::TestFixture    gFixtureInstance(#Name, __FILE__, __LINE__, &FixtureAllocator, &gSuiteObject); \
+    }                                                                                                           \
     namespace nsTestFixture##Name
 
 #define UNITTEST_FIXTURE_SETUP()                                                     \
