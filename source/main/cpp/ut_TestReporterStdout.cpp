@@ -50,7 +50,7 @@ namespace UnitTest
 		if (failureCount > 0)
 			StringFormat("FAILURE: %d out of %d tests failed.\n", failureCount, testCount);
 		else
-			StringFormat("Success: %d  tests passed.\n", testCount);
+			StringFormat("Success: %d tests passed.\n", testCount);
 		Trace(mMessage);
 
 		StringFormat("Test time: %.2f seconds.\n", secondsElapsed);

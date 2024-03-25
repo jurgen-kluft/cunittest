@@ -41,7 +41,7 @@ namespace UnitTest
 		UT_THROW1(AssertException(description, filename, lineNumber));
 	}
 
-    void TestTestRun(Test* test, TestContext& context, TestResults& results, int const maxTestTimeInMs)
+    void TestTestRun(Test* test, TestContext& context, TestResults& results, const float maxTestTimeInMs)
     {
         time_t testTime = g_TimeStart();
 
@@ -80,7 +80,7 @@ namespace UnitTest
         results.onTestEnd(test->mName, testTimeInMs / 1000.0f);
     }
 
-    void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, int maxTestTimeInMs)
+    void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, const float maxTestTimeInMs)
     {
         enum EStep
         {
@@ -211,7 +211,7 @@ namespace UnitTest
             results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
         }
 
-        const int testTimeInMs = (int)((float)g_GetElapsedTimeInMs(testTime) / 1000.0f);
+        const float testTimeInMs = (float)g_GetElapsedTimeInMs(testTime);
         if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !fixture->mTimeConstraintExempt)
         {
             StringBuilder stringBuilder(context.mAllocator);

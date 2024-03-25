@@ -48,8 +48,8 @@
     void                            FixtureTeardown(UnitTest::TestResults& testResults)
 
 #define UNITTEST_TEST(Name)                                                                                       \
-    void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, int maxTestTimeInMs); \
+    void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, float maxTestTimeInMs); \
     UnitTest::Test gTestInstance##Name(#Name, __FILE__, __LINE__, &TestRun_##Name, &gFixtureInstance);            \
-    void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, int maxTestTimeInMs)
+    void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, float maxTestTimeInMs)
 
 #endif ///< __CUNITTEST_TESTMACROS_H__

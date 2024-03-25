@@ -14,7 +14,7 @@ namespace UnitTest
 
     typedef void (*TestSetup)(TestResults& testResults_);
     typedef void (*TestTeardown)(TestResults& testResults_);
-    typedef void (*TestRun)(const char* testName, TestResults& testResults_, int const maxTestTimeInMs);
+    typedef void (*TestRun)(const char* testName, TestResults& testResults_, const float maxTestTimeInMs);
 
     struct Test
     {
@@ -59,8 +59,8 @@ namespace UnitTest
         TestSuite*        mSuiteNext;
     };
 
-    void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, int maxTestTimeInMs);
-	int	 TestAllRun(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, int maxTestTimeInMs = 0);
+    void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, const float maxTestTimeInMs);
+	int	 TestAllRun(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, const float maxTestTimeInMs = 0.0f);
 
     class AddTestToFixture
     {

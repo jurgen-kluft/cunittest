@@ -38,7 +38,7 @@ namespace UnitTest
 
     void ReportAssert(char const* description, char const* filename, int const lineNumber) { UT_THROW1(AssertException(description, filename, lineNumber)); }
 
-    void TestTestRun(Test* test, TestContext& context, TestResults& results, int const maxTestTimeInMs)
+    void TestTestRun(Test* test, TestContext& context, TestResults& results, const float maxTestTimeInMs)
     {
         unsigned int testTime = g_TimeStart();
 
@@ -62,14 +62,14 @@ namespace UnitTest
         {
             results.onTestFailure(test->mFilename, test->mLineNumber, test->mName, "Unhandled exception: Crash!");
         }
-        const int testTimeInMs = (int)((float)g_GetElapsedTimeInMs(testTime) / 1000.0f);
+        const float testTimeInMs = (float)g_GetElapsedTimeInMs(testTime);
         if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !test->mTimeConstraintExempt)
         {
             StringBuilder stringBuilder(context.mAllocator);
             stringBuilder << "Global time constraint failed. Expected under ";
-            stringBuilder << maxTestTimeInMs;
+            stringBuilder << (int)maxTestTimeInMs;
             stringBuilder << "ms but took ";
-            stringBuilder << testTimeInMs;
+            stringBuilder << (int)testTimeInMs;
             stringBuilder << "ms.";
 
             results.onTestFailure(test->mFilename, test->mLineNumber, test->mName, stringBuilder.getText());
@@ -77,7 +77,7 @@ namespace UnitTest
         results.onTestEnd(test->mName, testTimeInMs / 1000.0f);
     }
 
-    void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, int maxTestTimeInMs)
+    void TestFixtureRun(TestSuite* suite, TestFixture* fixture, TestContext& context, TestResults& results, const float maxTestTimeInMs)
     {
         enum EStep
         {
@@ -127,6 +127,8 @@ namespace UnitTest
                     // Remember allocation count Y
                     int iAllocCntY = fixtureAllocator.GetNumAllocations();
 
+                    unsigned int testStartTime = g_TimeStart();
+                    results.onTestStart(curTest->mName);
                     curTest->mTestRun(curTest->mName, results, maxTestTimeInMs);
 
                     // Compare allocation count with Y
@@ -151,6 +153,8 @@ namespace UnitTest
 
                         results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
                     }
+                    float testEndTime = g_GetElapsedTimeInMs(testStartTime) / 1000.0f;
+                    results.onTestEnd(curTest->mName, testEndTime);
                     curTest = curTest->mTestNext;
                 }
             }
@@ -207,7 +211,7 @@ namespace UnitTest
             results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
         }
 
-        const int testTimeInMs = (int)((float)g_GetElapsedTimeInMs(testTime) / 1000.0f);
+        const float testTimeInMs = (float)g_GetElapsedTimeInMs(testTime);
         if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !fixture->mTimeConstraintExempt)
         {
             StringBuilder stringBuilder(context.mAllocator);

@@ -71,7 +71,7 @@ namespace UnitTest
 
     }
 
-    int TestAllRun(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, int maxTestTimeInMs)
+    int TestAllRun(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, const float maxTestTimeInMs)
     {
         TestResults result(&reporter);
 
