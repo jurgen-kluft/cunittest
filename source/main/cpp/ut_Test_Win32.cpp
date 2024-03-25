@@ -65,7 +65,7 @@ namespace UnitTest
         {
             results.onTestFailure(test->mFilename, test->mLineNumber, test->mName, "Unhandled exception: Crash!");
         }
-        const int testTimeInMs = (int)((float)g_GetElapsedTimeInMs(testTime) / 1000.0f);
+        const float testTimeInMs = (float)g_GetElapsedTimeInMs(testTime);
         if (maxTestTimeInMs > 0 && testTimeInMs > maxTestTimeInMs && !test->mTimeConstraintExempt)
         {
             StringBuilder stringBuilder(context.mAllocator);
