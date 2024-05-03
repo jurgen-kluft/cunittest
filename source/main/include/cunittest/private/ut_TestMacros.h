@@ -40,12 +40,12 @@
 #define UNITTEST_FIXTURE_SETUP()                                                     \
     void                         FixtureSetup(UnitTest::TestResults& testResults);   \
     UnitTest::SetSetupForFixture gSetFixtureSetup(&gFixtureInstance, &FixtureSetup); \
-    void                         FixtureSetup(UnitTest::TestResults& testResults)
+    void                         FixtureSetup(UnitTest::TestResults& testResults, const char* testName = "Fixture Setup")
 
 #define UNITTEST_FIXTURE_TEARDOWN()                                                           \
     void                            FixtureTeardown(UnitTest::TestResults& testResults);      \
     UnitTest::SetTeardownForFixture gSetFixtureTeardown(&gFixtureInstance, &FixtureTeardown); \
-    void                            FixtureTeardown(UnitTest::TestResults& testResults)
+    void                            FixtureTeardown(UnitTest::TestResults& testResults, const char* testName = "Fixture Teardown")
 
 #define UNITTEST_TEST(Name)                                                                                       \
     void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, float maxTestTimeInMs); \
