@@ -115,7 +115,7 @@ namespace UnitTest
 
             if (fixture->mSetup != 0)
             {
-                fixture->mSetup(results);
+                fixture->mSetup(results, "Fixture Setup");
             }
 
             if (fixture->mTestListHead != 0)
@@ -161,7 +161,7 @@ namespace UnitTest
 
             step = FIXTURE_TEARDOWN;
             if (fixture->mTeardown != 0)
-                fixture->mTeardown(results);
+                fixture->mTeardown(results, "Fixture Teardown");
 
             // Compare allocation count with X
             // If different => Fixture memory leak error (probably the combination of Setup() and Teardown()

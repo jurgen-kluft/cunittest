@@ -12,8 +12,8 @@ namespace UnitTest
     struct TestFixture;
     struct TestSuite;
 
-    typedef void (*TestSetup)(TestResults& testResults_);
-    typedef void (*TestTeardown)(TestResults& testResults_);
+    typedef void (*TestSetup)(TestResults& testResults_, const char* testName);
+    typedef void (*TestTeardown)(TestResults& testResults_, const char* testName);
     typedef void (*TestRun)(const char* testName, TestResults& testResults_, const float maxTestTimeInMs);
 
     struct Test

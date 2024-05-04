@@ -37,19 +37,19 @@
     }                                                                                                           \
     namespace nsTestFixture##Name
 
-#define UNITTEST_FIXTURE_SETUP()                                                     \
-    void                         FixtureSetup(UnitTest::TestResults& testResults);   \
-    UnitTest::SetSetupForFixture gSetFixtureSetup(&gFixtureInstance, &FixtureSetup); \
-    void                         FixtureSetup(UnitTest::TestResults& testResults, const char* testName = "Fixture Setup")
+#define UNITTEST_FIXTURE_SETUP()                                                                                           \
+    void                         FixtureSetup(UnitTest::TestResults& testResults, const char* testName = "Fixture Setup"); \
+    UnitTest::SetSetupForFixture gSetFixtureSetup(&gFixtureInstance, &FixtureSetup);                                       \
+    void                         FixtureSetup(UnitTest::TestResults& testResults, const char* testName)
 
-#define UNITTEST_FIXTURE_TEARDOWN()                                                           \
-    void                            FixtureTeardown(UnitTest::TestResults& testResults);      \
-    UnitTest::SetTeardownForFixture gSetFixtureTeardown(&gFixtureInstance, &FixtureTeardown); \
-    void                            FixtureTeardown(UnitTest::TestResults& testResults, const char* testName = "Fixture Teardown")
+#define UNITTEST_FIXTURE_TEARDOWN()                                                                                                 \
+    void                            FixtureTeardown(UnitTest::TestResults& testResults, const char* testName = "Fixture Teardown"); \
+    UnitTest::SetTeardownForFixture gSetFixtureTeardown(&gFixtureInstance, &FixtureTeardown);                                       \
+    void                            FixtureTeardown(UnitTest::TestResults& testResults, const char* testName)
 
-#define UNITTEST_TEST(Name)                                                                                       \
+#define UNITTEST_TEST(Name)                                                                                         \
     void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, float maxTestTimeInMs); \
-    UnitTest::Test gTestInstance##Name(#Name, __FILE__, __LINE__, &TestRun_##Name, &gFixtureInstance);            \
+    UnitTest::Test gTestInstance##Name(#Name, __FILE__, __LINE__, &TestRun_##Name, &gFixtureInstance);              \
     void           TestRun_##Name(const char* testName, UnitTest::TestResults& testResults, float maxTestTimeInMs)
 
 #endif ///< __CUNITTEST_TESTMACROS_H__
