@@ -1,15 +1,15 @@
 #ifdef TARGET_MAC
 
-#include "cunittest/private/ut_Config.h"
-#include "cunittest/private/ut_Test.h"
-#include "cunittest/private/ut_TestResults.h"
-#include "cunittest/private/ut_TimeHelpers.h"
-#include "cunittest/private/ut_Exception.h"
-#include "cunittest/private/ut_StringBuilder.h"
-#include "cunittest/private/ut_Stdout.h"
-#include "cunittest/private/ut_Utils.h"
+#    include "cunittest/private/ut_Config.h"
+#    include "cunittest/private/ut_Test.h"
+#    include "cunittest/private/ut_TestResults.h"
+#    include "cunittest/private/ut_TimeHelpers.h"
+#    include "cunittest/private/ut_Exception.h"
+#    include "cunittest/private/ut_StringBuilder.h"
+#    include "cunittest/private/ut_Stdout.h"
+#    include "cunittest/private/ut_Utils.h"
 
-#include <exception>
+#    include <exception>
 
 namespace UnitTest
 {
@@ -115,7 +115,26 @@ namespace UnitTest
 
             if (fixture->mSetup != 0)
             {
-                fixture->mSetup(results, "Fixture Setup");
+                try
+                {
+                    fixture->mSetup(results, fixture->mName);
+                }
+                catch (AssertException const& e)
+                {
+                    StringBuilder stringBuilder(context.mAllocator);
+                    stringBuilder << "Assert triggered in fixture setup: " << e.mDescription;
+                    results.onTestFailure(e.mFilename, e.mLineNumber, fixture->mName, stringBuilder.getText());
+                }
+                catch (std::exception const& e)
+                {
+                    StringBuilder stringBuilder(context.mAllocator);
+                    stringBuilder << "Unhandled exception in fixture setup: " << e.what();
+                    results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
+                }
+                catch (...)
+                {
+                    results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, "Unhandled exception in fixture setup: Crash!");
+                }
             }
 
             if (fixture->mTestListHead != 0)
@@ -161,7 +180,28 @@ namespace UnitTest
 
             step = FIXTURE_TEARDOWN;
             if (fixture->mTeardown != 0)
-                fixture->mTeardown(results, "Fixture Teardown");
+            {
+                try
+                {
+                    fixture->mTeardown(results, fixture->mName);
+                }
+                catch (AssertException const& e)
+                {
+                    StringBuilder stringBuilder(context.mAllocator);
+                    stringBuilder << "Assert triggered in fixture teardown: " << e.mDescription;
+                    results.onTestFailure(e.mFilename, e.mLineNumber, fixture->mName, stringBuilder.getText());
+                }
+                catch (std::exception const& e)
+                {
+                    StringBuilder stringBuilder(context.mAllocator);
+                    stringBuilder << "Unhandled exception in fixture teardown: " << e.what();
+                    results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
+                }
+                catch (...)
+                {
+                    results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, "Unhandled exception in fixture teardown: Crash!");
+                }
+            }
 
             // Compare allocation count with X
             // If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
