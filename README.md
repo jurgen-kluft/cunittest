@@ -5,6 +5,9 @@ Cross platform unittest library
 - Windows
 - Mac OS
 
+If you like my work and want to support me, please consider to buy me a coffee!
+<img src="bmacoffee.png" width="100">
+
 ## Memory Leaks
 
 Each fixture and test in a fixture is guarded against allocation/deallocation and the user will be informed if a test or a fixture is leaking memory.
