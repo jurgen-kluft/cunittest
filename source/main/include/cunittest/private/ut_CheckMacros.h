@@ -67,11 +67,17 @@
 
 #define CHECK_EQUAL_T(expected, actual, msg) \
 	UT_TRY_BEGIN \
-		UnitTest::checkEqual(testResults, expected, actual, testName, __FILE__, __LINE__, FixtureAllocator); \
+		UnitTest::checkEqualT(testResults, expected, actual, testName, __FILE__, __LINE__, FixtureAllocator, msg); \
     UT_CATCH_ALL \
 		testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
 	UT_CATCH_END
 
+#define CHECK_NOT_EQUAL_T(expected, actual, msg) \
+	UT_TRY_BEGIN \
+		UnitTest::checkNotEqualT(testResults, expected, actual, testName, __FILE__, __LINE__, FixtureAllocator, msg); \
+    UT_CATCH_ALL \
+		testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
+	UT_CATCH_END
 
 #define CHECK_CLOSE(expected, actual, tolerance) \
     UT_TRY_BEGIN \

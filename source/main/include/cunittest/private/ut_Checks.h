@@ -29,6 +29,22 @@ namespace UnitTest
 	}
 
 	template< typename Expected, typename Actual >
+	void checkEqualT(TestResults& results, Expected const& expected, Actual const& actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator, const char* const msg)
+	{
+		if (!(expected == actual))
+		{
+			UnitTest::StringBuilder stringBuilder(allocator);
+			stringBuilder << "Expected ";
+			stringBuilder << expected;
+			stringBuilder << " but was ";
+			stringBuilder << actual;
+            stringBuilder << ", message: ";
+            stringBuilder << msg;
+			results.onTestFailure(filename, line, testName, stringBuilder.getText());
+		}
+	}
+
+	template< typename Expected, typename Actual >
 	void checkNotEqual(TestResults& results, Expected const& expected, Actual const& actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		if (expected == actual)
@@ -38,6 +54,22 @@ namespace UnitTest
 			stringBuilder << expected;
 			stringBuilder << " but was ";
 			stringBuilder << actual;
+			results.onTestFailure(filename, line, testName, stringBuilder.getText());
+		}
+	}
+
+	template< typename Expected, typename Actual >
+	void checkNotEqualT(TestResults& results, Expected const& expected, Actual const& actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator, const char* const msg)
+	{
+		if (expected == actual)
+		{
+			UnitTest::StringBuilder stringBuilder(allocator);
+			stringBuilder << "Expected ";
+			stringBuilder << expected;
+			stringBuilder << " but was ";
+			stringBuilder << actual;
+			stringBuilder << ", message: ";
+			stringBuilder << msg;
 			results.onTestFailure(filename, line, testName, stringBuilder.getText());
 		}
 	}
@@ -57,7 +89,7 @@ namespace UnitTest
 	void checkClose(TestResults& results, Expected const& expected, Actual const& actual, Tolerance const& tolerance, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		if (!areClose(expected, actual, tolerance))
-		{ 
+		{
 			UnitTest::StringBuilder stringBuilder(allocator);
 			stringBuilder << "Expected " << expected << " +/- " << tolerance << " but was " << actual;
 			results.onTestFailure(filename, line, testName, stringBuilder.getText());
@@ -101,7 +133,7 @@ namespace UnitTest
 		if (!equal)
 		{
 			UnitTest::StringBuilder stringBuilder(allocator);
-			stringBuilder << "Expected [ ";    
+			stringBuilder << "Expected [ ";
 			for (int i = 0; i < count; ++i)
 				stringBuilder << expected[i] << " ";
 			stringBuilder << "] +/- " << tolerance << " but was [ ";
