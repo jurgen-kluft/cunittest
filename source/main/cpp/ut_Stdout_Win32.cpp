@@ -69,7 +69,11 @@ namespace UnitTest
 	{
 		TRACE(inMessage);	
 		#ifdef TARGET_PC
+		#ifdef UNICODE
+        ::OutputDebugStringA(inMessage);
+#        else
 		::OutputDebugString(inMessage);
+#        endif
 		#endif
 	}
 }
