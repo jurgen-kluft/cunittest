@@ -225,6 +225,20 @@ namespace UnitTest
                 results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, str.getText());
             }
         }
+        catch (AssertException const& e)
+        {
+            StringBuilder stringBuilder(context.mAllocator);
+            if (step == FIXTURE_SETUP)
+                stringBuilder << "Unhandled exception in setup of fixture " << fixture->mName;
+            else if (step == FIXTURE_TEARDOWN)
+                stringBuilder << "Unhandled exception in teardown of fixture " << fixture->mName;
+            else
+                stringBuilder << "Unhandled exception in fixture " << fixture->mName;
+
+            stringBuilder << " : " << e.what();
+
+            results.onTestFailure(e.mFilename, e.mLineNumber, fixture->mName, stringBuilder.getText());
+        }
         catch (std::exception const& e)
         {
             StringBuilder stringBuilder(context.mAllocator);
@@ -236,6 +250,7 @@ namespace UnitTest
                 stringBuilder << "Unhandled exception in fixture " << fixture->mName;
 
             stringBuilder << " : " << e.what();
+
             results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, stringBuilder.getText());
         }
         catch (...)
