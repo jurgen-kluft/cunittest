@@ -59,8 +59,8 @@ namespace UnitTest
                 }
             }
 
-            unsigned char* postfix     = (unsigned char*)&(((unsigned char*)ptr)[size]);
-            unsigned char* postfix_end = (unsigned char*)&(((unsigned char*)ptr)[size + sPostfixSize]);
+            unsigned char* postfix     = &((unsigned char*)ptr)[size];
+            unsigned char* postfix_end = &((unsigned char*)ptr)[size + sPostfixSize];
             while (postfix < postfix_end)
             {
                 // check postfix
