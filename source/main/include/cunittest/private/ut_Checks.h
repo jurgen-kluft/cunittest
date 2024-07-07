@@ -74,7 +74,7 @@ namespace UnitTest
 		}
 	}
 
-	void checkEqual(TestResults& results, char const* expected, char const* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);
+	void checkEqual(TestResults& results, char const* const& expected, char const* const& actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator);
 	void checkEqual(TestResults& results, char* expected, char* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);
 	void checkEqual(TestResults& results, char* expected, char const* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);
 	void checkEqual(TestResults& results, char const* expected, char* actual, char const* testName, char const* filename, int line, TestAllocator* allocator);

@@ -17,7 +17,7 @@ namespace UnitTest
 		}
 	}
 
-	void checkEqual(TestResults& results, char const* const expected, char const* const actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
+	void checkEqual(TestResults& results, char const* const& expected, char const* const& actual, char const* const testName, char const* const filename, int const line, TestAllocator* allocator)
 	{
 		gCheckStringsEqual(results, expected, actual, testName, filename, line, allocator);
 	}
