@@ -5,7 +5,7 @@ Cross platform unittest library
 - Windows
 - Mac OS
 
-If you like my work and want to support me, please consider to buy me a coffee!
+If you like my work and want to support me. Please consider to buy me a [coffee!](https://www.buymeacoffee.com/Jur93n)
 <img src="bmacoffee.png" width="100">
 
 ## Memory Leaks
