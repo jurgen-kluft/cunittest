@@ -1,7 +1,6 @@
 #include "cunittest/cunittest.h"
 #include "cunittest/ut_RecordingReporter.h"
 #include "cunittest/private/ut_ReportAssert.h"
-#include "cunittest/private/ut_TestList.h"
 #include "cunittest/private/ut_TimeHelpers.h"
 #include "cunittest/private/ut_TimeConstraint.h"
 

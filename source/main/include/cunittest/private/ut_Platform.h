@@ -24,6 +24,9 @@ namespace UnitTest
 #            endif
 #        endif
 #    endif
+#elif defined(__unix__)
+#    define TARGET_LINUX 1
+#    define TARGET_OS_LINUX 1
 #endif
 } // namespace UnitTest
 

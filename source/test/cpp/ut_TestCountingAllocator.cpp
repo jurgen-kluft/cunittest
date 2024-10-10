@@ -13,34 +13,34 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 
 		UNITTEST_FIXTURE_SETUP() 
 		{
-			d = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
+			d = (int *)FixtureAllocator->Allocate(sizeof(int));
 		}
 
 		UNITTEST_FIXTURE_TEARDOWN()
 		{
-			UnitTest::__private::GetAllocator()->Deallocate(a);
-			UnitTest::__private::GetAllocator()->Deallocate(c);
+			FixtureAllocator->Deallocate(a);
+			FixtureAllocator->Deallocate(c);
 		}
 
 		UNITTEST_TEST(NoDeallocate1)
 		{
-			a = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
+			a = (int *)FixtureAllocator->Allocate(sizeof(int));
 		}
 
 		UNITTEST_TEST(Correct1)
 		{
-			int*	b = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
-			UnitTest::__private::GetAllocator()->Deallocate(b);
+			int*	b = (int *)FixtureAllocator->Allocate(sizeof(int));
+			FixtureAllocator->Deallocate(b);
 		}
 
 		UNITTEST_TEST(NoDeallocate2)
 		{
-			c = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
+			c = (int *)FixtureAllocator->Allocate(sizeof(int));
 		}
 
 		UNITTEST_TEST(ExtraDeallocate_Error)
 		{
-			UnitTest::__private::GetAllocator()->Deallocate(d);
+			FixtureAllocator->Deallocate(d);
 		}
 
 
@@ -52,12 +52,12 @@ UNITTEST_SUITE_BEGIN(TestCountingAllocator)
 
 		UNITTEST_FIXTURE_SETUP() 
 		{
-			d = (int *)UnitTest::__private::GetAllocator()->Allocate(sizeof(int));
+			d = (int *)FixtureAllocator->Allocate(sizeof(int));
 		}
 
 		UNITTEST_FIXTURE_TEARDOWN() 
 		{
-			UnitTest::__private::GetAllocator()->Deallocate(d);
+			FixtureAllocator->Deallocate(d);
 		}
 
 	}

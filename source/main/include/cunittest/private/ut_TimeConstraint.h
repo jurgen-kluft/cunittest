@@ -23,7 +23,7 @@ namespace UnitTest
         TestAllocator*    mAllocator;
     };
 
-#define UNITTEST_TIME_CONSTRAINT(ms) TimeConstraint t__(ms, testResults_, __FILE__, __LINE__, testName, Allocator)
+#define UNITTEST_TIME_CONSTRAINT(ms, allocator) TimeConstraint t__(ms, testResults_, __FILE__, __LINE__, testName, allocator)
 #define UNITTEST_TIME_CONSTRAINT_EXEMPT() mTimeConstraintExempt = true
 } // namespace UnitTest
 

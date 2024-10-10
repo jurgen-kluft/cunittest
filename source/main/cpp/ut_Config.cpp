@@ -32,7 +32,7 @@ namespace UnitTest
         return user_ptr;
     }
 
-    unsigned int MemCheckAllocator::Deallocate(void* ptr, int* _status)
+    void MemCheckAllocator::Deallocate(void* ptr, int* _status)
     {
         int    status = 0;
         size_t size   = 0;
@@ -79,8 +79,6 @@ namespace UnitTest
         {
             *_status = status;
         }
-
-        return (unsigned int)size;
     }
 
 } // namespace UnitTest

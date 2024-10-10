@@ -20,8 +20,16 @@ namespace UnitTest
 
     typedef unsigned long  u64;
     typedef long  s64;
-
+ 
+#elif defined(TARGET_LINUX)
+ 
+    typedef int s32;
+    typedef unsigned int u32;
+ 
+    typedef unsigned long  u64;
+    typedef long  s64;
 #endif
+ 
 } // namespace UnitTest
 
 #endif ///< __CUNITTEST_TYPES_H__

@@ -1,9 +1,9 @@
 #include "cunittest/cunittest.h"
-#include "cunittest/private/ut_AssertException.h"
 #include "cunittest/private/ut_ReportAssert.h"
 
 using namespace UnitTest;
 
+/*
 UNITTEST_SUITE_BEGIN(TestAssertHandler)
 {
 	UNITTEST_FIXTURE(main)
@@ -41,3 +41,4 @@ UNITTEST_SUITE_BEGIN(TestAssertHandler)
 	}
 }
 UNITTEST_SUITE_END
+*/

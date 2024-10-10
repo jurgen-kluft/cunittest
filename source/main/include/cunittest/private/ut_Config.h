@@ -8,15 +8,15 @@ namespace UnitTest
     public:
         virtual ~TestAllocator() {}
 
-        virtual void*        Allocate(unsigned int size, unsigned int alignment = sizeof(void*)) = 0;
-        virtual unsigned int Deallocate(void* ptr, int* status = nullptr)                        = 0;
+        virtual void* Allocate(unsigned int size, unsigned int alignment = sizeof(void*)) = 0;
+        virtual void  Deallocate(void* ptr, int* status = nullptr)                        = 0;
     };
 
     class MemCheckAllocator : public TestAllocator
     {
     public:
-        virtual void*        Allocate(unsigned int size, unsigned int alignment = sizeof(void*));
-        virtual unsigned int Deallocate(void* ptr, int* status = nullptr);
+        virtual void* Allocate(unsigned int size, unsigned int alignment = sizeof(void*));
+        virtual void  Deallocate(void* ptr, int* status = nullptr);
     };
 
     class TestAllocatorEx : public TestAllocator
@@ -37,22 +37,21 @@ namespace UnitTest
             return mAllocator->Allocate(size, alignment);
         }
 
-        virtual unsigned int Deallocate(void* ptr, int* _status = nullptr)
+        virtual void Deallocate(void* ptr, int* _status = nullptr)
         {
             DecNumAllocations();
 
-            int          status = 0;
-            unsigned int size   = mAllocator->Deallocate(ptr, &status);
+            int status = 0;
+            mAllocator->Deallocate(ptr, &status);
             if (_status)
             {
                 *_status = status;
             }
             if (status == 0)
             {
-                return size;
+                return;
             }
             IncNumAllocationCorruptions();
-            return size;
         }
 
         void ResetEx()
@@ -100,9 +99,9 @@ namespace UnitTest
     public:
         NullAllocator() {}
 
-        virtual void*        Allocate(unsigned int size, unsigned int alignment) { return 0; }
-        virtual unsigned int Deallocate(void* ptr, int* status) { return 0; }
-        void                 Release() {}
+        virtual void* Allocate(unsigned int size, unsigned int alignment) { return 0; }
+        virtual void  Deallocate(void* ptr, int* status) {}
+        void          Release() {}
     };
 
     class NullObserver : public TestObserver
@@ -117,6 +116,23 @@ namespace UnitTest
         virtual void BeginTest(const char* filename, const char* suite_name, const char* fixture_name, const char* test_name) {}
         virtual void EndTest() {}
     };
+
+#define UNITTEST_ALLOCATOR                                                                                           \
+    class fixture_ccore_alloc_t : public ncore::alloc_t                                                              \
+    {                                                                                                                \
+        UnitTest::TestAllocator** mAllocator;                                                                        \
+                                                                                                                     \
+    public:                                                                                                          \
+        fixture_ccore_alloc_t(UnitTest::TestAllocator** allocator)                                                   \
+            : mAllocator(allocator)                                                                                  \
+        {                                                                                                            \
+        }                                                                                                            \
+        virtual void* v_allocate(ncore::u32 size, ncore::u32 align) { return (*mAllocator)->Allocate(size, align); } \
+        virtual void  v_deallocate(void* p) { (*mAllocator)->Deallocate(p); }                                        \
+    };                                                                                                               \
+    static fixture_ccore_alloc_t TestAlloc(&FixtureAllocator);                                                       \
+    static alloc_t*              Allocator = &TestAlloc
+
 } // namespace UnitTest
 
 #endif ///< __CUNITTEST_CONFIG_H__

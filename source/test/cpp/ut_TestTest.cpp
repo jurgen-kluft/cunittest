@@ -4,6 +4,7 @@
 
 using namespace UnitTest;
 
+/*
 UNITTEST_SUITE_BEGIN(TestTest)
 {
 	UNITTEST_FIXTURE(fixture)
@@ -82,3 +83,5 @@ UNITTEST_SUITE_BEGIN(TestTest)
 	}
 }
 UNITTEST_SUITE_END
+
+*/

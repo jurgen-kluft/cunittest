@@ -44,7 +44,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 				CHECK (false);
 			}
 
-			CHECK_EQUAL (mTestName, reporter.lastFailedTest);
+			CHECK_EQUAL (testName, reporter.lastFailedTest);
 		}
 
 		UNITTEST_TEST(CheckFailureIncludesCheckContents)
