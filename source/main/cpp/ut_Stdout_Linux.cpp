@@ -55,6 +55,10 @@ namespace UnitTest
 		STRINGFORMAT(MESSAGE_S(outMessage, inMaxMessageLength), inFormatStr, inStr1, inStr2, inStr3);
 	}
 
+	void			Stdout::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3, const char* inStr4)
+	{
+		STRINGFORMAT(MESSAGE_S(outMessage, inMaxMessageLength), inFormatStr, inStr1, inStr2, inStr3, inStr4);
+	}
 
 	void Stdout::Trace(const char* inMessage)
 	{

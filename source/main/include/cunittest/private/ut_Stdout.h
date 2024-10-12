@@ -3,26 +3,24 @@
 
 namespace UnitTest
 {
-	class Stdout
-	{
-	public:
-        static void         StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, double inValue);
-        static void         StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, float inValue);
-		static void			StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue);
-		static void			StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, int inValue2);
-		static void			StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, const char* inName);
-		static void			StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure);
-		static void			StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure, const char* inMessage);
+    class Stdout
+    {
+    public:
+        static void StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, double inValue);
+        static void StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, float inValue);
+        static void StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue);
+        static void StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, int inValue2);
+        static void StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, const char* inName);
+        static void StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure);
+        static void StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure, const char* inMessage);
 
-		static void			StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1);
-		static void			StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, int inValue);
-		static void			StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3);
-		static void			StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3, const char* inStr4);
+        static void StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1);
+        static void StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, int inValue);
+        static void StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3);
+        static void StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3, const char* inStr4);
 
-		static void			Trace(const char* inMessage);
-	};
+        static void Trace(const char* inMessage);
+    };
+} // namespace UnitTest
 
-}
-
-
-#endif	///< __CUNITTEST_STDOUT_H__
+#endif ///< __CUNITTEST_STDOUT_H__
