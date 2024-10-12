@@ -1,8 +1,6 @@
 #include "cunittest/cunittest.h"
 #include "cunittest/ut_RecordingReporter.h"
 
-using namespace UnitTest;
-
 UNITTEST_SUITE_BEGIN(TestCheckMacros)
 {
 	UNITTEST_FIXTURE(fixture)
@@ -14,7 +12,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = true;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK (true);
 				failure = (testResults_.getFailureCount() > 0);
@@ -27,7 +25,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK (false);
 				failure = (testResults_.getFailureCount() > 0);
@@ -38,7 +36,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(FailureReportsCorrectTestName)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK (false);
@@ -49,14 +47,14 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckFailureIncludesCheckContents)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				const bool yaddayadda = false;
 				CHECK (yaddayadda);
 			}
 
-			CHECK (gStringFind(reporter.lastFailedMessage, "yaddayadda"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "yaddayadda"));
 		}
 
 		int ThrowingFunction()
@@ -68,7 +66,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK (ThrowingFunction() == 1);
 				failure = (testResults_.getFailureCount() > 0);
@@ -79,20 +77,20 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckFailureBecauseOfExceptionIncludesCheckContents)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK (ThrowingFunction() == 1);
 			}
 
-			CHECK (gStringFind(reporter.lastFailedMessage, "ThrowingFunction() == 1"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "ThrowingFunction() == 1"));
 		}
 
 		UNITTEST_TEST(CheckEqualSuceedsOnEqual)
 		{
 			bool failure = true;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_EQUAL (1, 1);
 				failure = (testResults_.getFailureCount() > 0);
@@ -108,7 +106,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 			bool failure = true;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_EQUAL (string1, string2);
 				failure = (testResults_.getFailureCount() > 0);
@@ -121,7 +119,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_EQUAL (1, 2);
 				failure = (testResults_.getFailureCount() > 0);
@@ -134,7 +132,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_EQUAL (ThrowingFunction(), 1);
 				failure = (testResults_.getFailureCount() > 0);
@@ -146,7 +144,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		UNITTEST_TEST(CheckEqualFailureContainsCorrectInfo)
 		{
 			int line = 0;
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_EQUAL (1, 123);    line = __LINE__;
@@ -159,14 +157,14 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckEqualFailureBecauseOfExceptionIncludesCheckContents)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_EQUAL (ThrowingFunction(), 123);
 			}
 
-			CHECK (gStringFind(reporter.lastFailedMessage, "ThrowingFunction()"));
-			CHECK (gStringFind(reporter.lastFailedMessage, "123"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "ThrowingFunction()"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "123"));
 		}
 
 		int g_sideEffect = 0;
@@ -201,7 +199,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = true;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_CLOSE (1.0f, 1.001f, 0.01f);
 				failure = (testResults_.getFailureCount() > 0);
@@ -214,7 +212,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_CLOSE (1.0f, 1.1f, 0.01f);
 				failure = (testResults_.getFailureCount() > 0);
@@ -227,7 +225,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_CLOSE ((float)ThrowingFunction(), 1.0001f, 0.1f);
 				failure = (testResults_.getFailureCount() > 0);
@@ -239,7 +237,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		UNITTEST_TEST(CheckCloseFailureContainsCorrectInfo)
 		{
 			int line = 0;
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_CLOSE (1.0f, 1.1f, 0.01f);    line = __LINE__;
@@ -252,14 +250,14 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckCloseFailureBecauseOfExceptionIncludesCheckContents)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				CHECK_CLOSE ((float)ThrowingFunction(), 1.0001f, 0.1f);
 			}
 
-			CHECK (gStringFind(reporter.lastFailedMessage, "(float)ThrowingFunction()"));
-			CHECK (gStringFind(reporter.lastFailedMessage, "1.0001f"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "(float)ThrowingFunction()"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "1.0001f"));
 		}
 
 		UNITTEST_TEST(CheckCloseDoesNotHaveSideEffectsWhenPassing)
@@ -304,7 +302,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = true;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				const float data[4] = { 0, 1, 2, 3 };
 				CHECK_ARRAY_CLOSE (data, data, 4, 0.01f);
@@ -318,7 +316,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				int const data1[4] = { 0, 1, 2, 3 };
 				int const data2[4] = { 0, 1, 3, 3 };
@@ -331,7 +329,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckArrayCloseFailureIncludesCheckExpectedAndActual)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				int const data1[4] = { 0, 1, 2, 3 };
@@ -339,14 +337,14 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 				CHECK_ARRAY_CLOSE (data1, data2, 4, 0.01f);
 			}
 
-			CHECK (gStringFind(reporter.lastFailedMessage, "xpected [ 0 1 2 3 ]"));
-			CHECK (gStringFind(reporter.lastFailedMessage, "was [ 0 1 3 3 ]"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "xpected [ 0 1 2 3 ]"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "was [ 0 1 3 3 ]"));
 		}
 
 		UNITTEST_TEST(CheckArrayCloseFailureContainsCorrectInfo)
 		{
 			int line = 0;
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				int const data1[4] = { 0, 1, 2, 3 };
@@ -361,7 +359,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckArrayCloseFailureIncludesTolerance)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				float const data1[4] = { 0, 1, 2, 3 };
@@ -369,7 +367,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 				CHECK_ARRAY_CLOSE (data1, data2, 4, 0.01f);
 			}
 
-			CHECK (gStringFind(reporter.lastFailedMessage, "0.01"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "0.01"));
 		}
 
 
@@ -377,7 +375,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 		{
 			bool failure = false;
 			{
-				RecordingReporter reporter;
+				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
 				const float data[4] = { 0, 1, 2, 3 };
 				ThrowingObject obj;
@@ -390,7 +388,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 
 		UNITTEST_TEST(CheckArrayCloseFailureOnExceptionIncludesCheckContents)
 		{
-			RecordingReporter reporter;
+			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
 				const float data[4] = { 0, 1, 2, 3 };
@@ -398,8 +396,8 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 				CHECK_ARRAY_CLOSE (data, obj, 3, 0.01f);
 			}
 
-			CHECK (gStringFind(reporter.lastFailedMessage, "data"));
-			CHECK (gStringFind(reporter.lastFailedMessage, "obj"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "data"));
+			CHECK (UnitTest::gStringFind(reporter.lastFailedMessage, "obj"));
 		}
 
 		UNITTEST_TEST(CheckArrayCloseDoesNotHaveSideEffectsWhenPassing)
