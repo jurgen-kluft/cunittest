@@ -49,8 +49,13 @@ namespace UnitTest
         gStringCopy(mMessage, message, DESCRIPTION_MAX_STR_LENGTH);
     }
 
-    void ReportAssert(char const* description, char const* filename, int const lineNumber) { UT_THROW1(AssertException(description, filename, lineNumber)); }
-    void ReportAssert(char const* description, char const* filename, int lineNumber, const char* message) { UT_THROW1(AssertException(description, filename, lineNumber, message)); }
+    void ReportAssert(char const* description, char const* filename, int lineNumber, const char* message)
+    {
+        if (message != nullptr)
+            UT_THROW1(AssertException(description, filename, lineNumber, message));
+        else
+            UT_THROW1(AssertException(description, filename, lineNumber));
+    }
 
     void TestTestRun(Test* test, TestContext& context, TestResults& results, const float maxTestTimeInMs)
     {
