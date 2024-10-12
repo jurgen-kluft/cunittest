@@ -7,9 +7,7 @@
 
 namespace UnitTest
 {
-	static uint64_t s_numer;
-	static uint64_t s_denom;
-	static uint64_t s_base;
+	static std::chrono::time_point<std::chrono::system_clock> s_base;
 
 	void g_InitTimer()
 	{
@@ -18,16 +16,14 @@ namespace UnitTest
 
 	time_t g_TimeStart()
     {
-        uint64_t start = (uint64_t)std::chrono::steady_clock::now() - s_base;
+        uint64_t start = (uint64_t)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - s_base).count();
         return *(time_t*)(&start);
 	}
 
 	double g_GetElapsedTimeInMs(time_t stamp)
 	{
-		uint64_t const last = s_base + *(uint64_t*)(&stamp);
-		uint64_t const current = std::chrono::steady_clock::now();
-		std::chrono::duration_cast<std::chrono::milliseconds>(current - last).count()
-		return ms;
+		uint64_t const elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - s_base).count() - (uint64_t)stamp;
+		return elapsed_us / 1000.0;
 	}
 
 	void g_SleepMs(int const ms)

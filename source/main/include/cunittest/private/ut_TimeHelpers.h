@@ -5,7 +5,7 @@
 
 namespace UnitTest
 {
-    typedef s64 time_t;
+    typedef u64 time_t;
 
     void   g_InitTimer();
     time_t g_TimeStart();
