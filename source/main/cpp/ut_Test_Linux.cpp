@@ -23,9 +23,13 @@ namespace UnitTest
 
     public:
         AssertException(char const* description, char const* filename, const int lineNumber);
+        AssertException(char const* description, char const* filename, const int lineNumber, const char* message);
+
+        inline bool HasMessage() const { return mMessage[0] != '\0'; }
 
         char mDescription[DESCRIPTION_MAX_STR_LENGTH];
         char mFilename[FILENAME_MAX_STR_LENGTH];
+        char mMessage[DESCRIPTION_MAX_STR_LENGTH];
         int  mLineNumber;
     };
 
@@ -34,9 +38,25 @@ namespace UnitTest
     {
         gStringCopy(mDescription, description, FILENAME_MAX_STR_LENGTH);
         gStringCopy(mFilename, filename, DESCRIPTION_MAX_STR_LENGTH);
+        gStringCopy(mMessage, "", DESCRIPTION_MAX_STR_LENGTH);
     }
 
-    void ReportAssert(char const* description, char const* filename, int const lineNumber) { UT_THROW1(AssertException(description, filename, lineNumber)); }
+    AssertException::AssertException(char const* description, char const* filename, const int lineNumber, const char* message)
+        : mLineNumber(lineNumber)
+    {
+        gStringCopy(mDescription, description, FILENAME_MAX_STR_LENGTH);
+        gStringCopy(mFilename, filename, DESCRIPTION_MAX_STR_LENGTH);
+        gStringCopy(mMessage, message, DESCRIPTION_MAX_STR_LENGTH);
+    }
+
+    void ReportAssert(char const* description, char const* filename, int const lineNumber)
+    {
+        UT_THROW1(AssertException(description, filename, lineNumber));
+    }
+    void ReportAssert(char const* description, char const* filename, int lineNumber, const char* message)
+    {
+        UT_THROW1(AssertException(description, filename, lineNumber, message));
+    }
 
     void TestTestRun(Test* test, TestContext& context, TestResults& results, const float maxTestTimeInMs)
     {
@@ -50,7 +70,10 @@ namespace UnitTest
         }
         catch (AssertException const& e)
         {
-            results.onTestFailure(e.mFilename, e.mLineNumber, test->mName, e.mDescription);
+            if (e.HasMessage())
+                results.onTestFailure(e.mFilename, e.mLineNumber, test->mName, e.mDescription, e.mMessage);
+            else
+                results.onTestFailure(e.mFilename, e.mLineNumber, test->mName, e.mDescription);
         }
         catch (std::exception const& e)
         {
@@ -123,6 +146,8 @@ namespace UnitTest
                 {
                     StringBuilder stringBuilder(context.mAllocator);
                     stringBuilder << "Assert triggered in fixture setup: " << e.mDescription;
+                    if (e.HasMessage())
+                        stringBuilder << " msg(" << e.mMessage << ")";
                     results.onTestFailure(e.mFilename, e.mLineNumber, fixture->mName, stringBuilder.getText());
                 }
                 catch (std::exception const& e)
@@ -189,6 +214,8 @@ namespace UnitTest
                 {
                     StringBuilder stringBuilder(context.mAllocator);
                     stringBuilder << "Assert triggered in fixture teardown: " << e.mDescription;
+                    if (e.HasMessage())
+                        stringBuilder << " msg(" << e.mMessage << ")";
                     results.onTestFailure(e.mFilename, e.mLineNumber, fixture->mName, stringBuilder.getText());
                 }
                 catch (std::exception const& e)
@@ -235,7 +262,9 @@ namespace UnitTest
             else
                 stringBuilder << "Unhandled exception in fixture " << fixture->mName;
 
-            stringBuilder << " : " << e.what();
+            stringBuilder << " : " << e.mDescription;
+            if (e.HasMessage())
+                stringBuilder << " msg(" << e.mMessage << ")";
 
             results.onTestFailure(e.mFilename, e.mLineNumber, fixture->mName, stringBuilder.getText());
         }

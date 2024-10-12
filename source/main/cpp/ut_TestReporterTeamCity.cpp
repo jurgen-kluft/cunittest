@@ -4,33 +4,33 @@
 namespace UnitTest
 {
 	// TeamCity UnitTest Format:
-	// 
+	//
 	// Property values need to be escaped as follows:
 	//         \n ==> |n
 	//         \r ==> |n
 	//         \' ==> |'
 	//         |  ==> ||
 	//         ]  ==> |]
-	// 
+	//
 	// Location is expected to be in the following format:
 	//         ==> Filename:LineNumber, e.g. Application.cpp:10
-	// 
-	// SuiteStarted(msg="testSuiteStarted", name) 
+	//
+	// SuiteStarted(msg="testSuiteStarted", name)
 	//         ==> "\n##teamcity[msg name='_name']\n"
-	// 
-	// SuiteFinished(msg="testSuiteFinished", name) 
+	//
+	// SuiteFinished(msg="testSuiteFinished", name)
 	//         ==> "\n##teamcity[msg name='_name']\n"
-	// 
-	// TestStarted(msg="testStarted", _name) 
+	//
+	// TestStarted(msg="testStarted", _name)
 	//         ==> "\n##teamcity[msg name='_name']\n"
-	// 
-	// TestFinished(msg="testFinished", _name) 
+	//
+	// TestFinished(msg="testFinished", _name)
 	//         ==> "\n##teamcity[msg name='_name']\n"
-	// 
-	// TestFailed(msg="testFailed", _name, _message, _details) 
+	//
+	// TestFailed(msg="testFailed", _name, _message, _details)
 	//         ==> "\n##teamcity[msg name='_name' message='_messsage' details='_details']\n"
-	// 
-	// TestIgnored(msg="testIgnored", _name, _message) 
+	//
+	// TestIgnored(msg="testIgnored", _name, _message)
 	//         ==> "\n##teamcity[msg name='_name' message='_messsage']\n"
 
 	void gHandleEscapedChars(const char* src, char* dst)
@@ -38,7 +38,7 @@ namespace UnitTest
 		while (*src != '\0')
 		{
 			char c = *src++;
-	        
+
 			switch (c)
 			{
 				case '\n': *dst++='|'; *dst++='n'; break;
@@ -138,6 +138,11 @@ namespace UnitTest
 	void TestReporterTeamCity::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3)
 	{
 		Stdout::StringFormat(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inStr3);
+	}
+
+	void TestReporterTeamCity::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3, const char* inStr4)
+	{
+		Stdout::StringFormat(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inStr3, inStr4);
 	}
 
 	void TestReporterTeamCity::Trace(const char* inMessage)

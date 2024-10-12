@@ -49,6 +49,11 @@ namespace UnitTest
 		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inFile, inLine, inTestName, inFailure);
 	}
 
+	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure, const char* inMessage)
+	{
+		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inFile, inLine, inTestName, inFailure, inMessage);
+	}
+
 	void			Stdout::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1)
 	{
 		STRINGFORMAT(outMessage, inMaxMessageLength, inFormatStr, inStr1);
@@ -64,10 +69,14 @@ namespace UnitTest
 		STRINGFORMAT(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inStr3);
 	}
 
+	void			Stdout::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3, const char* inStr4)
+	{
+		STRINGFORMAT(outMessage, inMaxMessageLength, inFormatStr, inStr1, inStr2, inStr3, inStr4);
+	}
 
 	void Stdout::Trace(const char* inMessage)
 	{
-		TRACE(inMessage);	
+		TRACE(inMessage);
 		#ifdef TARGET_PC
 		#ifdef UNICODE
         ::OutputDebugStringA(inMessage);

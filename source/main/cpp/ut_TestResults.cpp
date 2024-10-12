@@ -54,6 +54,13 @@ namespace UnitTest
             mTestReporter->reportFailure(file, line, testName, failure);
     }
 
+    void TestResults::onTestFailure(char const* file, int line, char const* testName, char const* failure, const char* message)
+    {
+        ++mFailureCount;
+        if (mTestReporter)
+            mTestReporter->reportFailure(file, line, testName, failure, message);
+    }
+
     void TestResults::onTestEnd(char const* testName, float secondsElapsed)
     {
         if (mTestReporter)

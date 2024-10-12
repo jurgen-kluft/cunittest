@@ -24,6 +24,7 @@ namespace UnitTest
 		virtual void	reportTestStart(char const* name);
 		virtual void	reportTestEnd(char const* name, float secondsElapsed);
 		virtual void	reportFailure(char const* file, int const line, char const* name, char const* failure);
+		virtual void	reportFailure(char const* file, int const line, char const* name, char const* failure, const char* message);
 		virtual void	reportSummary(float secondsElapsed, int failureCount, int testCount);
 
 		void			StringFormat(const char* inFormatStr, float inValue);
@@ -31,6 +32,7 @@ namespace UnitTest
 		void			StringFormat(const char* inFormatStr, int inValue, int inValue2);
 		void			StringFormat(const char* inFormatStr, int inValue, const char* inName);
 		void			StringFormat(const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure);
+		void			StringFormat(const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure, const char* inMessage);
 
 		void			Trace(const char* inMessage);
 

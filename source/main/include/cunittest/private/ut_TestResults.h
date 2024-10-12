@@ -16,6 +16,7 @@ namespace UnitTest
         void onTestFixtureEnd(char const* testName, float secondsElapsed);
         void onTestStart(char const* testName);
         void onTestFailure(char const* file, int line, char const* testName, char const* failure);
+        void onTestFailure(char const* file, int line, char const* testName, char const* failure, const char* message);
         void onTestEnd(char const* testName, float secondsElapsed);
 
         inline int getTestCount() const { return mTestCount; }

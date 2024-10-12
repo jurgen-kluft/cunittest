@@ -15,6 +15,7 @@ namespace UnitTest
 		virtual void	reportTestStart(char const* name) = 0;
 		virtual void	reportTestEnd(char const* name, float secondsElapsed) = 0;
 		virtual void	reportFailure(char const* file, int const line, char const* name, char const* failure)= 0;
+		virtual void	reportFailure(char const* file, int const line, char const* name, char const* failure, const char* message)= 0;
 		virtual void	reportSummary(float secondsElapsed, int failureCount, int testCount) = 0;
 	};
 }

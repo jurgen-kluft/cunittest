@@ -23,11 +23,13 @@ namespace UnitTest
 		virtual void	reportTestStart(char const* name);
 		virtual void	reportTestEnd(char const* name, float secondsElapsed);
 		virtual void	reportFailure(char const* file, int const line, char const* name, char const* failure);
+		virtual void	reportFailure(char const* file, int const line, char const* name, char const* failure, const char* message);
 		virtual void	reportSummary(float secondsElapsed, int failureCount, int testCount);
 
 		void			StringFormat(const char* inFormatStr, const char* inName);
 		void			StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, int inValue);
 		void			StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3);
+		void			StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1, const char* inStr2, const char* inStr3, const char* inStr4);
 
 		void			Trace(const char* inMessage);
 
