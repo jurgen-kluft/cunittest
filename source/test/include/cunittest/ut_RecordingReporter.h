@@ -9,9 +9,9 @@ namespace UnitTest
 	struct RecordingReporter : public TestReporter
 	{
 	private:
-		enum 
+		enum
 		{
-			MAX_STRING_LENGTH = 256 
+			MAX_STRING_LENGTH = 256
 		};
 
 	public:
@@ -59,7 +59,17 @@ namespace UnitTest
 			gStringCopy(lastFailedFile, file, MAX_STRING_LENGTH-1);
 			lastFailedLine = line;
 			gStringCopy(lastFailedTest, testName, MAX_STRING_LENGTH-1);
-			gStringCopy(lastFailedMessage, failure, MAX_STRING_LENGTH-1);
+			gStringCopy(lastFailedFailure, failure, MAX_STRING_LENGTH-1);
+		}
+
+		virtual void reportFailure(char const* file, int const line, char const* testName, char const* failure, const char* message)
+		{
+			++testFailedCount;
+			gStringCopy(lastFailedFile, file, MAX_STRING_LENGTH-1);
+			lastFailedLine = line;
+			gStringCopy(lastFailedTest, testName, MAX_STRING_LENGTH-1);
+			gStringCopy(lastFailedFailure, failure, MAX_STRING_LENGTH-1);
+			gStringCopy(lastFailedMessage, message, MAX_STRING_LENGTH-1);
 		}
 
 		virtual void reportTestEnd(char const* testName, float testDuration)
@@ -69,7 +79,7 @@ namespace UnitTest
 			lastFinishedTestTime = testDuration;
 		}
 
-		virtual void reportSummary(float secondsElapsed, int failureCount, int testCount) 
+		virtual void reportSummary(float secondsElapsed, int failureCount, int testCount)
 		{
 			summaryTestCount = testCount;
 			summaryFailureCount = failureCount;
@@ -83,6 +93,7 @@ namespace UnitTest
 		char lastFailedFile[MAX_STRING_LENGTH];
 		int lastFailedLine;
 		char lastFailedTest[MAX_STRING_LENGTH];
+		char lastFailedFailure[MAX_STRING_LENGTH];
 		char lastFailedMessage[MAX_STRING_LENGTH];
 
 		int testFinishedCount;
