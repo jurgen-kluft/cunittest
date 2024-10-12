@@ -8,7 +8,8 @@ namespace UnitTest
     class TestResults
     {
     public:
-        explicit TestResults(TestReporter* reporter = 0);
+        TestResults();
+        TestResults(TestReporter* reporter);
 
         void onTestSuiteStart(char const* testName, int inNumTests);
         void onTestSuiteEnd(char const* testName, float secondsElapsed);

@@ -3,6 +3,17 @@
 
 namespace UnitTest
 {
+    TestResults::TestResults()
+        : mTestReporter(nullptr)
+        , mTestSuiteCount(0)
+        , mTestFixtureCount(0)
+        , mTestCount(0)
+        , mFailureCount(0)
+        , mExceptionTestCount(0)
+        , mExceptionFailureCount(0)
+    {
+    }
+
     TestResults::TestResults(TestReporter* testReporter)
         : mTestReporter(testReporter)
         , mTestSuiteCount(0)

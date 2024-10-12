@@ -2,10 +2,10 @@
 #define __C_CORE_UNITTEST_TIMECONSTRAINT_H__
 
 #include "cunittest/private/ut_TimeHelpers.h"
+#include "cunittest/private/ut_TestResults.h"
 
 namespace UnitTest
 {
-    class TestResults;
     class TestAllocator;
 
     class TimeConstraint
