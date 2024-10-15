@@ -19,39 +19,39 @@
 
 namespace UnitTest
 {
-	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, double inValue)
+	void Stdout::StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, double inValue)
 	{
-		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inValue);
+		STRINGFORMAT(outMessage, inMessageSizeInBytes, inFormatStr, inValue);
 	}
 
-	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, float inValue)
+	void Stdout::StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, float inValue)
 	{
-		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inValue);
+		STRINGFORMAT(outMessage, inMessageSizeInBytes, inFormatStr, inValue);
 	}
 
-	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue)
+	void Stdout::StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue)
 	{
-		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inValue);
+		STRINGFORMAT(outMessage, inMessageSizeInBytes, inFormatStr, inValue);
 	}
 
-	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, int inValue2)
+	void Stdout::StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, int inValue2)
 	{
-		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inValue, inValue2);
+		STRINGFORMAT(outMessage, inMessageSizeInBytes, inFormatStr, inValue, inValue2);
 	}
 
-	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, const char* inName)
+	void Stdout::StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, int inValue, const char* inName)
 	{
-		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inValue, inName);
+		STRINGFORMAT(outMessage, inMessageSizeInBytes, inFormatStr, inValue, inName);
 	}
 
-	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure)
+	void Stdout::StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure)
 	{
-		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inFile, inLine, inTestName, inFailure);
+		STRINGFORMAT(outMessage, inMessageSizeInBytes, inFormatStr, inFile, inLine, inTestName, inFailure);
 	}
 
-	void Stdout::StringFormat(char* inMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure, const char* inMessage)
+	void Stdout::StringFormat(char* outMessage, int inMessageSizeInBytes, const char* inFormatStr, const char* inFile, int inLine, const char* inTestName, const char* inFailure, const char* inMessage)
 	{
-		STRINGFORMAT(inMessage, inMessageSizeInBytes, inFormatStr, inFile, inLine, inTestName, inFailure, inMessage);
+		STRINGFORMAT(outMessage, inMessageSizeInBytes, inFormatStr, inFile, inLine, inTestName, inFailure, inMessage);
 	}
 
 	void			Stdout::StringFormat(char* outMessage, int inMaxMessageLength, const char* inFormatStr, const char* inStr1)
