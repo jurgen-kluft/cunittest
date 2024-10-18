@@ -16,7 +16,7 @@ namespace UnitTest
         if (alignment < sizeof(void*))
             alignment = sizeof(void*);
 
-        const size_t totalSize = sPrefixSize + sHeaderSize + size + alignment + sPostfixSize;
+        const size_t totalSize = sPrefixSize + sHeaderSize + size + 2 * alignment + sPostfixSize;
         void*        ptr       = malloc(totalSize);
 
         // fill the whole memory with 0xCD bytes

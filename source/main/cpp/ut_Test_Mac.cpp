@@ -169,7 +169,7 @@ namespace UnitTest
                 while (curTest != 0)
                 {
                     // Remember allocation count Y
-                    int iAllocCntY = fixtureAllocator.GetNumAllocations();
+                    fixtureAllocator.ResetEx();
 
                     unsigned int testStartTime = g_TimeStart();
                     results.onTestStart(curTest->mName);
@@ -177,9 +177,9 @@ namespace UnitTest
 
                     // Compare allocation count with Y
                     // If different => memory leak error
-                    if (iAllocCntY != fixtureAllocator.GetNumAllocations())
+                    if (fixtureAllocator.GetNumAllocations() != 0)
                     {
-                        int iAllocCountDifference = (fixtureAllocator.GetNumAllocations() - iAllocCntY);
+                        int iAllocCountDifference = fixtureAllocator.GetNumAllocations();
 
                         StringBuilder str(context.mAllocator);
                         if (iAllocCountDifference > 0)
@@ -197,6 +197,15 @@ namespace UnitTest
 
                         results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
                     }
+
+                    if (fixtureAllocator.GetNumAllocationCorruptions() > 0)
+                    {
+                        StringBuilder str(context.mAllocator);
+                        str << "memory corruption detected, corrupted memory allocations: ";
+                        str << fixtureAllocator.GetNumAllocationCorruptions();
+                        results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
+                    }
+
                     float testEndTime = g_GetElapsedTimeInMs(testStartTime) / 1000.0f;
                     results.onTestEnd(curTest->mName, testEndTime);
                     curTest = curTest->mTestNext;
