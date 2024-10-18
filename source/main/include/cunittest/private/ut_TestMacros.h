@@ -22,7 +22,7 @@
     }                                                                                                                   \
     namespace Suite##NameOfSuite                                                                                        \
     {                                                                                                                   \
-        UnitTest::TestSuite           gSuiteObject("Suite_" #NameOfSuite, __FILE__);                                    \
+        UnitTest::TestSuite           gSuiteObject(#NameOfSuite, __FILE__);                                             \
         UnitTest::AddSuiteToSuiteList gTestSuiteAddToList(UnitTest::cUnitTest, UnitTest::cUnitTestTail, &gSuiteObject); \
     }                                                                                                                   \
     namespace Suite##NameOfSuite
