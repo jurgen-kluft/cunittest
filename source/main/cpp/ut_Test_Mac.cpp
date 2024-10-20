@@ -169,7 +169,7 @@ namespace UnitTest
                 while (curTest != 0)
                 {
                     // Remember allocation count Y
-                    fixtureAllocator.ResetEx();
+                    s32 const numAllocs = fixtureAllocator.GetNumAllocations();
 
                     unsigned int testStartTime = g_TimeStart();
                     results.onTestStart(curTest->mName);
@@ -177,9 +177,9 @@ namespace UnitTest
 
                     // Compare allocation count with Y
                     // If different => memory leak error
-                    if (fixtureAllocator.GetNumAllocations() != 0)
+                    if (fixtureAllocator.GetNumAllocations() != numAllocs)
                     {
-                        int iAllocCountDifference = fixtureAllocator.GetNumAllocations();
+                        int iAllocCountDifference = fixtureAllocator.GetNumAllocations() - numAllocs;
 
                         StringBuilder str(context.mAllocator);
                         if (iAllocCountDifference > 0)
