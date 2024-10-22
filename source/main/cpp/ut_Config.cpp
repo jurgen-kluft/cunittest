@@ -19,11 +19,15 @@ namespace UnitTest
         const size_t totalSize = sPrefixSize + sHeaderSize + size + 2 * alignment + sPostfixSize;
         void*        ptr       = malloc(totalSize);
 
-        // fill the whole memory with 0xCD bytes
-        unsigned char* fillptr     = (unsigned char*)ptr;
-        unsigned char* fillptr_end = fillptr + totalSize;
+        // fill the whole memory with a 4 byte pattern
+        const unsigned char pattern[]   = {0xCA, 0xFE, 0xBA, 0xBE};
+        unsigned char*      fillptr     = (unsigned char*)ptr;
+        unsigned char*      fillptr_end = fillptr + totalSize;
         while (fillptr < fillptr_end)
-            *fillptr++ = 0xCD;
+        {
+            *fillptr = pattern[((size_t)fillptr) & 3];
+            fillptr += 1;
+        }
 
         // keep track of the memory we allocated so we can free it in Deallocate
         void* user_ptr          = (void*)(((size_t)ptr + sPrefixSize + sHeaderSize + alignment) & ~((size_t)alignment - 1));
@@ -39,23 +43,37 @@ namespace UnitTest
 
         if (ptr)
         {
+            const unsigned char pattern[] = {0xCA, 0xFE, 0xBA, 0xBE};
+
             // check the prefix and postfix for buffer overruns
-            if (0XCDCDCDCDCDCDCDCDUL != ((size_t*)ptr)[-1])
-                status = -1;
-            if (0XCDCDCDCDCDCDCDCDUL != ((size_t*)ptr)[-2])
-                status = -1;
+            {
+                unsigned char* prefix     = &((unsigned char*)ptr)[-16];
+                unsigned char* end_prefix = &((unsigned char*)ptr)[0];
+                while (prefix < end_prefix)
+                {
+                    if (*prefix != pattern[((size_t)prefix) & 3])
+                    {
+                        status = -1;
+                        break;
+                    }
+                    prefix++;
+                }
+            }
 
             void* real_ptr = (void*)(((size_t*)ptr)[-3]); // get the pointer to the start of the allocation
             size           = ((size_t*)ptr)[-4];          // get the size of the allocation
 
-            unsigned char* end_prefix = (unsigned char*)&(((size_t*)ptr)[-4]);
-            unsigned char* prefix     = (unsigned char*)real_ptr;
-            while (prefix < end_prefix)
             {
-                if (*prefix++ != 0xCD)
+                unsigned char* end_prefix = (unsigned char*)&(((size_t*)ptr)[-4]);
+                unsigned char* prefix     = (unsigned char*)real_ptr;
+                while (prefix < end_prefix)
                 {
-                    status = -1;
-                    break;
+                    if (*prefix != pattern[((size_t)prefix) & 3])
+                    {
+                        status = -1;
+                        break;
+                    }
+                    prefix++;
                 }
             }
 
@@ -64,11 +82,12 @@ namespace UnitTest
             while (postfix < postfix_end)
             {
                 // check postfix
-                if (*postfix++ != 0XCD)
+                if (*postfix != pattern[((size_t)postfix) & 3])
                 {
                     status = 1;
                     break;
                 }
+                postfix++;
             }
 
             // free the memory
