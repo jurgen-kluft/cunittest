@@ -79,6 +79,36 @@
 		testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
 	UT_CATCH_END
 
+// Pointers
+#define CHECK_PTRS_EQUAL(expected, actual) \
+    UT_TRY_BEGIN \
+        UnitTest::checkEqual(testResults, (const void*)expected, (const void*)actual, testName, __FILE__, __LINE__, FixtureAllocator); \
+    UT_CATCH_ALL \
+        testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_EQUAL(" #expected ", " #actual ")"); \
+    UT_CATCH_END
+
+#define CHECK_PTRS_NOT_EQUAL(expected, actual) \
+	UT_TRY_BEGIN \
+		UnitTest::checkNotEqual(testResults, (const void*)expected, (const void*)actual, testName, __FILE__, __LINE__, FixtureAllocator); \
+    UT_CATCH_ALL \
+		testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_EQUAL(" #expected ", " #actual ")"); \
+	UT_CATCH_END
+
+#define CHECK_PTRS_EQUAL_T(expected, actual, msg) \
+	UT_TRY_BEGIN \
+		UnitTest::checkEqualT(testResults, (const void*)expected, (const void*)actual, testName, __FILE__, __LINE__, FixtureAllocator, msg); \
+    UT_CATCH_ALL \
+		testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
+	UT_CATCH_END
+
+#define CHECK_PTRS_NOT_EQUAL_T(expected, actual, msg) \
+	UT_TRY_BEGIN \
+		UnitTest::checkNotEqualT(testResults, (const void*)expected, (const void*)actual, testName, __FILE__, __LINE__, FixtureAllocator, msg); \
+    UT_CATCH_ALL \
+		testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
+	UT_CATCH_END
+
+
 #define CHECK_CLOSE(expected, actual, tolerance) \
     UT_TRY_BEGIN \
         UnitTest::checkClose(testResults, expected, actual, tolerance, testName, __FILE__, __LINE__, FixtureAllocator); \
