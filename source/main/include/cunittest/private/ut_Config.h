@@ -131,7 +131,7 @@ namespace UnitTest
         virtual void  v_deallocate(void* p) { (*mAllocator)->Deallocate(p); }                                        \
     };                                                                                                               \
     static fixture_ccore_alloc_t TestAlloc(&FixtureAllocator);                                                       \
-    static alloc_t*              Allocator = &TestAlloc
+    static ncore::alloc_t* Allocator = &TestAlloc
 
 } // namespace UnitTest
 
