@@ -7,14 +7,15 @@ import (
 // GetPackage returns the package object of 'cbase'
 func GetPackage() *denv.Package {
 
+    mainpkg := denv.NewPackage("github.com\\jurgen-kluft", "cunittest")
+
 	// 'cunittest' library
-	mainlib := denv.SetupCppLibProject("cunittest", "github.com\\jurgen-kluft\\cunittest")
+	mainlib := denv.SetupCppTestLibProject(mainpkg,"cunittest")
 
 	// 'cunittest' test project
-	maintest := denv.SetupDefaultCppTestProject("cunittest_test", "github.com\\jurgen-kluft\\cunittest")
+	maintest := denv.SetupCppTestProject(mainpkg, "cunittest_test")
 	maintest.AddDependency(mainlib)
 
-	mainpkg := denv.NewPackage("cunittest")
 	mainpkg.AddMainLib(mainlib)
 	mainpkg.AddUnittest(maintest)
 	return mainpkg
