@@ -10,7 +10,12 @@ If you like my work and want to support me. Please consider to buy me a [coffee!
 
 ## Memory Leaks
 
-Each fixture and test in a fixture is guarded against allocation/deallocation and the user will be informed if a test or a fixture is leaking memory.
+Each fixture and test in a fixture is guarded against memory leaks and the user will be informed if a test or a fixture is leaking memory.
+A memory leak is defined as an allocation that is not freed before the test or fixture ends.
+
+## Memory Guards
+
+Each test and fixture is adding header and footer guards on allocations to be able to identify out-of-bounds memory writes. If a test or fixture corrupts memory, the unittest framework will report it. It is not covering all possible memory corruption cases, but it will catch those that are writing after or before allocated memory.
 
 ## Assert Handler
 
