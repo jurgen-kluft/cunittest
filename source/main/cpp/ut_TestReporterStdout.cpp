@@ -7,7 +7,7 @@ namespace UnitTest
 
     void TestReporterStdout::reportTestSuiteStart(int numTests, char const* name)
     {
-        StringFormat("TestSuite(%d): %s.\n", numTests, name);
+        StringFormat("TestSuite(%d): %s\n", numTests, name);
         Trace(mMessage);
     }
 
@@ -15,7 +15,7 @@ namespace UnitTest
 
     void TestReporterStdout::reportTestFixtureStart(int numTests, char const* name)
     {
-        StringFormat("\tTestFixture(%d): %s.\n", numTests, name);
+        StringFormat("\tTestFixture(%d): %s\n", numTests, name);
         Trace(mMessage);
     }
 
@@ -28,9 +28,9 @@ namespace UnitTest
     void TestReporterStdout::reportFailure(char const* file, int const line, char const* testName, char const* failure)
     {
 #ifdef TARGET_MAC
-        StringFormat("%s:%d: error: Failure in %s:%s.\n", file, line, testName, failure);
+        StringFormat("%s:%d: error: Failure in %s:%s\n", file, line, testName, failure);
 #else
-        StringFormat("%s(%d): error: Failure in %s:%s.\n", file, line, testName, failure);
+        StringFormat("%s(%d): error: Failure in %s:%s\n", file, line, testName, failure);
 #endif
         Trace(mMessage);
     }
@@ -38,9 +38,9 @@ namespace UnitTest
     void TestReporterStdout::reportFailure(char const* file, int const line, char const* testName, char const* failure, char const* message)
     {
 #ifdef TARGET_MAC
-        StringFormat("%s(%d): error: Failure in %s:%s (msg: %s).\n", file, line, testName, failure, message);
+        StringFormat("%s(%d): error: Failure in %s:%s (msg: %s)\n", file, line, testName, failure, message);
 #else
-        StringFormat("%s(%d): error: Failure in %s:%s (msg: %s).\n", file, line, testName, failure, message);
+        StringFormat("%s(%d): error: Failure in %s:%s (msg: %s)\n", file, line, testName, failure, message);
 #endif
         Trace(mMessage);
     }
@@ -48,12 +48,12 @@ namespace UnitTest
     void TestReporterStdout::reportSummary(float secondsElapsed, int failureCount, int testCount)
     {
         if (failureCount > 0)
-            StringFormat("FAILURE: %d out of %d tests failed.\n", failureCount, testCount);
+            StringFormat("FAILURE: %d out of %d tests failed\n", failureCount, testCount);
         else
-            StringFormat("Success: %d tests passed.\n", testCount);
+            StringFormat("Success: %d tests passed\n", testCount);
         Trace(mMessage);
 
-        StringFormat("Test time: %.2f seconds.\n", secondsElapsed);
+        StringFormat("Test time: %.2f seconds\n", secondsElapsed);
         Trace(mMessage);
     }
 
