@@ -58,6 +58,20 @@
         testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_EQUAL(" #expected ", " #actual ")"); \
     UT_CATCH_END
 
+#define CHECK_GT(actual, compare) \
+    UT_TRY_BEGIN \
+        UnitTest::checkGreater(testResults, actual, compare, testName, __FILE__, __LINE__, FixtureAllocator); \
+    UT_CATCH_ALL \
+        testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_GT(" #actual ", " #compare ")"); \
+    UT_CATCH_END
+
+#define CHECK_GE(actual, compare) \
+    UT_TRY_BEGIN \
+        UnitTest::checkGreaterEqual(testResults, actual, compare, testName, __FILE__, __LINE__, FixtureAllocator); \
+    UT_CATCH_ALL \
+        testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_GE(" #actual ", " #compare ")"); \
+    UT_CATCH_END
+
 #define CHECK_NOT_EQUAL(expected, actual) \
 	UT_TRY_BEGIN \
 		UnitTest::checkNotEqual(testResults, expected, actual, testName, __FILE__, __LINE__, FixtureAllocator); \

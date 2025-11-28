@@ -33,4 +33,5 @@ namespace UnitTest
     {
         gCheckStringsEqual(results, expected, actual, testName, filename, line, allocator);
     }
+
 } // namespace UnitTest
