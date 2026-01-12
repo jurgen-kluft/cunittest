@@ -2,10 +2,7 @@
 *
 !*/
 
-vendor/
-t2-output/
 target/
-tags
 
 #except the following files
 !.gitignore
@@ -35,4 +32,7 @@ tags
 !*.ini
 !*.bat
 
+!*.yml
+
 #except the following folders
+!.github/
