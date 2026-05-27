@@ -42,12 +42,12 @@ This library also detects memory leaks on a UNITTEST_TEST() scope as well as a F
 
 ## Test Registration
 
-You do need to register your suite to be part of the list of unittests to run.
+You register your suite like this:
 
 ```c++
-UNITTEST_SUITE_LIST(cUnitTest);
+UNITTEST_SUITE_LIST(cUnitTest); // Declare the suite list, this is needed in one cpp file
 
-UNITTEST_SUITE_DECLARE(cUnitTest, doubly_linked_list);
+UNITTEST_SUITE_DECLARE(your_suite_name); // Declare the suite, this is needed per test cpp file
 
 ```
 

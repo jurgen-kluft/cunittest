@@ -42,6 +42,14 @@
 		testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK(" #value ")"); \
 	UT_CATCH_END
 
+#define CHECK_TRUE_T(value, msg) \
+    UT_TRY_BEGIN \
+        if (UnitTest::check((value)!=0, false)) \
+            testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
+    UT_CATCH_ALL \
+        testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK(" #value ")"); \
+    UT_CATCH_END
+
 
 #define CHECK_FALSE(value) \
 	UT_TRY_BEGIN \
@@ -70,6 +78,13 @@
         UnitTest::checkGreaterEqual(testResults, actual, compare, testName, __FILE__, __LINE__, FixtureAllocator); \
     UT_CATCH_ALL \
         testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK_GE(" #actual ", " #compare ")"); \
+    UT_CATCH_END
+
+#define CHECK_GE_T(actual, compare, msg) \
+    UT_TRY_BEGIN \
+        UnitTest::checkGreaterEqual(testResults, actual, compare, testName, __FILE__, __LINE__, FixtureAllocator); \
+    UT_CATCH_ALL \
+        testResults.onTestFailure(__FILE__, __LINE__, testName, msg); \
     UT_CATCH_END
 
 #define CHECK_NOT_EQUAL(expected, actual) \
