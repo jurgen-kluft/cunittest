@@ -12,7 +12,7 @@
 
 #define CHECK(value) \
     UT_TRY_BEGIN \
-        if (!UnitTest::check(value!=0, true)) \
+        if (!UnitTest::check((value)!=0, true)) \
             testResults.onTestFailure(__FILE__, __LINE__, testName, "Expected 0, but actually "#value" == 0"); \
     UT_CATCH_ALL \
         testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK(" #value ")"); \
@@ -36,7 +36,7 @@
 
 #define CHECK_TRUE(value) \
 	UT_TRY_BEGIN \
-		if (UnitTest::check((value)!=0, false)) \
+		if (!UnitTest::check((value)!=0, true)) \
 			testResults.onTestFailure(__FILE__, __LINE__, testName, "Expected true but "#value" == false"); \
     UT_CATCH_ALL \
 		testResults.onTestFailure(__FILE__, __LINE__, testName, "Unhandled exception in CHECK(" #value ")"); \
