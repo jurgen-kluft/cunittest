@@ -55,11 +55,15 @@ namespace UnitTest
         , mFixtureNext(0)
     {
         if (inSuite->mFixtureListHead == nullptr)
+        {
             inSuite->mFixtureListHead = this;
+            inSuite->mFixtureListTail = this;
+        }
         else
+        {
             inSuite->mFixtureListTail->mFixtureNext = this;
-
-        inSuite->mFixtureListTail = this;
+            inSuite->mFixtureListTail = this;
+        }
     }
 
     TestSuite::TestSuite(const char* inName, const char* inFilename)
@@ -67,6 +71,7 @@ namespace UnitTest
         , mFilename(inFilename)
         , mFixtureListHead(0)
         , mFixtureListTail(0)
+        , mSuiteNext(0)
     {
 
     }

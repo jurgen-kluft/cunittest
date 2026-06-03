@@ -96,14 +96,19 @@ namespace UnitTest
     class AddSuiteToSuiteList
     {
     public:
-        AddSuiteToSuiteList(TestSuite*& head, TestSuite*& tail, TestSuite* suite)
+        inline AddSuiteToSuiteList(TestSuite*& head, TestSuite*& tail, TestSuite* suite)
         {
             if (head == nullptr)
+            {
                 head = suite;
+                tail = suite;
+            }
             else
+            {
                 tail->mSuiteNext = suite;
+                tail = suite;
+            }
 
-            tail = suite;
         }
     };
 
