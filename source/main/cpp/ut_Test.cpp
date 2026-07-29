@@ -62,7 +62,7 @@ namespace UnitTest
         else
         {
             inSuite->mFixtureListTail->mFixtureNext = this;
-            inSuite->mFixtureListTail = this;
+            inSuite->mFixtureListTail               = this;
         }
     }
 
@@ -73,7 +73,6 @@ namespace UnitTest
         , mFixtureListTail(0)
         , mSuiteNext(0)
     {
-
     }
 
     int TestAllRun(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, const float maxTestTimeInMs)
@@ -82,36 +81,43 @@ namespace UnitTest
 
         time_t overallTime = g_TimeStart();
 
-        TestSuite* suiteList = inSuiteList;
-        while (suiteList != 0)
+        TestSuite* suiteIter = inSuiteList;
+        while (suiteIter != 0)
         {
-            int        numTests     = 0;
-            TestSuite* curTestSuite = suiteList;
-
-            TestFixture* curTestFixture = curTestSuite->mFixtureListHead;
-            while (curTestFixture != 0)
+            if (g_ShouldRunSuite(context.mTestFilter, suiteIter->mName))
             {
-                ++numTests;
-                curTestFixture = curTestFixture->mFixtureNext;
-            }
+                int numTests = 0;
 
-            context.mObserver->BeginSuite(curTestSuite->mFilename, curTestSuite->mName);
-            {
-                time_t suiteStartTime = g_TimeStart();
-                result.onTestSuiteStart(curTestSuite->mName, numTests);
-
-                curTestFixture = curTestSuite->mFixtureListHead;
+                TestFixture* curTestFixture = suiteIter->mFixtureListHead;
                 while (curTestFixture != 0)
                 {
-                    TestFixtureRun(curTestSuite, curTestFixture, context, result, maxTestTimeInMs);
+                    if (g_ShouldRunFixture(context.mTestFilter, curTestFixture->mName))
+                    {
+                        ++numTests;
+                    }
                     curTestFixture = curTestFixture->mFixtureNext;
                 }
 
-                result.onTestSuiteEnd(curTestSuite->mName, (float)g_GetElapsedTimeInMs(suiteStartTime) / 1000.0f);
-            }
-            context.mObserver->EndSuite();
+                context.mObserver->BeginSuite(suiteIter->mFilename, suiteIter->mName);
+                {
+                    time_t suiteStartTime = g_TimeStart();
+                    result.onTestSuiteStart(suiteIter->mName, numTests);
 
-            suiteList = suiteList->mSuiteNext;
+                    curTestFixture = suiteIter->mFixtureListHead;
+                    while (curTestFixture != 0)
+                    {
+                        if (g_ShouldRunFixture(context.mTestFilter, curTestFixture->mName))
+                        {
+                            TestFixtureRun(suiteIter, curTestFixture, context, result, maxTestTimeInMs);
+                        }
+                        curTestFixture = curTestFixture->mFixtureNext;
+                    }
+
+                    result.onTestSuiteEnd(suiteIter->mName, (float)g_GetElapsedTimeInMs(suiteStartTime) / 1000.0f);
+                }
+                context.mObserver->EndSuite();
+            }
+            suiteIter = suiteIter->mSuiteNext;
         }
 
         float const secondsElapsed = (float)g_GetElapsedTimeInMs(overallTime) / 1000.0f;

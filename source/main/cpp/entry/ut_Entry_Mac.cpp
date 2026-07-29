@@ -20,6 +20,7 @@ int main(int argc, char** argv)
     UnitTest::TestContext context;
     context.mAllocator = allocator;
     context.mObserver  = &observer;
+    context.mTestFilter = nullptr;
 
     // TODO parse the names of the test suites, fixtures, and tests that should be run:
     // --run=Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1

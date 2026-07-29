@@ -118,7 +118,8 @@ namespace UnitTest
             Test* curTest = fixture->mTestListHead;
             while (curTest != 0)
             {
-                numTests++;
+                if (g_ShouldRunTest(context.mTestFilter, curTest->mName))
+                    numTests++;
                 curTest = curTest->mTestNext;
             }
         }
@@ -167,37 +168,40 @@ namespace UnitTest
                 Test* curTest = fixture->mTestListHead;
                 while (curTest != 0)
                 {
-                    // Remember allocation count Y
-                    int iAllocCntY = fixtureAllocator.GetNumAllocations();
-
-                    time_t testStartTime = g_TimeStart();
-                    results.onTestStart(curTest->mName);
-                    curTest->mTestRun(curTest->mName, results, maxTestTimeInMs);
-
-                    // Compare allocation count with Y
-                    // If different => memory leak error
-                    if (iAllocCntY != fixtureAllocator.GetNumAllocations())
+                    if (g_ShouldRunTest(context.mTestFilter, curTest->mName))
                     {
-                        int iAllocCountDifference = (fixtureAllocator.GetNumAllocations() - iAllocCntY);
+                        // Remember allocation count Y
+                        int iAllocCntY = fixtureAllocator.GetNumAllocations();
 
-                        StringBuilder str(context.mAllocator);
-                        if (iAllocCountDifference > 0)
-                        {
-                            iMemLeakCnt += iAllocCountDifference;
-                            str << "memory leak detected, leaked memory allocations: ";
-                            str << iAllocCountDifference;
-                        }
-                        else
-                        {
-                            iExtraDeallocCnt += -1 * iAllocCountDifference;
-                            str << "extra memory deallocations detected, unmatching deallocations: ";
-                            str << -1 * iAllocCountDifference;
-                        }
+                        time_t testStartTime = g_TimeStart();
+                        results.onTestStart(curTest->mName);
+                        curTest->mTestRun(curTest->mName, results, maxTestTimeInMs);
 
-                        results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
+                        // Compare allocation count with Y
+                        // If different => memory leak error
+                        if (iAllocCntY != fixtureAllocator.GetNumAllocations())
+                        {
+                            int iAllocCountDifference = (fixtureAllocator.GetNumAllocations() - iAllocCntY);
+
+                            StringBuilder str(context.mAllocator);
+                            if (iAllocCountDifference > 0)
+                            {
+                                iMemLeakCnt += iAllocCountDifference;
+                                str << "memory leak detected, leaked memory allocations: ";
+                                str << iAllocCountDifference;
+                            }
+                            else
+                            {
+                                iExtraDeallocCnt += -1 * iAllocCountDifference;
+                                str << "extra memory deallocations detected, unmatching deallocations: ";
+                                str << -1 * iAllocCountDifference;
+                            }
+
+                            results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
+                        }
+                        float testEndTime = (float)(g_GetElapsedTimeInMs(testStartTime) / 1000.0);
+                        results.onTestEnd(curTest->mName, testEndTime);
                     }
-                    float testEndTime = (float)(g_GetElapsedTimeInMs(testStartTime) / 1000.0);
-                    results.onTestEnd(curTest->mName, testEndTime);
                     curTest = curTest->mTestNext;
                 }
             }

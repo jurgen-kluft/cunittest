@@ -18,7 +18,7 @@ namespace UnitTest
         enum ESettings
         {
             DESCRIPTION_MAX_STR_LENGTH = 512,
-            MESSAGE_MAX_STR_LENGTH = 512,
+            MESSAGE_MAX_STR_LENGTH     = 512,
             FILENAME_MAX_STR_LENGTH    = 256
         };
 
@@ -119,7 +119,8 @@ namespace UnitTest
             Test* curTest = fixture->mTestListHead;
             while (curTest != 0)
             {
-                numTests++;
+                if (g_ShouldRunTest(context.mTestFilter, curTest->mName))
+                    numTests++;
                 curTest = curTest->mTestNext;
             }
         }
@@ -168,46 +169,49 @@ namespace UnitTest
                 Test* curTest = fixture->mTestListHead;
                 while (curTest != 0)
                 {
-                    // Remember allocation count Y
-                    s32 const numAllocs = fixtureAllocator.GetNumAllocations();
-
-                    unsigned int testStartTime = g_TimeStart();
-                    results.onTestStart(curTest->mName);
-                    curTest->mTestRun(curTest->mName, results, maxTestTimeInMs);
-
-                    // Compare allocation count with Y
-                    // If different => memory leak error
-                    if (fixtureAllocator.GetNumAllocations() != numAllocs)
+                    if (g_ShouldRunTest(context.mTestFilter, suite->mName, fixture->mName, curTest->mName))
                     {
-                        int iAllocCountDifference = fixtureAllocator.GetNumAllocations() - numAllocs;
+                        // Remember allocation count Y
+                        s32 const numAllocs = fixtureAllocator.GetNumAllocations();
 
-                        StringBuilder str(context.mAllocator);
-                        if (iAllocCountDifference > 0)
+                        unsigned int testStartTime = g_TimeStart();
+                        results.onTestStart(curTest->mName);
+                        curTest->mTestRun(curTest->mName, results, maxTestTimeInMs);
+
+                        // Compare allocation count with Y
+                        // If different => memory leak error
+                        if (fixtureAllocator.GetNumAllocations() != numAllocs)
                         {
-                            iMemLeakCnt += iAllocCountDifference;
-                            str << "memory leak detected, leaked memory allocations: ";
-                            str << iAllocCountDifference;
+                            int iAllocCountDifference = fixtureAllocator.GetNumAllocations() - numAllocs;
+
+                            StringBuilder str(context.mAllocator);
+                            if (iAllocCountDifference > 0)
+                            {
+                                iMemLeakCnt += iAllocCountDifference;
+                                str << "memory leak detected, leaked memory allocations: ";
+                                str << iAllocCountDifference;
+                            }
+                            else
+                            {
+                                iExtraDeallocCnt += -1 * iAllocCountDifference;
+                                str << "extra memory deallocations detected, unmatching deallocations: ";
+                                str << -1 * iAllocCountDifference;
+                            }
+
+                            results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
                         }
-                        else
+
+                        if (fixtureAllocator.GetNumAllocationCorruptions() > 0)
                         {
-                            iExtraDeallocCnt += -1 * iAllocCountDifference;
-                            str << "extra memory deallocations detected, unmatching deallocations: ";
-                            str << -1 * iAllocCountDifference;
+                            StringBuilder str(context.mAllocator);
+                            str << "memory corruption detected, corrupted memory allocations: ";
+                            str << fixtureAllocator.GetNumAllocationCorruptions();
+                            results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
                         }
 
-                        results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
+                        float testEndTime = g_GetElapsedTimeInMs(testStartTime) / 1000.0f;
+                        results.onTestEnd(curTest->mName, testEndTime);
                     }
-
-                    if (fixtureAllocator.GetNumAllocationCorruptions() > 0)
-                    {
-                        StringBuilder str(context.mAllocator);
-                        str << "memory corruption detected, corrupted memory allocations: ";
-                        str << fixtureAllocator.GetNumAllocationCorruptions();
-                        results.onTestFailure(curTest->mFilename, curTest->mLineNumber, curTest->mName, str.getText());
-                    }
-
-                    float testEndTime = g_GetElapsedTimeInMs(testStartTime) / 1000.0f;
-                    results.onTestEnd(curTest->mName, testEndTime);
                     curTest = curTest->mTestNext;
                 }
             }

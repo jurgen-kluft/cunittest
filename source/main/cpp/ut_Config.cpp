@@ -100,4 +100,113 @@ namespace UnitTest
         }
     }
 
+
+    bool g_ShouldRunSuite(const char* test_filter, const char* suite_name)
+    {
+        if (test_filter == nullptr || test_filter[0] == '\0')
+            return true;
+
+        // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
+        // case sensitive
+        // match the suite names, so terminate at the first '/', ',' or end-of-string.
+
+        const int suite_name_len = gStringLength(suite_name);
+
+        const char* iter = test_filter;
+        while (*iter != '\0')
+        {
+            const char* start = iter;
+            while (*iter != '\0' && *iter != '/' && *iter != ',')
+                ++iter;
+
+            const int len = (int)(iter - start);
+            if (len == suite_name_len && gAreStringsEqual(start, suite_name) == 0)
+                return true;
+
+            if (*iter == ',')
+                ++iter;
+        }
+
+        return false;
+    }
+
+    bool g_ShouldRunFixture(const char* test_filter, const char* fixture_name)
+    {
+        if (test_filter == nullptr || test_filter[0] == '\0')
+            return true;
+
+        // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
+        // case sensitive
+        // match the fixture names, start at the first '/' if any, and terminate at the next '/' or ',' or end-of-string.
+
+        const int fixture_name_len = gStringLength(fixture_name);
+
+        const char* iter = test_filter;
+        while (*iter != '\0')
+        {
+            while (*iter != '\0' && *iter != '/')
+                ++iter;
+
+            if (*iter == '/')
+            {
+                ++iter;
+                const char* start = iter;
+                while (*iter != '\0' && *iter != '/' && *iter != ',')
+                    ++iter;
+
+                const int len = (int)(iter - start);
+                if (len == fixture_name_len && gAreStringsEqual(start, fixture_name) == 0)
+                    return true;
+            }
+
+            if (*iter == ',')
+                ++iter;
+        }
+
+        return false;
+    }
+
+    bool g_ShouldRunTest(const char* test_filter, const char* test_name)
+    {
+        if (test_filter == nullptr || test_filter[0] == '\0')
+            return true;
+
+        // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
+        // case sensitive
+        // match the fixture names, start at the second '/' if any, and terminate at the next ',' or end-of-string.
+
+        const int test_name_len = gStringLength(test_name);
+
+        const char* iter = test_filter;
+        while (*iter != '\0')
+        {
+            while (*iter != '\0' && *iter != '/')
+                ++iter;
+
+            if (*iter == '/')
+            {
+                ++iter;
+                while (*iter != '\0' && *iter != '/')
+                    ++iter;
+
+                if (*iter == '/')
+                {
+                    ++iter;
+                    const char* start = iter;
+                    while (*iter != '\0' && *iter != ',')
+                        ++iter;
+
+                    const int len = (int)(iter - start);
+                    if (len == test_name_len && gAreStringsEqual(start, test_name) == 0)
+                        return true;
+                }
+            }
+
+            if (*iter == ',')
+                ++iter;
+        }
+
+        return false;
+    }
+
 } // namespace UnitTest

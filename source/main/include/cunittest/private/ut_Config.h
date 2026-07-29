@@ -92,7 +92,12 @@ namespace UnitTest
 
         TestAllocator* mAllocator;
         TestObserver*  mObserver;
+        const char*    mTestFilter; // Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1
     };
+
+    bool g_ShouldRunSuite(const char* test_filter, const char* suite_name);
+    bool g_ShouldRunFixture(const char* test_filter, const char* fixture_name);
+    bool g_ShouldRunTest(const char* test_filter, const char* test_name);
 
     class NullAllocator : public TestAllocator
     {
@@ -131,7 +136,7 @@ namespace UnitTest
         virtual void  v_deallocate(void* p) { (*mAllocator)->Deallocate(p); }                                        \
     };                                                                                                               \
     static fixture_ccore_alloc_t TestAlloc(&FixtureAllocator);                                                       \
-    static ncore::alloc_t* Allocator = &TestAlloc
+    static ncore::alloc_t*       Allocator = &TestAlloc
 
 } // namespace UnitTest
 

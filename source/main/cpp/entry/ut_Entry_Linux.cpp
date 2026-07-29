@@ -19,6 +19,7 @@ int         main(int argc, char** argv)
     UnitTest::TestContext context;
     context.mAllocator = allocator;
     context.mObserver  = &observer;
+    context.mTestFilter = nullptr;
 
     UnitTest::g_InitTimer();
 
