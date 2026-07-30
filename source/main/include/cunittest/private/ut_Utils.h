@@ -23,6 +23,7 @@ namespace UnitTest
     extern int         gStringPrint(char* dest, int n, const char* format, float const f);
     extern int         gStringPrint(char* dest, int n, const char* format, double const f);
     extern bool        gAreStringsEqual(char const* const expected, char const* const actual);
+    extern bool        gAreStringsEqualN(char const* const expected, char const* const actual, int actual_length);
     inline int         gRoundUpToMultipleOfPow2Number(int n, int pow2Number) { return (n + (pow2Number - 1)) & ~(pow2Number - 1); }
 } // namespace UnitTest
 

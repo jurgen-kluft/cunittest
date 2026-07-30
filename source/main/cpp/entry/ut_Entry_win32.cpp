@@ -21,6 +21,11 @@ int         main(int argc, char** argv)
     context.mObserver  = &observer;
     context.mTestFilter = nullptr;
 
+    if (argc > 1)
+    {
+        context.mTestFilter = argv[1];
+    }
+
     UnitTest::g_InitTimer();
 
     bool result = gRunUnitTest(reporter, context);

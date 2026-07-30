@@ -85,4 +85,19 @@ namespace UnitTest
 		return identical;
 	}
 
+	bool	gAreStringsEqualN(char const* expected, char const* actual, int actual_length)
+	{
+		bool identical = true;
+		bool loop = true;
+		while (identical && loop)
+		{
+			loop = (*expected!='\0') && (actual_length > 0);
+			identical = (*expected == *actual);
+			expected++;
+			actual++;
+			actual_length--;
+		}
+		return identical;
+	}
+
 }

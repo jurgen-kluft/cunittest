@@ -169,7 +169,7 @@ namespace UnitTest
                 Test* curTest = fixture->mTestListHead;
                 while (curTest != 0)
                 {
-                    if (g_ShouldRunTest(context.mTestFilter, suite->mName, fixture->mName, curTest->mName))
+                    if (g_ShouldRunTest(context.mTestFilter, curTest->mName))
                     {
                         // Remember allocation count Y
                         s32 const numAllocs = fixtureAllocator.GetNumAllocations();

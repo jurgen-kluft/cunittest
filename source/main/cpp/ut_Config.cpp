@@ -120,7 +120,7 @@ namespace UnitTest
                 ++iter;
 
             const int len = (int)(iter - start);
-            if (len == suite_name_len && gAreStringsEqual(start, suite_name) == 0)
+            if (len == suite_name_len && gAreStringsEqual(start, suite_name))
                 return true;
 
             if (*iter == ',')
@@ -138,8 +138,10 @@ namespace UnitTest
         // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
         // case sensitive
         // match the fixture names, start at the first '/' if any, and terminate at the next '/' or ',' or end-of-string.
+        // if testfilter doesn't specify any specific fixture, then all fixtures should be run.
 
         const int fixture_name_len = gStringLength(fixture_name);
+        bool     hasFixtureFilter = false;
 
         const char* iter = test_filter;
         while (*iter != '\0')
@@ -149,13 +151,14 @@ namespace UnitTest
 
             if (*iter == '/')
             {
+                hasFixtureFilter = true;
                 ++iter;
                 const char* start = iter;
                 while (*iter != '\0' && *iter != '/' && *iter != ',')
                     ++iter;
 
                 const int len = (int)(iter - start);
-                if (len == fixture_name_len && gAreStringsEqual(start, fixture_name) == 0)
+                if (len == fixture_name_len && gAreStringsEqual(start, fixture_name))
                     return true;
             }
 
@@ -163,7 +166,7 @@ namespace UnitTest
                 ++iter;
         }
 
-        return false;
+        return !hasFixtureFilter; 
     }
 
     bool g_ShouldRunTest(const char* test_filter, const char* test_name)
@@ -174,8 +177,11 @@ namespace UnitTest
         // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
         // case sensitive
         // match the fixture names, start at the second '/' if any, and terminate at the next ',' or end-of-string.
+        // if testfilter doesn't specify any specific test, then all tests should be run.
 
         const int test_name_len = gStringLength(test_name);
+        
+        bool     hasTestFilter = false;
 
         const char* iter = test_filter;
         while (*iter != '\0')
@@ -191,13 +197,15 @@ namespace UnitTest
 
                 if (*iter == '/')
                 {
+                    hasTestFilter = true;
+
                     ++iter;
                     const char* start = iter;
                     while (*iter != '\0' && *iter != ',')
                         ++iter;
 
                     const int len = (int)(iter - start);
-                    if (len == test_name_len && gAreStringsEqual(start, test_name) == 0)
+                    if (len == test_name_len && gAreStringsEqual(start, test_name))
                         return true;
                 }
             }
@@ -206,7 +214,7 @@ namespace UnitTest
                 ++iter;
         }
 
-        return false;
+        return !hasTestFilter;
     }
 
 } // namespace UnitTest

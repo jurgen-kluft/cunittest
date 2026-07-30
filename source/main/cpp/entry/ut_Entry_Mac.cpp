@@ -2,6 +2,7 @@
 #    include <stdlib.h>
 
 #    include "cunittest/cunittest.h"
+#    include "cunittest/private/ut_Utils.h"
 #    include "cunittest/private/ut_Config.h"
 #    include "cunittest/private/ut_TimeHelpers.h"
 #    include "cunittest/private/ut_TestReporterStdout.h"
@@ -22,6 +23,11 @@ int main(int argc, char** argv)
     context.mObserver  = &observer;
     context.mTestFilter = nullptr;
 
+    if (argc > 1)
+    {
+        context.mTestFilter = argv[1];
+    }
+    
     // TODO parse the names of the test suites, fixtures, and tests that should be run:
     // --run=Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1
 
