@@ -120,10 +120,10 @@ namespace UnitTest
                 ++iter;
 
             const int len = (int)(iter - start);
-            if (len == suite_name_len && gAreStringsEqual(start, suite_name))
+            if (len == suite_name_len && gAreStringsEqualN(start, suite_name, suite_name_len))
                 return true;
 
-            if (*iter == ',')
+            if (*iter == ',' || *iter == '/')
                 ++iter;
         }
 
@@ -146,27 +146,28 @@ namespace UnitTest
         const char* iter = test_filter;
         while (*iter != '\0')
         {
-            while (*iter != '\0' && *iter != '/')
+            while (*iter != '\0' && *iter != '/' && *iter != ',')
                 ++iter;
 
             if (*iter == '/')
             {
-                hasFixtureFilter = true;
                 ++iter;
+
+                hasFixtureFilter = true;
                 const char* start = iter;
                 while (*iter != '\0' && *iter != '/' && *iter != ',')
                     ++iter;
 
                 const int len = (int)(iter - start);
-                if (len == fixture_name_len && gAreStringsEqual(start, fixture_name))
+                if (len == fixture_name_len && gAreStringsEqualN(start, fixture_name,fixture_name_len))
                     return true;
             }
 
-            if (*iter == ',')
+            if (*iter == ',' || *iter == '/')
                 ++iter;
         }
 
-        return !hasFixtureFilter; 
+        return !hasFixtureFilter;
     }
 
     bool g_ShouldRunTest(const char* test_filter, const char* test_name)
@@ -180,19 +181,19 @@ namespace UnitTest
         // if testfilter doesn't specify any specific test, then all tests should be run.
 
         const int test_name_len = gStringLength(test_name);
-        
+
         bool     hasTestFilter = false;
 
         const char* iter = test_filter;
         while (*iter != '\0')
         {
-            while (*iter != '\0' && *iter != '/')
+            while (*iter != '\0' && *iter != '/' && *iter != ',')
                 ++iter;
 
             if (*iter == '/')
             {
                 ++iter;
-                while (*iter != '\0' && *iter != '/')
+                while (*iter != '\0' && *iter != '/' && *iter != ',')
                     ++iter;
 
                 if (*iter == '/')
@@ -205,12 +206,12 @@ namespace UnitTest
                         ++iter;
 
                     const int len = (int)(iter - start);
-                    if (len == test_name_len && gAreStringsEqual(start, test_name))
+                    if (len == test_name_len && gAreStringsEqualN(start, test_name, test_name_len))
                         return true;
                 }
             }
 
-            if (*iter == ',')
+            if (*iter == ',' || *iter == '/')
                 ++iter;
         }
 
