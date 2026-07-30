@@ -13,6 +13,56 @@ namespace UnitTest
     static NullObserver  sNullObserver;
     static NullAllocator sNullAllocator;
 
+    static bool s_HasTestFilter(const char* testFilter)
+    {
+        return testFilter != 0 && testFilter[0] != '\0';
+    }
+
+    static void s_SetRunFlag(TestSuite* suiteList, bool run)
+    {
+        TestSuite* suite = suiteList;
+        while (suite != 0)
+        {
+            suite->mRun = run;
+            suite->mActiveFixtureCount = 0;
+
+            TestFixture* fixture = suite->mFixtureListHead;
+            while (fixture != 0)
+            {
+                fixture->mRun = run;
+                fixture->mActiveTestCount = 0;
+
+                Test* test = fixture->mTestListHead;
+                while (test != 0)
+                {
+                    test->mRun = run;
+                    if (run)
+                        ++fixture->mActiveTestCount;
+                    test       = test->mTestNext;
+                }
+
+                if (run)
+                    ++suite->mActiveFixtureCount;
+
+                fixture = fixture->mFixtureNext;
+            }
+
+            suite = suite->mSuiteNext;
+        }
+    }
+
+    static void s_ApplyRunFilter(TestContext& context, TestSuite* inSuiteList)
+    {
+        if (!s_HasTestFilter(context.mTestFilter))
+        {
+            s_SetRunFlag(inSuiteList, true);
+            return;
+        }
+
+        s_SetRunFlag(inSuiteList, false);
+        g_IterateFilter(context.mTestFilter, inSuiteList);
+    }
+
     TestContext::TestContext()
         : mAllocator(&sNullAllocator)
         , mObserver(&sNullObserver)
@@ -24,6 +74,7 @@ namespace UnitTest
         , mFilename(filename)
         , mLineNumber(lineNumber)
         , mTimeConstraintExempt(false)
+        , mRun(true)
         , mTestRun(run)
         , mTestNext(0)
     {
@@ -49,6 +100,8 @@ namespace UnitTest
         , mFilename(inFilename)
         , mLineNumber(inLineNumber)
         , mTimeConstraintExempt(false)
+        , mRun(true)
+        , mActiveTestCount(0)
         , mSetup(0)
         , mTeardown(0)
         , mAllocator(inAllocator)
@@ -69,6 +122,8 @@ namespace UnitTest
     TestSuite::TestSuite(const char* inName, const char* inFilename)
         : mName(inName)
         , mFilename(inFilename)
+        , mRun(true)
+        , mActiveFixtureCount(0)
         , mFixtureListHead(0)
         , mFixtureListTail(0)
         , mSuiteNext(0)
@@ -77,6 +132,8 @@ namespace UnitTest
 
     int TestAllRun(TestContext& context, TestReporter& reporter, TestSuite* inSuiteList, const float maxTestTimeInMs)
     {
+        s_ApplyRunFilter(context, inSuiteList);
+
         TestResults result(&reporter);
 
         time_t overallTime = g_TimeStart();
@@ -84,29 +141,19 @@ namespace UnitTest
         TestSuite* suiteIter = inSuiteList;
         while (suiteIter != 0)
         {
-            if (g_ShouldRunSuite(context.mTestFilter, suiteIter->mName))
+            if (suiteIter->mRun)
             {
-                int numTests = 0;
-
                 TestFixture* curTestFixture = suiteIter->mFixtureListHead;
-                while (curTestFixture != 0)
-                {
-                    if (g_ShouldRunFixture(context.mTestFilter, curTestFixture->mName))
-                    {
-                        ++numTests;
-                    }
-                    curTestFixture = curTestFixture->mFixtureNext;
-                }
 
                 context.mObserver->BeginSuite(suiteIter->mFilename, suiteIter->mName);
                 {
                     time_t suiteStartTime = g_TimeStart();
-                    result.onTestSuiteStart(suiteIter->mName, numTests);
+                    result.onTestSuiteStart(suiteIter->mName, suiteIter->mActiveFixtureCount);
 
                     curTestFixture = suiteIter->mFixtureListHead;
                     while (curTestFixture != 0)
                     {
-                        if (g_ShouldRunFixture(context.mTestFilter, curTestFixture->mName))
+                        if (curTestFixture->mRun)
                         {
                             TestFixtureRun(suiteIter, curTestFixture, context, result, maxTestTimeInMs);
                         }

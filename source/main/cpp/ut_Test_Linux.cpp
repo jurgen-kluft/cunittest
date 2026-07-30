@@ -112,21 +112,9 @@ namespace UnitTest
         TestAllocatorEx fixtureAllocator(context.mAllocator);
         *fixture->mAllocator = &fixtureAllocator;
 
-        int numTests = 0;
-        if (fixture->mTestListHead != 0)
-        {
-            Test* curTest = fixture->mTestListHead;
-            while (curTest != 0)
-            {
-                if (g_ShouldRunTest(context.mTestFilter, curTest->mName))
-                    numTests++;
-                curTest = curTest->mTestNext;
-            }
-        }
-
         unsigned int testTime = g_TimeStart();
 
-        results.onTestFixtureStart(fixture->mName, numTests);
+        results.onTestFixtureStart(fixture->mName, fixture->mActiveTestCount);
 
         EStep step = FIXTURE_SETUP;
         try
@@ -168,7 +156,7 @@ namespace UnitTest
                 Test* curTest = fixture->mTestListHead;
                 while (curTest != 0)
                 {
-                    if (g_ShouldRunTest(context.mTestFilter, curTest->mName))
+                    if (curTest->mRun)
                     {
                         // Remember allocation count Y
                         int iAllocCntY = fixtureAllocator.GetNumAllocations();

@@ -3,6 +3,8 @@
 
 namespace UnitTest
 {
+    struct TestSuite;
+
     class TestAllocator
     {
     public:
@@ -95,9 +97,7 @@ namespace UnitTest
         const char*    mTestFilter; // Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1
     };
 
-    bool g_ShouldRunSuite(const char* test_filter, const char* suite_name);
-    bool g_ShouldRunFixture(const char* test_filter, const char* fixture_name);
-    bool g_ShouldRunTest(const char* test_filter, const char* test_name);
+    void g_IterateFilter(const char* test_filter, TestSuite* suite_list);
 
     class NullAllocator : public TestAllocator
     {

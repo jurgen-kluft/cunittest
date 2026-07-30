@@ -24,6 +24,7 @@ namespace UnitTest
         char const* const mFilename;
         int const         mLineNumber;
         mutable bool      mTimeConstraintExempt;
+        bool              mRun;
 
         TestRun mTestRun;
         Test*   mTestNext;
@@ -40,6 +41,8 @@ namespace UnitTest
         char const* const mFilename;
         int const         mLineNumber;
         mutable bool      mTimeConstraintExempt;
+        bool              mRun;
+        int               mActiveTestCount;
 
         TestSetup    mSetup;
         TestTeardown mTeardown;
@@ -54,6 +57,8 @@ namespace UnitTest
 
         char const* const mName;
         char const* const mFilename;
+        bool              mRun;
+        int               mActiveFixtureCount;
         TestFixture*      mFixtureListHead;
         TestFixture*      mFixtureListTail;
         TestSuite*        mSuiteNext;

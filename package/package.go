@@ -2,21 +2,36 @@ package cunittest
 
 import (
 	"github.com/jurgen-kluft/ccode/denv"
+	csdk "github.com/jurgen-kluft/csdk/package"
 )
 
-// GetPackage returns the package object of 'cbase'
-func GetPackage() *denv.Package {
+const (
+	repo_path = "github.com\\jurgen-kluft\\"
+	repo_name = "cunittest"
+)
 
-    mainpkg := denv.NewPackage("github.com\\jurgen-kluft", "cunittest")
+// GetPackage returns the package object of 'cunittest'
+func GetPackage() *denv.Package {
+	// Dependencies
+	sdk_pkg := csdk.GetPackage()
+
+	// The main (cunittest) package
+	main_pkg := denv.NewPackage(repo_path, repo_name)
+	main_pkg.AddPackage(sdk_pkg)
 
 	// 'cunittest' library
-	mainlib := denv.SetupCppTestLibProject(mainpkg,"cunittest")
+	mainlib := denv.SetupCppLibProject(main_pkg, repo_name)
+	mainlib.AddDependencies(sdk_pkg.GetMainLib())
 
-	// 'cunittest' test project
-	maintest := denv.SetupCppTestProject(mainpkg, "cunittest_test")
-	maintest.AddDependency(mainlib)
+	// 'cunittest' library for unittest
+	testlib := denv.SetupCppTestLibProject(main_pkg, repo_name)
 
-	mainpkg.AddMainLib(mainlib)
-	mainpkg.AddUnittest(maintest)
-	return mainpkg
+	// 'cunittest' unittest project
+	maintest := denv.SetupCppTestProject(main_pkg, repo_name)
+	maintest.AddDependency(testlib)
+
+	main_pkg.AddMainLib(mainlib)
+	main_pkg.AddTestLib(testlib)
+	main_pkg.AddUnittest(maintest)
+	return main_pkg
 }

@@ -2,11 +2,141 @@
 #include "cunittest/private/ut_Utils.h"
 #include "cunittest/private/ut_ReportAssert.h"
 #include "cunittest/private/ut_Config.h"
+#include "cunittest/private/ut_Test.h"
 
 #include <stdlib.h>
 
 namespace UnitTest
 {
+    struct StringSpan
+    {
+        const char* mStart;
+        const char* mEnd;
+
+        bool IsValid() const { return mStart != nullptr && mEnd != nullptr && mEnd > mStart; }
+    };
+
+    static bool s_HasTestFilter(const char* test_filter)
+    {
+        return test_filter != nullptr && test_filter[0] != '\0';
+    }
+
+    static bool s_AreNamesEqual(const StringSpan& span, const char* name)
+    {
+        if (!span.IsValid())
+            return false;
+
+        const int len = (int)(span.mEnd - span.mStart);
+        return len == gStringLength(name) && gAreStringsEqualN(span.mStart, name, len);
+    }
+
+    static StringSpan s_ReadFilterToken(const char*& iter)
+    {
+        StringSpan span = {iter, iter};
+        while (*iter != '\0' && *iter != '/' && *iter != ',')
+            ++iter;
+        span.mEnd = iter;
+        return span;
+    }
+
+    static void s_SkipToNextFilterEntry(const char*& iter)
+    {
+        while (*iter != '\0' && *iter != ',')
+            ++iter;
+
+        if (*iter == ',')
+            ++iter;
+    }
+
+    static bool s_ParseFilterEntry(const char*& iter, StringSpan& suiteSpan, StringSpan& fixtureSpan, StringSpan& testSpan)
+    {
+        suiteSpan.mStart   = nullptr;
+        suiteSpan.mEnd     = nullptr;
+        fixtureSpan.mStart = nullptr;
+        fixtureSpan.mEnd   = nullptr;
+        testSpan.mStart    = nullptr;
+        testSpan.mEnd      = nullptr;
+
+        suiteSpan = s_ReadFilterToken(iter);
+        if (!suiteSpan.IsValid())
+        {
+            s_SkipToNextFilterEntry(iter);
+            return false;
+        }
+
+        if (*iter == '/')
+        {
+            ++iter;
+            fixtureSpan = s_ReadFilterToken(iter);
+            if (!fixtureSpan.IsValid())
+            {
+                s_SkipToNextFilterEntry(iter);
+                return false;
+            }
+
+            if (*iter == '/')
+            {
+                ++iter;
+                testSpan = s_ReadFilterToken(iter);
+                if (!testSpan.IsValid() || *iter == '/')
+                {
+                    s_SkipToNextFilterEntry(iter);
+                    return false;
+                }
+            }
+        }
+
+        if (*iter != '\0' && *iter != ',')
+        {
+            s_SkipToNextFilterEntry(iter);
+            return false;
+        }
+
+        if (*iter == ',')
+            ++iter;
+
+        return true;
+    }
+
+    static void s_EnableTest(TestFixture* fixture, Test* test)
+    {
+        if (!test->mRun)
+        {
+            test->mRun = true;
+            ++fixture->mActiveTestCount;
+        }
+    }
+
+    static void s_EnableFixture(TestSuite* suite, TestFixture* fixture)
+    {
+        if (!fixture->mRun)
+        {
+            fixture->mRun = true;
+            ++suite->mActiveFixtureCount;
+        }
+    }
+
+    static void s_EnableAllTests(TestFixture* fixture)
+    {
+        Test* test = fixture->mTestListHead;
+        while (test != nullptr)
+        {
+            s_EnableTest(fixture, test);
+            test       = test->mTestNext;
+        }
+    }
+
+    static void s_EnableAllFixtures(TestSuite* suite)
+    {
+        TestFixture* fixture = suite->mFixtureListHead;
+        while (fixture != nullptr)
+        {
+            s_EnableFixture(suite, fixture);
+            s_EnableAllTests(fixture);
+            fixture = fixture->mFixtureNext;
+        }
+    }
+
     const static int sPrefixSize  = 32;
     const static int sPostfixSize = 32;
     const static int sHeaderSize  = 16;
@@ -100,122 +230,64 @@ namespace UnitTest
         }
     }
 
-
-    bool g_ShouldRunSuite(const char* test_filter, const char* suite_name)
+    void g_IterateFilter(const char* test_filter, TestSuite* suite_list)
     {
-        if (test_filter == nullptr || test_filter[0] == '\0')
-            return true;
-
-        // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
-        // case sensitive
-        // match the suite names, so terminate at the first '/', ',' or end-of-string.
-
-        const int suite_name_len = gStringLength(suite_name);
+        if (!s_HasTestFilter(test_filter))
+            return;
 
         const char* iter = test_filter;
         while (*iter != '\0')
         {
-            const char* start = iter;
-            while (*iter != '\0' && *iter != '/' && *iter != ',')
-                ++iter;
-
-            const int len = (int)(iter - start);
-            if (len == suite_name_len && gAreStringsEqualN(start, suite_name, suite_name_len))
-                return true;
-
-            if (*iter == ',' || *iter == '/')
-                ++iter;
-        }
-
-        return false;
-    }
-
-    bool g_ShouldRunFixture(const char* test_filter, const char* fixture_name)
-    {
-        if (test_filter == nullptr || test_filter[0] == '\0')
-            return true;
-
-        // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
-        // case sensitive
-        // match the fixture names, start at the first '/' if any, and terminate at the next '/' or ',' or end-of-string.
-        // if testfilter doesn't specify any specific fixture, then all fixtures should be run.
-
-        const int fixture_name_len = gStringLength(fixture_name);
-        bool     hasFixtureFilter = false;
-
-        const char* iter = test_filter;
-        while (*iter != '\0')
-        {
-            while (*iter != '\0' && *iter != '/' && *iter != ',')
-                ++iter;
-
-            if (*iter == '/')
+            StringSpan suiteSpan;
+            StringSpan fixtureSpan;
+            StringSpan testSpan;
+            if (!s_ParseFilterEntry(iter, suiteSpan, fixtureSpan, testSpan))
             {
-                ++iter;
-
-                hasFixtureFilter = true;
-                const char* start = iter;
-                while (*iter != '\0' && *iter != '/' && *iter != ',')
-                    ++iter;
-
-                const int len = (int)(iter - start);
-                if (len == fixture_name_len && gAreStringsEqualN(start, fixture_name,fixture_name_len))
-                    return true;
+                continue;
             }
 
-            if (*iter == ',' || *iter == '/')
-                ++iter;
-        }
-
-        return !hasFixtureFilter;
-    }
-
-    bool g_ShouldRunTest(const char* test_filter, const char* test_name)
-    {
-        if (test_filter == nullptr || test_filter[0] == '\0')
-            return true;
-
-        // test_filter example: "Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1"
-        // case sensitive
-        // match the fixture names, start at the second '/' if any, and terminate at the next ',' or end-of-string.
-        // if testfilter doesn't specify any specific test, then all tests should be run.
-
-        const int test_name_len = gStringLength(test_name);
-
-        bool     hasTestFilter = false;
-
-        const char* iter = test_filter;
-        while (*iter != '\0')
-        {
-            while (*iter != '\0' && *iter != '/' && *iter != ',')
-                ++iter;
-
-            if (*iter == '/')
+            TestSuite* suite = suite_list;
+            while (suite != nullptr)
             {
-                ++iter;
-                while (*iter != '\0' && *iter != '/' && *iter != ',')
-                    ++iter;
-
-                if (*iter == '/')
+                if (s_AreNamesEqual(suiteSpan, suite->mName))
                 {
-                    hasTestFilter = true;
+                    suite->mRun = true;
 
-                    ++iter;
-                    const char* start = iter;
-                    while (*iter != '\0' && *iter != ',')
-                        ++iter;
+                    if (!fixtureSpan.IsValid())
+                    {
+                        s_EnableAllFixtures(suite);
+                    }
+                    else
+                    {
+                        TestFixture* fixture = suite->mFixtureListHead;
+                        while (fixture != nullptr)
+                        {
+                            if (s_AreNamesEqual(fixtureSpan, fixture->mName))
+                            {
+                                s_EnableFixture(suite, fixture);
 
-                    const int len = (int)(iter - start);
-                    if (len == test_name_len && gAreStringsEqualN(start, test_name, test_name_len))
-                        return true;
+                                if (!testSpan.IsValid())
+                                {
+                                    s_EnableAllTests(fixture);
+                                }
+                                else
+                                {
+                                    Test* test = fixture->mTestListHead;
+                                    while (test != nullptr)
+                                    {
+                                        if (s_AreNamesEqual(testSpan, test->mName))
+                                            s_EnableTest(fixture, test);
+                                        test = test->mTestNext;
+                                    }
+                                }
+                            }
+                            fixture = fixture->mFixtureNext;
+                        }
+                    }
                 }
+                suite = suite->mSuiteNext;
             }
-
-            if (*iter == ',' || *iter == '/')
-                ++iter;
         }
-
-        return !hasTestFilter;
     }
 
 } // namespace UnitTest
