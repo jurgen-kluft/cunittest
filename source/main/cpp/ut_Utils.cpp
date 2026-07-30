@@ -73,31 +73,27 @@ namespace UnitTest
 
 	bool	gAreStringsEqual(char const* expected, char const* actual)
 	{
-		bool identical = true;
-		bool loop = true;
-		while (identical && loop)
+		while (*expected != '\0' && *actual != '\0')
 		{
-			loop = (*expected!='\0') && (*actual!='\0');
-			identical = (*expected == *actual);
+			if (*expected != *actual)
+				return false;
 			expected++;
 			actual++;
 		}
-		return identical;
+		return *expected == *actual;
 	}
 
 	bool	gAreStringsEqualN(char const* expected, char const* actual, int actual_length)
 	{
-		bool identical = true;
-		bool loop = true;
-		while (identical && loop)
+		while (*expected != '\0' && actual_length > 0)
 		{
-			loop = (*expected!='\0') && (actual_length > 0);
-			identical = (*expected == *actual);
+			if (*expected != *actual)
+				return false;
 			expected++;
 			actual++;
 			actual_length--;
 		}
-		return identical;
+		return *expected == '\0' && actual_length == 0;
 	}
 
 }

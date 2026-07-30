@@ -60,6 +60,7 @@ namespace UnitTest
 			lastFailedLine = line;
 			gStringCopy(lastFailedTest, testName, MAX_STRING_LENGTH-1);
 			gStringCopy(lastFailedFailure, failure, MAX_STRING_LENGTH-1);
+			gStringCopy(lastFailedMessage, failure, MAX_STRING_LENGTH-1);
 		}
 
 		virtual void reportFailure(char const* file, int const line, char const* testName, char const* failure, const char* message)

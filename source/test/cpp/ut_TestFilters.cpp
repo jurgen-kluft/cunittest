@@ -50,18 +50,25 @@ namespace
         while (suite != 0)
         {
             suite->mRun = run;
+			suite->mActiveFixtureCount = 0;
 
             TestFixture* fixture = suite->mFixtureListHead;
             while (fixture != 0)
             {
                 fixture->mRun = run;
+				fixture->mActiveTestCount = 0;
 
                 Test* test = fixture->mTestListHead;
                 while (test != 0)
                 {
                     test->mRun = run;
+					if (run)
+						++fixture->mActiveTestCount;
                     test       = test->mTestNext;
                 }
+
+				if (run)
+					++suite->mActiveFixtureCount;
 
                 fixture = fixture->mFixtureNext;
             }

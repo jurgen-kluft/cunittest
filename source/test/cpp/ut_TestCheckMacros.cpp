@@ -14,6 +14,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK (true);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -27,6 +28,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK (false);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -39,6 +41,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK (false);
 			}
 
@@ -50,6 +53,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				const bool yaddayadda = false;
 				CHECK (yaddayadda);
 			}
@@ -68,6 +72,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK (ThrowingFunction() == 1);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -80,6 +85,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK (ThrowingFunction() == 1);
 			}
 
@@ -92,6 +98,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (1, 1);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -108,6 +115,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (string1, string2);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -121,6 +129,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (1, 2);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -134,6 +143,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (ThrowingFunction(), 1);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -147,6 +157,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (1, 123);    line = __LINE__;
 			}
 
@@ -160,6 +171,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (ThrowingFunction(), 123);
 			}
 
@@ -179,6 +191,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			g_sideEffect = 0;
 			{
 				UnitTest::TestResults testResults_;
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (1, FunctionWithSideEffects());
 			}
 			CHECK_EQUAL (1, g_sideEffect);
@@ -189,6 +202,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			g_sideEffect = 0;
 			{
 				UnitTest::TestResults testResults_;
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_EQUAL (2, FunctionWithSideEffects());
 			}
 			CHECK_EQUAL (1, g_sideEffect);
@@ -201,6 +215,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_CLOSE (1.0f, 1.001f, 0.01f);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -214,6 +229,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_CLOSE (1.0f, 1.1f, 0.01f);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -227,6 +243,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_CLOSE ((float)ThrowingFunction(), 1.0001f, 0.1f);
 				failure = (testResults_.getFailureCount() > 0);
 			}
@@ -240,6 +257,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_CLOSE (1.0f, 1.1f, 0.01f);    line = __LINE__;
 			}
 
@@ -253,6 +271,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_CLOSE ((float)ThrowingFunction(), 1.0001f, 0.1f);
 			}
 
@@ -265,6 +284,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			g_sideEffect = 0;
 			{
 				UnitTest::TestResults testResults_;
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_CLOSE (1, FunctionWithSideEffects(), 0.1f);
 			}
 			CHECK_EQUAL (1, g_sideEffect);
@@ -275,6 +295,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			g_sideEffect = 0;
 			{
 				UnitTest::TestResults testResults_;
+				UnitTest::TestResults& testResults = testResults_;
 				CHECK_CLOSE (2, FunctionWithSideEffects(), 0.1f);
 			}
 			CHECK_EQUAL (1, g_sideEffect);
@@ -304,6 +325,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				const float data[4] = { 0, 1, 2, 3 };
 				CHECK_ARRAY_CLOSE (data, data, 4, 0.01f);
 				failure = (testResults_.getFailureCount() > 0);
@@ -318,6 +340,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				int const data1[4] = { 0, 1, 2, 3 };
 				int const data2[4] = { 0, 1, 3, 3 };
 				CHECK_ARRAY_CLOSE (data1, data2, 4, 0.01f);
@@ -332,6 +355,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				int const data1[4] = { 0, 1, 2, 3 };
 				int const data2[4] = { 0, 1, 3, 3 };
 				CHECK_ARRAY_CLOSE (data1, data2, 4, 0.01f);
@@ -347,6 +371,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				int const data1[4] = { 0, 1, 2, 3 };
 				int const data2[4] = { 0, 1, 3, 3 };
 				CHECK_ARRAY_CLOSE (data1, data2, 4, 0.01f);     line = __LINE__;
@@ -362,6 +387,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				float const data1[4] = { 0, 1, 2, 3 };
 				float const data2[4] = { 0, 1, 3, 3 };
 				CHECK_ARRAY_CLOSE (data1, data2, 4, 0.01f);
@@ -377,6 +403,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			{
 				UnitTest::RecordingReporter reporter;
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				const float data[4] = { 0, 1, 2, 3 };
 				ThrowingObject obj;
 				CHECK_ARRAY_CLOSE (data, obj, 3, 0.01f);
@@ -391,6 +418,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			UnitTest::RecordingReporter reporter;
 			{
 				UnitTest::TestResults testResults_(&reporter);
+				UnitTest::TestResults& testResults = testResults_;
 				const float data[4] = { 0, 1, 2, 3 };
 				ThrowingObject obj;
 				CHECK_ARRAY_CLOSE (data, obj, 3, 0.01f);
@@ -405,6 +433,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			g_sideEffect = 0;
 			{
 				UnitTest::TestResults testResults_;
+				UnitTest::TestResults& testResults = testResults_;
 				const float data[] = { 0, 1, 2, 3 };
 				CHECK_ARRAY_CLOSE (data, FunctionWithSideEffects2(), 4, 0.01f);
 			}
@@ -416,6 +445,7 @@ UNITTEST_SUITE_BEGIN(TestCheckMacros)
 			g_sideEffect = 0;
 			{
 				UnitTest::TestResults testResults_;
+				UnitTest::TestResults& testResults = testResults_;
 				const float data[] = { 0, 1, 3, 3 };
 				CHECK_ARRAY_CLOSE (data, FunctionWithSideEffects2(), 4, 0.01f);
 			}

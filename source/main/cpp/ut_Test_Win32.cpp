@@ -221,24 +221,27 @@ namespace UnitTest
                 }
             }
 
-            // Compare allocation count with X
-            // If different => Fixture memory leak error (probably the combination of Setup() and Teardown()
-            if (iAllocCntX != (fixtureAllocator.GetNumAllocations() - iMemLeakCnt))
+            // Report only the allocation imbalance that remains after subtracting per-test failures.
+            int const netAllocDifference             = fixtureAllocator.GetNumAllocations() - iAllocCntX;
+            int const setupTeardownLeakCount         = netAllocDifference - iMemLeakCnt;
+            int const setupTeardownExtraDeallocCount = -netAllocDifference - iExtraDeallocCnt;
+
+            if (setupTeardownLeakCount > 0)
             {
                 StringBuilder str(context.mAllocator);
 
                 str << "memory leak detected in setup()/teardown(), leaked memory allocations: ";
-                str << iMemLeakCnt;
+                str << setupTeardownLeakCount;
 
                 results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, str.getText());
             }
 
-            if (iAllocCntX != (fixtureAllocator.GetNumAllocations() - iExtraDeallocCnt))
+            if (setupTeardownExtraDeallocCount > 0)
             {
                 StringBuilder str(context.mAllocator);
 
                 str << "extra deallocations detected in setup()/teardown(), extra deallocations: ";
-                str << iExtraDeallocCnt;
+                str << setupTeardownExtraDeallocCount;
 
                 results.onTestFailure(fixture->mFilename, fixture->mLineNumber, fixture->mName, str.getText());
             }

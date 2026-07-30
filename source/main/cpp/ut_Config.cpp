@@ -27,7 +27,16 @@ namespace UnitTest
             return false;
 
         const int len = (int)(span.mEnd - span.mStart);
-        return len == gStringLength(name) && gAreStringsEqualN(span.mStart, name, len);
+        if (len != gStringLength(name))
+            return false;
+
+        for (int i = 0; i < len; ++i)
+        {
+            if (span.mStart[i] != name[i])
+                return false;
+        }
+
+        return true;
     }
 
     static StringSpan s_ReadFilterToken(const char*& iter)

@@ -36,7 +36,7 @@ namespace UnitTest
 	{
 		uint64_t const last = s_base + *(uint64_t*)(&stamp);
 		uint64_t const current = mach_absolute_time();
-		double const ms = (double)((current - last) * s_denom) / (s_numer * 1000000);
+		double const ms = (double)((current - last) * s_numer) / (s_denom * 1000000.0);
 		return ms;
 	}
 

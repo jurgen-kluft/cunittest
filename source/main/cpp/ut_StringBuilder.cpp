@@ -22,15 +22,19 @@ namespace UnitTest
     {
         if (ensure > mCapacity)
         {
-            int const newCapacity = mCapacity + ensure + GROW_SIZE;
+            int newCapacity = mCapacity + GROW_SIZE;
+            if (newCapacity < ensure)
+                newCapacity = ensure;
+
             if (mBuffer == nullptr)
             {
                 mBuffer = (char*)mAllocator->Allocate(newCapacity + 1);
+                mBuffer[0] = '\0';
             }
             else
             {
                 char* newBuffer = (char*)mAllocator->Allocate(newCapacity + 1);
-                gStringCopy(newBuffer, mBuffer, mCapacity);
+                gStringCopy(newBuffer, mBuffer, mCursor + 1);
                 mAllocator->Deallocate(mBuffer);
                 mBuffer   = newBuffer;
             }
@@ -41,7 +45,7 @@ namespace UnitTest
     StringBuilder& StringBuilder::operator<<(const char* txt)
     {
         int const bytesRequired = gStringLength(txt);
-        ensureSize(bytesRequired);
+        ensureSize(mCursor + bytesRequired);
 
         for (int i = 0; i < bytesRequired; i++)
             mBuffer[mCursor++] = txt[i];
@@ -51,7 +55,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(const void* p)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%0X", (u64)p);
             mBuffer[mCursor] = '\0';
@@ -60,7 +64,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(char const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -70,7 +74,7 @@ namespace UnitTest
 
     StringBuilder& StringBuilder::operator<<(short const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -79,7 +83,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(int const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -88,7 +92,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(long long const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -97,7 +101,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(long const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -106,7 +110,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(unsigned char const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -115,7 +119,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(unsigned short const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -124,7 +128,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(unsigned int const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -133,7 +137,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(unsigned long long const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -142,7 +146,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(unsigned long const n)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%i", n);
             mBuffer[mCursor] = '\0';
@@ -151,7 +155,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(float const f)
     {
-        ensureSize(32);
+        ensureSize(mCursor + 32);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 32, "%f", f);
             mBuffer[mCursor] = '\0';
@@ -160,7 +164,7 @@ namespace UnitTest
     }
     StringBuilder& StringBuilder::operator<<(double const d)
     {
-        ensureSize(64);
+        ensureSize(mCursor + 64);
         {
             mCursor += gStringPrint(mBuffer + mCursor, 64, "%f", d);
             mBuffer[mCursor] = '\0';

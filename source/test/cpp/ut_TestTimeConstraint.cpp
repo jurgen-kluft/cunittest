@@ -64,8 +64,8 @@ UNITTEST_SUITE_BEGIN(TestTimeConstraint)
             RecordingReporter reporter;
             {
                 UnitTest::TestResults testResults_(&reporter);
+                testLine = __LINE__ + 1;
                 UNITTEST_TIME_CONSTRAINT(10, FixtureAllocator);
-                testLine = __LINE__;
                 g_SleepMs(20);
             }
             CHECK_EQUAL(1, reporter.testFailedCount);
