@@ -5,6 +5,14 @@ Cross platform unittest library
 - Windows
 - Mac OS
 
+## Command line arguments
+
+You can pass the following format on the command line to run specific tests:
+
+```
+./my_test_app Suite1,Suite2/Fixture1,Suite3/Fixture2/Test1
+```
+
 ## Memory Leaks
 
 Each fixture and test in a fixture is guarded against memory leaks and the user will be informed if a test or a fixture is leaking memory.
