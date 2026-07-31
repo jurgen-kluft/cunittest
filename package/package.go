@@ -1,8 +1,8 @@
 package cunittest
 
 import (
-	"github.com/jurgen-kluft/ccode/denv"
 	csdk "github.com/jurgen-kluft/csdk/package"
+	"github.com/jurgen-kluft/gide/denv"
 )
 
 const (
