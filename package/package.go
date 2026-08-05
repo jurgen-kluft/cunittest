@@ -2,7 +2,7 @@ package cunittest
 
 import (
 	csdk "github.com/jurgen-kluft/csdk/package"
-	"github.com/jurgen-kluft/gide/denv"
+	"github.com/jurgen-kluft/go-ide/denv"
 )
 
 const (
